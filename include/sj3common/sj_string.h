@@ -18,16 +18,16 @@
 #define SJ_STRING_H
 
 /* string.c */
-int sj3_str_sjistoeuc(unsigned char *, int, unsigned char *, unsigned char *, int *);
-int sj3_str_euctosjis(unsigned char *, int, unsigned char *, unsigned char *, int *);
-int sj3_sjistoeuclen(unsigned char *, int);
+int sj3_str_sjistoeuc(unsigned char*, int, unsigned char*, unsigned char*, int*);
+int sj3_str_euctosjis(unsigned char*, int, unsigned char*, unsigned char*, int*);
+int sj3_sjistoeuclen(unsigned char*, int);
 
-int sj3_sjistoeuc(unsigned char *s, int, unsigned char *, int);
-int sj3_euctosjis(unsigned char *s, int, unsigned char *, int);
-void sj_euc2sjis(unsigned char *);
-void sj_jis2sjis(unsigned char *);
-void sj_sjis2euc(unsigned char *);
-void sj_sjis2jis(unsigned char *);
+int	       sj3_sjistoeuc(unsigned char* s, int, unsigned char*, int);
+int	       sj3_euctosjis(unsigned char* s, int, unsigned char*, int);
+void	       sj_euc2sjis(unsigned char*);
+void	       sj_jis2sjis(unsigned char*);
+void	       sj_sjis2euc(unsigned char*);
+void	       sj_sjis2jis(unsigned char*);
 unsigned short sj3_jis2sjis(unsigned short);
 unsigned short sj3_jis2euc(unsigned short);
 unsigned short sj3_sjis2jis(unsigned short);

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 1991-1994  Sony Corporation
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -8,10 +8,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -19,7 +19,7 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
  * THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- * 
+ *
  * Except as contained in this notice, the name of Sony Corporation
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
@@ -28,81 +28,72 @@
  */
 
 /*
- * $SonyRCSfile: deldic.c,v $  
- * $SonyRevision: 1.1 $ 
+ * $SonyRCSfile: deldic.c,v $
+ * $SonyRevision: 1.1 $
  * $SonyDate: 1994/06/03 08:01:42 $
  */
-
-
-
 
 #include <string.h>
 #include "sj_kcnv.h"
 
 #include "sj_kanakan.h"
 
-static int del_douon(TypeDicSeg, u_char *, TypeDicOfs);
-static int del_segment(TypeDicSeg);
+static int  del_douon(TypeDicSeg, u_char*, TypeDicOfs);
+static int  del_segment(TypeDicSeg);
 static void del_uidx(TypeDicSeg);
 static void del_stdy(TypeDicSeg, TypeDicOfs, int);
 
+u_int deldic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
+	u_char	   yptr[MAXWDYOMILEN + 1];
+	u_char	   kptr[MAXWDKANJILEN + 1];
+	u_short	   err;
+	int	   knjlen;
+	TypeDicSeg useg;
+	TypeDicOfs ofs;
+	u_char *   p1, *p2, *p3;
+	int	   dblknum;
+	int	   hblknum;
+	int	   kblknum;
+	int	   samlen;
+	u_char *   stp, *edp;
+	int	   size, len;
 
-u_int
-deldic(u_char *yomi, u_char *kanji, TypeGram hinsi)
-{
-	u_char		yptr[MAXWDYOMILEN + 1];
-	u_char		kptr[MAXWDKANJILEN + 1];
-	u_short		err;
-	int		knjlen;
-	TypeDicSeg	useg;
-	TypeDicOfs	ofs;
-	u_char		*p1, *p2, *p3;
-	int		dblknum;
-	int		hblknum;
-	int		kblknum;
-	int		samlen;
-	u_char		*stp, *edp;
-	int		size, len;
-
-	if (err = addel_arg(yomi, kanji, hinsi, yptr, sizeof(yptr)))
+	if(err = addel_arg(yomi, kanji, hinsi, yptr, sizeof(yptr)))
 		return err;
 
-	if (!curdict -> maxunit) return AD_NOTUSERDICT;
+	if(!curdict->maxunit) return AD_NOTUSERDICT;
 
 	knjlen = cvtknj(yomi, kanji, kptr);
 
 	cnvstart = yptr;
-	cnvlen = sstrlen(yptr);
+	cnvlen	 = sstrlen(yptr);
 
 	useg = srchidx((TypeDicSeg)DICSEGBASE, cnvlen);
 	(*curdict->getdic)(curdict, useg);
 
-	if (!(dblknum = srchkana(&p1, &samlen))) return AD_NOMIDASI;
+	if(!(dblknum = srchkana(&p1, &samlen))) return AD_NOMIDASI;
 
-	if (!(hblknum = srchgram(p1, &p2, hinsi))) return AD_NOHINSI;
+	if(!(hblknum = srchgram(p1, &p2, hinsi))) return AD_NOHINSI;
 
-	p3 = p2;
+	p3	= p2;
 	kblknum = srchkanji(&p3, kptr, knjlen);
-	if (*p3 == HINSIBLKTERM) return AD_NOKANJI;
+	if(*p3 == HINSIBLKTERM) return AD_NOKANJI;
 	ofs = p3 - dicbuf;
 
 	edp = skipkstr(p3);
 
-	if (kblknum == 1) {
-		if (hblknum == 1) {
-			if (dblknum == 1) {
+	if(kblknum == 1) {
+		if(hblknum == 1) {
+			if(dblknum == 1) {
 				return del_segment(useg);
-			}
-			else {
+			} else {
 				return del_douon(useg, p1, ofs);
 			}
-		}
-		else {
+		} else {
 			stp = p2;
 			edp++;
 		}
-	}
-	else {
+	} else {
 		stp = p3;
 	}
 
@@ -115,7 +106,7 @@ deldic(u_char *yomi, u_char *kanji, TypeGram hinsi)
 	memset(edp, DICSEGTERM, dicbuf + curdict->seglen - edp);
 
 	set_size(p1, (int)(getsize(p1) - size),
-			(int)getplen(p1), (int)getnlen(p1));
+		 (int)getplen(p1), (int)getnlen(p1));
 
 	(*curdict->putdic)(curdict, useg);
 
@@ -124,30 +115,25 @@ deldic(u_char *yomi, u_char *kanji, TypeGram hinsi)
 	return AD_DONE;
 }
 
-
-
 static int
-del_douon(TypeDicSeg seg, u_char *ptr, TypeDicOfs ofs)
-{
-	u_char	*nxt, *p1, *p2;
+del_douon(TypeDicSeg seg, u_char* ptr, TypeDicOfs ofs) {
+	u_char *nxt, *p1, *p2;
 	int	size;
 	int	nlen, plen, len;
 
 	nxt = getntag(ptr);
 
-	if (segend(nxt)) {
+	if(segend(nxt)) {
 		size = nxt - ptr;
 
 		memset(ptr, DICSEGTERM, dicbuf + curdict->seglen - nxt);
-	}
-	else {
+	} else {
 		size = getsize(nxt);
 		nlen = getnlen(nxt);
 		plen = getplen(nxt);
 
-		if (ptr == segtop()) {
-		        if (nlen + plen > (unsigned int) count_uidx()
-				+ sstrlen(get_idxptr(seg)))
+		if(ptr == segtop()) {
+			if(nlen + plen > (unsigned int)count_uidx() + sstrlen(get_idxptr(seg)))
 				return AD_OVFLWINDEX;
 		}
 
@@ -163,7 +149,7 @@ del_douon(TypeDicSeg seg, u_char *ptr, TypeDicOfs ofs)
 		size = p1 - p2;
 		memset(dicbuf + curdict->seglen - size, DICSEGTERM, size);
 
-		if (ptr == segtop()) {
+		if(ptr == segtop()) {
 			chg_uidx(seg, ptr + DOUONBLKSIZENUMBER, nlen + len);
 		}
 	}
@@ -175,25 +161,21 @@ del_douon(TypeDicSeg seg, u_char *ptr, TypeDicOfs ofs)
 	return AD_DONE;
 }
 
-
-
 static int
-del_segment(TypeDicSeg seg)
-{
-	int		i;
-	STDYIN		*styp;
-	TypeDicID	dicid;
-	TypeStyNum	stdynum;
-	TypeDicSeg	sg;
+del_segment(TypeDicSeg seg) {
+	int	   i;
+	STDYIN*	   styp;
+	TypeDicID  dicid;
+	TypeStyNum stdynum;
+	TypeDicSeg sg;
 
-	if (curdict->segunit > 1) {
-		for (sg = seg + 1 ; sg < curdict->segunit ; sg++) {
+	if(curdict->segunit > 1) {
+		for(sg = seg + 1; sg < curdict->segunit; sg++) {
 			(*curdict->getdic)(curdict, sg);
 			(*curdict->putdic)(curdict, sg - 1);
 		}
 		curdict->segunit--;
-	}
-	else {
+	} else {
 		memset(dicbuf, DICSEGTERM, (int)curdict->seglen);
 		dicbuf[0] = 0;
 		(*curdict->putdic)(curdict, DICSEGBASE);
@@ -203,28 +185,28 @@ del_segment(TypeDicSeg seg)
 
 	del_uidx(seg);
 
-	if (StudyExist()) {
+	if(StudyExist()) {
 		dicid = curdict->dicid;
-		for (i = 0, styp = STUDYDICT ; i < STUDYCOUNT ; ) {
-			if (styp -> dicid != dicid)
+		for(i = 0, styp = STUDYDICT; i < STUDYCOUNT;) {
+			if(styp->dicid != dicid)
 				;
-			else if (styp -> seg > seg)
-				styp -> seg -= 1;
-			else if (styp -> seg < seg)
+			else if(styp->seg > seg)
+				styp->seg -= 1;
+			else if(styp->seg < seg)
 				;
 			else {
-				stdynum = styp -> styno;
+				stdynum = styp->styno;
 				STUDYCOUNT--;
-				mvmemi((u_char *)(styp + 1), (u_char *)styp,
-					sizeof(*styp) * (STUDYCOUNT - i));
+				mvmemi((u_char*)(styp + 1), (u_char*)styp,
+				       sizeof(*styp) * (STUDYCOUNT - i));
 				continue;
 			}
 
 			i++;
 			styp++;
 		}
-		for (i = 0, styp = STUDYDICT ; i < STUDYCOUNT ; i++, styp++)
-			if (styp -> styno > stdynum) styp -> styno -= 1;
+		for(i = 0, styp = STUDYDICT; i < STUDYCOUNT; i++, styp++)
+			if(styp->styno > stdynum) styp->styno -= 1;
 
 		putstydic();
 	}
@@ -232,17 +214,13 @@ del_segment(TypeDicSeg seg)
 	return AD_DONE;
 }
 
-
-
 static void
-del_uidx(TypeDicSeg seg)
-{
-	u_char	*p, *q;
+del_uidx(TypeDicSeg seg) {
+	u_char *p, *q;
 	int	len;
 
 	p = get_idxptr(seg);
-	for (q = p ; *q++; )
-		;
+	for(q = p; *q++;);
 
 	mvmemi(q, p, idxbuf + curdict->idxlen - q);
 
@@ -254,41 +232,38 @@ del_uidx(TypeDicSeg seg)
 	mkidxtbl(curdict);
 }
 
-
-
 static void
-del_stdy(TypeDicSeg seg, TypeDicOfs ofs, int size)
-{
-	int		i;
-	TypeStyNum	stdynum;
-	STDYIN		*stdy;
-	TypeDicID	dicid;
+del_stdy(TypeDicSeg seg, TypeDicOfs ofs, int size) {
+	int	   i;
+	TypeStyNum stdynum;
+	STDYIN*	   stdy;
+	TypeDicID  dicid;
 
-	if (StudyExist()) {
+	if(StudyExist()) {
 
 		stdynum = 0;
-		dicid = curdict->dicid;
-		for (i = 0, stdy = STUDYDICT ; i < STUDYCOUNT ; ) {
-			if (stdy -> dicid != dicid)
+		dicid	= curdict->dicid;
+		for(i = 0, stdy = STUDYDICT; i < STUDYCOUNT;) {
+			if(stdy->dicid != dicid)
 				;
-			else if (stdy -> seg != seg)
+			else if(stdy->seg != seg)
 				;
-			else if (stdy -> offset > ofs)
-				stdy -> offset -= size;
+			else if(stdy->offset > ofs)
+				stdy->offset -= size;
 
-			else if (stdy -> offset == ofs) {
-				stdynum = stdy -> styno;
+			else if(stdy->offset == ofs) {
+				stdynum = stdy->styno;
 				STUDYCOUNT--;
-				mvmemi((u_char *)(stdy + 1), (u_char *)stdy,
-					sizeof(*stdy) * (STUDYCOUNT - i));
+				mvmemi((u_char*)(stdy + 1), (u_char*)stdy,
+				       sizeof(*stdy) * (STUDYCOUNT - i));
 				continue;
 			}
 
 			i++;
 			stdy++;
 		}
-		for (i = 0, stdy = STUDYDICT ; i < STUDYCOUNT ; i++, stdy++)
-			if (stdy -> styno > stdynum) (stdy -> styno)--;
+		for(i = 0, stdy = STUDYDICT; i < STUDYCOUNT; i++, stdy++)
+			if(stdy->styno > stdynum) (stdy->styno)--;
 
 		putstydic();
 	}

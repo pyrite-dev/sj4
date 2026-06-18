@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 1991-1994  Sony Corporation
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -8,10 +8,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -19,7 +19,7 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
  * THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- * 
+ *
  * Except as contained in this notice, the name of Sony Corporation
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
@@ -28,26 +28,20 @@
  */
 
 /*
- * $SonyRCSfile: dict.c,v $  
- * $SonyRevision: 1.1 $ 
+ * $SonyRCSfile: dict.c,v $
+ * $SonyRevision: 1.1 $
  * $SonyDate: 1994/06/03 08:01:45 $
  */
-
-
-
 
 #include "sj_euc.h"
 #include "sj_kcnv.h"
 
 #include "sj_kanakan.h"
 
-
-void
-get_askknj()
-{
-	u_char	*p;
-	u_char	*q;
-	u_char	*r;
+void get_askknj() {
+	u_char* p;
+	u_char* q;
+	u_char* r;
 	int	i = 0, csize;
 	int	flg;
 
@@ -55,34 +49,30 @@ get_askknj()
 
 	q += *p++;
 
-	while (p < q) {
+	while(p < q) {
 		askknj[i] = p;
 
-		r = NULL;
+		r   = NULL;
 		flg = TRUE;
 		do {
 			csize = codesize(*p);
-			if (p[csize] == KANJISTREND) flg = FALSE;
+			if(p[csize] == KANJISTREND) flg = FALSE;
 
-			if (!r && (*p != AIATTRIBUTE))
+			if(!r && (*p != AIATTRIBUTE))
 				r = p;
 
 			p += csize;
-		} while (flg);
+		} while(flg);
 		p++;
 		askknj_k[i++] = r;
 	}
 }
 
+int seldict(TypeDicID id) {
+	DICTL* dp;
 
-
-int
-seldict(TypeDicID id)
-{
-	DICTL	*dp;
-
-	for (dp = dictlist ; dp ; dp = dp -> next) {
-		if ((curdict = dp -> dict) -> dicid == id)
+	for(dp = dictlist; dp; dp = dp->next) {
+		if((curdict = dp->dict)->dicid == id)
 			return TRUE;
 	}
 	curdict = NULL;
@@ -90,11 +80,8 @@ seldict(TypeDicID id)
 	return FALSE;
 }
 
-
-
-u_char *
-get_idxptr(TypeDicSeg seg)
-{
+u_char*
+get_idxptr(TypeDicSeg seg) {
 	(*curdict->getofs)(curdict);
 	(*curdict->getidx)(curdict);
 

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 1991-1994  Sony Corporation
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -8,10 +8,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -19,7 +19,7 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
  * THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- * 
+ *
  * Except as contained in this notice, the name of Sony Corporation
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
@@ -28,33 +28,29 @@
  */
 
 /*
- * $SonyRCSfile: memory.c,v $  
- * $SonyRevision: 1.1 $ 
+ * $SonyRCSfile: memory.c,v $
+ * $SonyRevision: 1.1 $
  * $SonyDate: 1994/06/03 08:01:58 $
  */
-
-
 
 #include "sj_kcnv.h"
 
 #include "sj_kanakan.h"
 
-JREC *
-free_jlst(JREC *p)
-{
-	JREC	*jpk;
-	JREC	*jp;
-	JREC	*jn;
+JREC* free_jlst(JREC* p) {
+	JREC* jpk;
+	JREC* jp;
+	JREC* jn;
 
 	jp = NULL;
 
-	for ( ; p ; p = jn) {
+	for(; p; p = jn) {
 
-		jn = p -> jsort;
+		jn = p->jsort;
 
-		if (p -> count) {
-			if (jp)
-				jp -> jsort = p;
+		if(p->count) {
+			if(jp)
+				jp->jsort = p;
 			else
 				jpk = p;
 			jp = p;
@@ -65,36 +61,33 @@ free_jlst(JREC *p)
 		}
 	}
 
-	if (jp) jp -> jsort = NULL;
+	if(jp) jp->jsort = NULL;
 
 	return jpk;
 }
 
-CLREC *
-free_clst(CLREC *p, int l)
-{
-	CLREC	*cpk;
-	CLREC	*cp;
-	CLREC	*cn;
+CLREC*
+free_clst(CLREC* p, int l) {
+	CLREC* cpk;
+	CLREC* cp;
+	CLREC* cn;
 
 	cp = cpk = NULL;
 
-	for ( ; p ; p = cn) {
+	for(; p; p = cn) {
 
-		cn = p -> clsort;
+		cn = p->clsort;
 
-		if ((int)p -> cllen == l) {
-			if (p == selcl) {
-				if (cp) {
-					p -> clsort = cpk;
-					cpk = p;
-				}
-				else
+		if((int)p->cllen == l) {
+			if(p == selcl) {
+				if(cp) {
+					p->clsort = cpk;
+					cpk	  = p;
+				} else
 					cpk = cp = p;
-			}
-			else {
-				if (cp)
-					cp -> clsort = p;
+			} else {
+				if(cp)
+					cp->clsort = p;
 				else
 					cpk = p;
 				cp = p;
@@ -102,49 +95,42 @@ free_clst(CLREC *p, int l)
 		}
 
 		else {
-			(p -> jnode -> count)--;
+			(p->jnode->count)--;
 
 			free_clrec(p);
 		}
 	}
 
-	if (cp) cp -> clsort = NULL;
+	if(cp) cp->clsort = NULL;
 
 	return cpk;
 }
 
-void
-free_clall(CLREC *p)
-{
-	CLREC	*next;
+void free_clall(CLREC* p) {
+	CLREC* next;
 
-	while (p) {
-		(p -> jnode -> count)--;
-		next = p -> clsort;
+	while(p) {
+		(p->jnode->count)--;
+		next = p->clsort;
 		free_clrec(p);
 		p = next;
 	}
 }
 
-void
-free_jall(JREC *p)
-{
-	JREC	*next;
+void free_jall(JREC* p) {
+	JREC* next;
 
-	while (p) {
-		next = p -> jsort;
+	while(p) {
+		next = p->jsort;
 		free_jrec(p);
 		p = next;
 	}
 }
 
-void
-freework()
-{
+void freework() {
 	free_clall(maxclptr);
 	clt1st = maxclptr = NULL;
 
 	free_jall(maxjptr);
 	jrt1st = maxjptr = NULL;
 }
-
