@@ -37,10 +37,6 @@
 
 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
 #include "sj3_dict_struct.h"
 
 #include "sj3mkdic.h"

@@ -34,9 +34,7 @@
  */
 
 
-#include <stdio.h>
-#include <sys/types.h>
-
+#include "sj3mkdic.h"
 
 
 static struct gram_code {

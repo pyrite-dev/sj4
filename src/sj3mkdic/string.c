@@ -33,9 +33,6 @@
  * $SonyDate: 1994/06/03 08:00:45 $
  */
 
-
-#include <stdio.h>
-#include <sys/types.h>
 #include "sj3_dict_const.h"
 
 #include "sj3mkdic.h"

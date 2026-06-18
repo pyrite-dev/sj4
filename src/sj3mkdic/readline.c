@@ -33,11 +33,6 @@
  * $SonyDate: 1994/06/03 08:00:44 $
  */
 
-
-#include <stdio.h>
-#include <sys/types.h>
-#include <ctype.h>
-
 #include "sj_euc.h"
 #include "sj3_dict_const.h"
 
@@ -277,7 +272,7 @@ readline()
 
 
 void
-setline(int (*func)())
+setline(void (*func)(int*, int*, int, int*))
 {
 	int	i;
 

@@ -34,8 +34,6 @@
  */
 
 
-#include <stdio.h>
-#include <sys/types.h>
 #include "sj_euc.h"
 #include "sj3_dict_const.h"
 

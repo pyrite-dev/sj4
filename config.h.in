@@ -1,6 +1,0 @@
-#ifdef __CONFIG_H__
-#define __CONFIG_H__
-
-#define HAVE_STRING_H 1
-
-#endif

@@ -33,13 +33,6 @@
  * $SonyDate: 1995/02/03 07:38:32 $
  */
 
-#include <config.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-
 #include "sj3mkdic.h"
 
 typedef	struct filelist {

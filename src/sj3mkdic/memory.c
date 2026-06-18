@@ -33,10 +33,7 @@
  * $SonyDate: 1994/06/03 08:00:42 $
  */
 
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "sj3mkdic.h"
 
 void *
 Malloc(unsigned size)

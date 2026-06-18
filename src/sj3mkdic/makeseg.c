@@ -33,12 +33,6 @@
  * $SonyDate: 1994/12/09 11:27:05 $
  */
 
-#include <config.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <sys/types.h>
 #include "sj3_dict_struct.h"
 #include "Dict.h"
 

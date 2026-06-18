@@ -18,6 +18,12 @@
 #define SJ3MKDIC_H
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <locale.h>
+#include <time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include "sj3_dict_struct.h"
 
@@ -107,7 +113,7 @@ OffsetRec *real_ofsrec(u_char *);
 
 /* readline.c */
 int *readline();
-void setline(int (*)());
+void setline(void (*)(int*, int*, int, int*));
 
 /* string.c */
 int bubun_str(u_char *, int, u_char *, int);

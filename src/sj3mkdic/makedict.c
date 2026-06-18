@@ -33,15 +33,6 @@
  * $SonyDate: 1994/12/09 11:27:05 $
  */
 
-#include <config.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <locale.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/param.h>
 #include "sj3_dict_const.h"
 
 #include "sj3mkdic.h"
@@ -200,7 +191,7 @@ getch()
 void
 mark_file(FILE *out)
 {
-	static	char	pathname[MAXPATHLEN];
+	static	char	pathname[512];
 	static	long	pos;
 
 	if (out) {

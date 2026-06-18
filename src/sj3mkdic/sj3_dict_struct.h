@@ -41,6 +41,8 @@
 #ifndef	SJ3_DICT_STRUCT_H
 #define	SJ3_DICT_STRUCT_H
 
+#include <sj_typedef.h>
+
 typedef struct kanji_rec {
 	int	klen;
 	u_char	*kptr;
