@@ -40,7 +40,11 @@ static struct gram_code {
 	int   code;
 } gramtbl[] = {
 
+#ifdef UTF8
+#include "GramTable.utf8"
+#else
 #include "GramTable"
+#endif
 
 };
 
@@ -61,10 +65,17 @@ int u_strcmp(u_char* a, u_char* b) {
 }
 
 int cnvhinsi(u_char* buf) {
+	int i;
+#if 1
+	for(i = 0; i <= GramMax; i++) {
+		if(u_strcmp(buf, (u_char*)gramtbl[i].name) == 0) return gramtbl[i].code;
+	}
+
+	return 0;
+#else
 	int min;
 	int max;
 	int mid;
-	int i;
 
 	min = 0;
 	max = GramMax;
@@ -86,6 +97,7 @@ int cnvhinsi(u_char* buf) {
 			return (gramtbl[mid].code);
 		}
 	}
+#endif
 
 	return 0;
 }
