@@ -37,7 +37,7 @@
 
 #include "sj_kanakan.h"
 
-static void setstynum(), setnspr(), regetrank();
+static void setstynum(), setnspr(KHREC*, STDYIN*), regetrank();
 
 void getrank() {
 

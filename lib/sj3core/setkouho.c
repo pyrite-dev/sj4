@@ -39,7 +39,7 @@
 
 #include "sj_kanakan.h"
 
-static int hiraknj();
+static int hiraknj(u_char*);
 
 void setkouho(CLREC* clrec, TypeDicOfs offs, int mode) {
 	JREC*	jrec;

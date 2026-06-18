@@ -294,10 +294,10 @@ opendict(char* name, char* passwd) {
 	dfp->dict.seglen  = get4byte(dp + DICTSEGLEN);
 	dfp->dict.segunit = get4byte(dp + DICTSEGNUM);
 	dfp->dict.maxunit = i ? get4byte(dp + DICTSEGMAX) : 0;
-	dfp->dict.getofs  = getofs;
-	dfp->dict.getidx  = getidx;
+	dfp->dict.getofs  = (IFuncDict)getofs;
+	dfp->dict.getidx  = (IFuncDict)getidx;
 	dfp->dict.getdic  = (IFunc)getdic;
-	dfp->dict.putidx  = putidx;
+	dfp->dict.putidx  = (IFunc)putidx;
 	dfp->dict.putdic  = (IFunc)putdic;
 	dfp->dict.rszdic  = (IFunc)rszdic;
 	dfp->refcnt	  = 1;

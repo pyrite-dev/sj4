@@ -39,33 +39,31 @@
 #include "sj_kanakan.h"
 
 VFunc cvtnum_func[] = {
-    num_type00, num_type01, num_type02, num_type03,
-    num_type04, num_type05, num_type06, num_type07,
-    num_type08, num_type09, num_type10, num_type11,
-    num_type12, num_type13, num_type14};
+    (VFunc)num_type00, (VFunc)num_type01, (VFunc)num_type02, (VFunc)num_type03,
+    (VFunc)num_type04, (VFunc)num_type05, (VFunc)num_type06, (VFunc)num_type07,
+    (VFunc)num_type08, (VFunc)num_type09, (VFunc)num_type10, (VFunc)num_type11,
+    (VFunc)num_type12, (VFunc)num_type13, (VFunc)num_type14};
 
 UCPFunc getkan_func[] = {
-    getkan_norm, getkan_norm, getkan_hira, getkan_kata,
-    getkan_knj, getkan_ofs, getkan_norm, getkan_none,
-    getkan_norm, getkan_norm, getkan_hira, getkan_kata,
-    getkan_knj, getkan_ofs, getkan_norm, getkan_none};
+    (UCPFunc)getkan_norm, (UCPFunc)getkan_norm, (UCPFunc)getkan_hira, (UCPFunc)getkan_kata,
+    (UCPFunc)getkan_knj, (UCPFunc)getkan_ofs, (UCPFunc)getkan_norm, (UCPFunc)getkan_none,
+    (UCPFunc)getkan_norm, (UCPFunc)getkan_norm, (UCPFunc)getkan_hira, (UCPFunc)getkan_kata,
+    (UCPFunc)getkan_knj, (UCPFunc)getkan_ofs, (UCPFunc)getkan_norm, (UCPFunc)getkan_none};
 
 IFunc setjrec_func[] = {
-    setj_norm2, setj_norm2, setj_norm1, setj_norm1,
-    setj_knj, setj_ofs, setj_norm2, setj_atrb,
-    setj_norm2, setj_norm2, setj_norm1, setj_norm1,
-    setj_knj, setj_ofs, setj_norm2, setj_atrb};
+    (IFunc)setj_norm2, (IFunc)setj_norm2, (IFunc)setj_norm1, (IFunc)setj_norm1,
+    (IFunc)setj_knj, (IFunc)setj_ofs, (IFunc)setj_norm2, (IFunc)setj_atrb,
+    (IFunc)setj_norm2, (IFunc)setj_norm2, (IFunc)setj_norm1, (IFunc)setj_norm1,
+    (IFunc)setj_knj, (IFunc)setj_ofs, (IFunc)setj_norm2, (IFunc)setj_atrb};
 
 IFunc hiraknj_func[] = {
-    hiraknj_hira, hiraknj_norm, hiraknj_hask, hiraknj_kask,
-    hiraknj_knj, hiraknj_ofs, hiraknj_norm, hiraknj_atrb,
-    hiraknj_hira, hiraknj_norm, hiraknj_hask, hiraknj_kask,
-    hiraknj_knj, hiraknj_ofs, hiraknj_norm, hiraknj_atrb};
+    (IFunc)hiraknj_hira, (IFunc)hiraknj_norm, (IFunc)hiraknj_hask, (IFunc)hiraknj_kask,
+    (IFunc)hiraknj_knj, (IFunc)hiraknj_ofs, (IFunc)hiraknj_norm, (IFunc)hiraknj_atrb,
+    (IFunc)hiraknj_hira, (IFunc)hiraknj_norm, (IFunc)hiraknj_hask, (IFunc)hiraknj_kask,
+    (IFunc)hiraknj_knj, (IFunc)hiraknj_ofs, (IFunc)hiraknj_norm, (IFunc)hiraknj_atrb};
 
-u_char *makekan_1byte(), *makekan_knj(), *makekan_ofs();
-u_char *makekan_norm(), *makekan_none();
 UCPFunc makekan_func[] = {
-    makekan_norm, makekan_norm, makekan_1byte, makekan_1byte,
-    makekan_knj, makekan_ofs, makekan_norm, makekan_none,
-    makekan_norm, makekan_norm, makekan_1byte, makekan_1byte,
-    makekan_knj, makekan_ofs, makekan_norm, makekan_none};
+    (UCPFunc)makekan_norm, (UCPFunc)makekan_norm, (UCPFunc)makekan_1byte, (UCPFunc)makekan_1byte,
+    (UCPFunc)makekan_knj, (UCPFunc)makekan_ofs, (UCPFunc)makekan_norm, (UCPFunc)makekan_none,
+    (UCPFunc)makekan_norm, (UCPFunc)makekan_norm, (UCPFunc)makekan_1byte, (UCPFunc)makekan_1byte,
+    (UCPFunc)makekan_knj, (UCPFunc)makekan_ofs, (UCPFunc)makekan_norm, (UCPFunc)makekan_none};

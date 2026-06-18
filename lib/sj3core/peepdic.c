@@ -40,7 +40,7 @@
 
 static int  prev_kanji(), prev_hinsi(), prev_douon();
 static int  next_kanji(), next_hinsi(), next_douon();
-static void set_kanji(), set_buf(), add_yomi();
+static void set_kanji(), set_buf(u_char*), add_yomi();
 static void set_idxyomi();
 
 static void cd2sjh_chr(u_char ch, u_char* dst);

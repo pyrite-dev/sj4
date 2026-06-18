@@ -37,7 +37,7 @@
 
 #include "sj_kanakan.h"
 
-static u_char *delcldata(), *srchclpos();
+static u_char *delcldata(u_char*), *srchclpos(u_char*);
 static int     delclold();
 
 int clstudy(u_char* yomi1, u_char* yomi2, STDYOUT* stdy) {

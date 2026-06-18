@@ -140,12 +140,12 @@ typedef struct dict {
 	TypeDicSeg segunit;
 	TypeDicSeg maxunit;
 
-	IFunc getofs;
-	IFunc getidx;
-	IFunc getdic;
-	IFunc putidx;
-	IFunc putdic;
-	IFunc rszdic;
+	IFuncDict getofs;
+	IFuncDict getidx;
+	IFunc	  getdic;
+	IFunc	  putidx;
+	IFunc	  putdic;
+	IFunc	  rszdic;
 } DICT;
 
 typedef struct dictl {

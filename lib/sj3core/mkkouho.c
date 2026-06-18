@@ -41,10 +41,10 @@
 
 #include "sj_kanakan.h"
 
-static void    getkhtbl(), cl_kanji();
-static int     diffknj();
-static void    cl_numcmn();
-static u_char* makekan();
+static void    getkhtbl(CLREC*), cl_kanji(JREC*, CLREC*);
+static int     diffknj(JREC*, u_char*, int);
+static void    cl_numcmn(JREC*, CLREC*);
+static u_char* makekan(u_char*, u_char*, int);
 
 void mkkouho() {
 	CLREC* clrec;

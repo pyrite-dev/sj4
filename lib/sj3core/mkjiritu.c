@@ -38,7 +38,7 @@
 
 #include "sj_kanakan.h"
 
-static void dic_mu(), dic_cl();
+static void dic_mu(int), dic_cl();
 
 void mkjiritu(int mode) {
 	u_char	chkind1;

@@ -41,7 +41,7 @@
 
 #include "sj_kanakan.h"
 
-static void srch_kurai1(), srch_kurai2();
+static void srch_kurai1(u_char*, u_char*), srch_kurai2(u_char*, u_char*);
 
 static void
 srch_josuu_sub(JREC* jrec, TypeGram gram) {

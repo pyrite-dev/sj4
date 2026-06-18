@@ -38,7 +38,7 @@
 
 #include "sj_kanakan.h"
 
-static u_char* code2kanji();
+static u_char* code2kanji(u_char* s, u_char* d, u_char* ym, int yl, int flg);
 
 u_char*
 getkan_none(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
