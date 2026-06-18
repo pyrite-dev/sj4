@@ -33,8 +33,6 @@
  * $SonyDate: 1994/06/03 08:01:31 $
  */
 
-#include <config.h>
-
 #include "sj_kcnv.h"
 
 #include "sj_kanakan.h"

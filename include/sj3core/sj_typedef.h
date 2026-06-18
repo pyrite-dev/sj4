@@ -43,12 +43,14 @@
 
 #define	RECURS
 
+typedef unsigned char u_char;
+typedef unsigned short u_short;
+typedef unsigned int u_int;
+
 
 typedef	void	(*VFunc)();
 typedef	u_char	*(*UCPFunc)();
 typedef	int	(*IFunc)();
-
-#include <sys/types.h>
 
 typedef	u_char	TypeGroup;
 typedef	u_char	TypeGram;

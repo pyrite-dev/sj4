@@ -17,6 +17,17 @@
 #ifndef KANAKAN_H
 #define KANAKAN_H
 
+#include <string.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <errno.h>
+#include <sys/stat.h>
+#ifdef _WIN32
+#include <io.h>
+#else
+#include <unistd.h>
+#endif
+
 #include "sj_kcnv.h"
 #include "sj_struct.h"
 

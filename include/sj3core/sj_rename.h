@@ -38,8 +38,6 @@
 
 #define	_SJ_RENAME
 
-#include <config.h>
-
 #define	adddic		Jadddic
 #define	checksub	Jchecksub
 #define	checkdict	Jcheckdict

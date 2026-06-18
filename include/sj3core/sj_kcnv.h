@@ -34,7 +34,6 @@
  */
 
 #include <stdio.h>
-#include <sys/param.h>
 #include "sj_typedef.h"
 #include "sj_rename.h"
 #include "sj_const.h"

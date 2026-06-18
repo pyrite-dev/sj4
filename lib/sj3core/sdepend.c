@@ -33,16 +33,7 @@
  * $SonyDate: 1997/10/07 07:39:45 $
  */
 
-#include <config.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <unistd.h>
 #include "sj_kcnv.h"
-#include <errno.h>
-#include <sys/file.h>
-#include <sys/stat.h>
 #include "Dict.h"
 #include "sj3err.h"
 
@@ -51,6 +42,22 @@
 #if defined(__FD_SET) && !defined(FD_SET)
 # define FD_SET __FD_SET
 # define FD_CLR __FD_CLR
+#endif
+
+#ifndef L_SET
+#define L_SET SEEK_SET
+#endif
+
+#ifndef L_CUR
+#define L_CUR SEEK_CUR
+#endif
+
+#ifndef L_END
+#define L_END SEEK_END
+#endif
+
+#ifdef _WIN32
+#define ftruncate chsize
 #endif
 
 DictFile *dictlink = NULL;
@@ -302,10 +309,10 @@ opendict(char *name, char *passwd)
 	dfp -> dict.maxunit = i ? get4byte(dp + DICTSEGMAX) : 0 ;
 	dfp -> dict.getofs  = getofs;
 	dfp -> dict.getidx  = getidx;
-	dfp -> dict.getdic  = getdic;
+	dfp -> dict.getdic  = (IFunc)getdic;
 	dfp -> dict.putidx  = putidx;
-	dfp -> dict.putdic  = putdic;
-	dfp -> dict.rszdic  = rszdic;
+	dfp -> dict.putdic  = (IFunc)putdic;
+	dfp -> dict.rszdic  = (IFunc)rszdic;
 	dfp -> refcnt       = 1;
 	dfp -> fp           = fp;
 	dfp -> fd           = fileno(fp);
@@ -363,23 +370,33 @@ closedict(DictFile *dfp)
 	return 0;
 }
 
+#ifdef SJ3_LOCK
 static	fd_set	zero_fd_set; /* XXX */
+#endif
 
 void
 lock_dict(DictFile *p, int fd)
 {
+#ifdef SJ3_LOCK
 	FD_SET(fd, &(p -> lock));
+#endif
 }
 
 void
 unlock_dict(DictFile *p, int fd)
 {
+#ifdef SJ3_LOCK
 	FD_CLR(fd, &(p -> lock));
+#endif
 }
 
 int is_dict_locked(DictFile *p)
 {
+#ifdef SJ3_LOCK
 	return memcmp(&(p -> lock), &zero_fd_set, sizeof(zero_fd_set));
+#else
+	return 0;
+#endif
 }
 
 static int

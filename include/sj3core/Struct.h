@@ -117,7 +117,9 @@ typedef struct global {
 typedef	struct	dictfile {
 	DICT		dict;
 	int		refcnt;
+#ifdef SJ3_LOCK
 	fd_set		lock;
+#endif
 	FILE		*fp;
 	int		fd;
 
@@ -152,22 +154,5 @@ typedef	struct workarea {
 
 	Global		global;
 } WorkArea;
-
-typedef	struct client {
-	int		fd;
-	char		host[MAXHOSTNAMELEN];
-	char		user[MAXLOGNAME];
-	char		prog[FILENAME_MAX];
-
-	WorkArea	*work;
-	StdyFile	*stdy;
-	short           version;
-	unsigned char   def_char[2];
-#if (defined(TLI) && defined(SOCK_UNIX))
-	int             unix_flag;
-#endif
-	uid_t           uid;
-	struct client   *next;
-} Client;
 
 #endif
