@@ -39,6 +39,19 @@
 #include "sj3mkdic.h"
 
 int cnvyomi(int code) {
+#ifdef UTF8
+	if(code == 0x30fc) return 1;
+	if(code == 0xff03) return 2;
+	if(code == 0xff20) return 3;
+	if('0' <= code && code <= '9') return code - '0' + 0x10;
+	if('A' <= code && code <= 'Z') return code - 'A' + 0x1a;
+	if(0x3041 <= code && code <= 0x3093) return code - 0x3041 + 0x4e;
+	if(code == 0x30f4) return 0xa1;
+	if(code == 0x30f5) return 0xa2;
+	if(code == 0x30f6) return 0xa3;
+
+	return 0;
+#else
 	u_short hh;
 	u_char	high;
 	u_char	low;
@@ -93,6 +106,7 @@ int cnvyomi(int code) {
 	}
 
 	return 0;
+#endif
 }
 
 int h2kcode(int code) {
@@ -193,6 +207,14 @@ void output_str(FILE* fp, char* p) {
 
 void output_int(FILE* fp, int* p) {
 	while(*p) {
+#ifdef UTF8
+		char buf[5];
+
+		utf8_print(buf, *p);
+		fputs(buf, fp);
+
+		p++;
+#else
 		if(*p < 0x100) {
 			fputc(*p, fp);
 			p++;
@@ -212,10 +234,40 @@ void output_int(FILE* fp, int* p) {
 			fputc(*p & 0xff, fp);
 			p++;
 		}
+#endif
 	}
 }
 
 int yomi2zen(int code) {
+#ifdef UTF8
+	switch(code) {
+	case 1:
+		return 0x30fc;
+	case 2:
+		return 0xff03;
+	case 3:
+		return 0xff20;
+	}
+
+	if(0x10 <= code && code <= 0x19) return code - 0x10 + '0';
+	if(0x1a <= code && code <= 0x4d) return code - 0x1a + 'A';
+	if(0x4e <= code && code <= 0xa0) return code - 0x4e + 0x3041;
+	if(code == 0xa1) return 0x30f4;
+	if(code == 0xa2) return 0x30f5;
+	if(code == 0xa3) return 0x30f6;
+
+	if(code == 0x30fc) return 1;
+	if(code == 0xff03) return 2;
+	if(code == 0xff20) return 3;
+	if('0' <= code && code <= '9') return code - '0' + 0x10;
+	if('A' <= code && code <= 'Z') return code - 'A' + 0x1a;
+	if(0x3041 <= code && code <= 0x3093) return code - 0x3041 + 0x4e;
+	if(code == 0x30f4) return 0xa1;
+	if(code == 0x30f5) return 0xa2;
+	if(code == 0x30f6) return 0xa3;
+
+	return code;
+#else
 	static char num[] = {
 	    '0', '1', '2', '3', '4', '5', '6', '7',
 	    '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
@@ -255,14 +307,23 @@ int yomi2zen(int code) {
 		return (0xa400 + code - 0x4e + 0xa1);
 
 	return ((num[(code >> 4) & 0x0f] << 8) | num[code & 0x0f]);
+#endif
 }
 
 void output_yomi(FILE* fp, u_char* p) {
-	int i;
+	int  i;
+	char buf[5];
 
 	while(*p) {
 		i = yomi2zen(*p++);
+
+#ifdef UTF8
+		utf8_print(buf, i);
+
+		fputs(buf, fp);
+#else
 		fputc((i >> 8) & 0xff, fp);
 		fputc(i & 0xff, fp);
+#endif
 	}
 }

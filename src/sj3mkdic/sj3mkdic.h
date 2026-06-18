@@ -116,12 +116,13 @@ int* readline();
 void setline(void (*)(int*, int*, int, int*));
 
 /* string.c */
-int bubun_str(u_char*, int, u_char*, int);
-int overlap_str(u_char*, int, u_char*, int);
-int istrlen(int*);
-int istrcmp(int*, int*);
-int top_strcmp(int*, int*);
-int last_strcmp(int*, int*);
-int string_cmp(u_char*, int, u_char*, int);
+int  bubun_str(u_char*, int, u_char*, int);
+int  overlap_str(u_char*, int, u_char*, int);
+int  istrlen(int*);
+int  istrcmp(int*, int*);
+int  top_strcmp(int*, int*);
+int  last_strcmp(int*, int*);
+int  string_cmp(u_char*, int, u_char*, int);
+void utf8_print(char*, int);
 
 #endif /* SJ3MKDIC_H */

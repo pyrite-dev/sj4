@@ -173,3 +173,29 @@ int string_cmp(u_char* p1, int l1, u_char* p2, int l2) {
 	if(l1 > l2) return 1;
 	return -1;
 }
+
+void utf8_print(char* out, int c) {
+	int i = 0, j, k;
+
+	if(c >= 0x10000) {
+		out[i++] = ((c >> (6 * 3)) & 7) | 0xf0;
+
+		j = 3;
+	} else if(c >= 0x800) {
+		out[i++] = ((c >> (6 * 2)) & 15) | 0xe0;
+
+		j = 2;
+	} else if(c >= 0x80) {
+		out[i++] = ((c >> (6 * 1)) & 31) | 0xc0;
+
+		j = 1;
+	} else {
+		out[i++] = c;
+	}
+
+	for(k = 0; k < j; k++) {
+		out[i++] = ((c >> (6 * (j - k - 1))) & 63) | 0x80;
+	}
+
+	out[i++] = 0;
+}

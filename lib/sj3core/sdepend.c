@@ -256,8 +256,8 @@ opendict(char* name, char* passwd) {
 		return dfp;
 	}
 
-	if((fp = fopen(name, "r+")) == NULL) {
-		if((fp = fopen(name, "r")) == NULL) {
+	if((fp = fopen(name, "r+b")) == NULL) {
+		if((fp = fopen(name, "rb")) == NULL) {
 			serv_errno = SJ3_CannotOpenFile;
 			return NULL;
 		}
@@ -427,7 +427,7 @@ openstdy(char* name, char* passwd) {
 		return NULL;
 	}
 
-	if((fp = fopen(name, "r+")) == NULL) {
+	if((fp = fopen(name, "r+b")) == NULL) {
 		serv_errno = SJ3_CannotOpenFile;
 		goto error0;
 	}
@@ -586,7 +586,7 @@ int makedict(char* path, int idxlen, int seglen, int segnum) {
 		return ret;
 	}
 
-	if(!(fp = fopen(path, "w"))) {
+	if(!(fp = fopen(path, "wb"))) {
 		serv_errno = SJ3_CannotCreateFile;
 		return ret;
 	}
@@ -652,7 +652,7 @@ int makestdy(char* path, int stynum, int clstep, int cllen) {
 		return ret;
 	}
 
-	if(!(fp = fopen(path, "w"))) {
+	if(!(fp = fopen(path, "wb"))) {
 		serv_errno = SJ3_CannotCreateFile;
 		return ret;
 	}

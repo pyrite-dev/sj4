@@ -79,7 +79,7 @@ readchar() {
 	if(i == 1) {
 		n = c[0];
 	} else {
-		n |= c[0] & (0xff >> (8 - i));
+		n |= c[0] & (0xff >> (8 - i - 1));
 
 		for(j = 1; j < i; j++) {
 			n = n << 6;
@@ -155,7 +155,6 @@ retry:
 			error(ILLEGALFORMAT);
 
 #ifdef UTF8
-		printf("%x\n", c);
 		if(c >= 0x10000) {
 			hinsi[i++] = ((c >> (6 * 3)) & 7) | 0xf0;
 

@@ -117,7 +117,7 @@ void parse(int argc, char** argv) {
 	p      = argv[1];
 	idxtop = (*p == '-') ? get_idxlist(p + 1) : make_idxlist(p);
 
-	outfp = Fopen(argv[2], "w");
+	outfp = Fopen(argv[2], "wb");
 }
 
 /* XXX: strtonum??? */

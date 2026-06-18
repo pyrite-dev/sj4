@@ -118,6 +118,8 @@ size_t
 Fread(char* p, int s, int n, FILE* fp) {
 	if(fread(p, s, n, fp) == n) return n;
 
+	printf("!\n");
+
 	fprintf(stderr, "Read error in %s\n", get_fname(fp));
 	exit(1);
 }
