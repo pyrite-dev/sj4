@@ -72,7 +72,7 @@ int cnvhinsi(u_char* buf) {
 
 		mid = (min + max) / 2;
 
-		i = u_strcmp(buf, gramtbl[mid].name);
+		i = u_strcmp(buf, (u_char*)gramtbl[mid].name);
 
 		if(i < 0) {
 			max = mid - 1;

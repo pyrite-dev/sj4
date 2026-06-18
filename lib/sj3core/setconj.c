@@ -116,7 +116,7 @@ int setconj(TypeGram hinsi, JREC* jrec, CREC* crec) {
 	int	 count = 0;
 	u_char*	 cnj;
 
-	if(cnj = Conjadr(hinsi)) {
+	if((cnj = Conjadr(hinsi))) {
 		saml = ofslen = 0;
 
 		yptr = cnvstart + jrec->jlen;
@@ -139,7 +139,7 @@ int setconj(TypeGram hinsi, JREC* jrec, CREC* crec) {
 
 			if(isdpnd(*(yptr + saml))) continue;
 
-			if(right = cnvrow(jrec, (TypeCnct)CnjRight(cnj))) {
+			if((right = cnvrow(jrec, (TypeCnct)CnjRight(cnj)))) {
 				crec->len   = (u_char)(ofslen + saml);
 				crec->right = right;
 				count++;

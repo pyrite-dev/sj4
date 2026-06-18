@@ -225,7 +225,7 @@ void makeseg() {
 		dst += DOUONBLKSIZENUMBER;
 
 		p    = drec->yptr;
-		slen = strlen(p) - drec->dlen;
+		slen = strlen((char*)p) - drec->dlen;
 		p += slen;
 		for(i = drec->dlen; i > 0; i--) {
 			datset(*p);
@@ -291,7 +291,7 @@ void makeseg() {
 		fprintf(stderr, "\275\320\316\317\245\325\245\241\245\244\245\353\244\307\245\267\241\274\245\257\245\250\245\351\241\274\n");
 		exit(1);
 	}
-	if(Fwrite(buf, sizeof(buf), 1, outfp) != 1) {
+	if(Fwrite((char*)buf, sizeof(buf), 1, outfp) != 1) {
 		fprintf(stderr, "\275\320\316\317\245\325\245\241\245\244\245\353\244\307\245\351\245\244\245\310\245\250\245\351\241\274\n");
 		exit(1);
 	}
@@ -328,10 +328,7 @@ err:
 #undef datset
 }
 
-static void put4byte(p, n)
-    u_char* p;
-long n;
-{
+static void put4byte(u_char* p, long n) {
 	p += 3;
 	*p-- = n;
 	n >>= 8;
@@ -379,9 +376,9 @@ void makehead(u_char* dict_name) {
 	put4byte(header + DICTASEGLEN, 0);
 
 	Fseek(outfp, (long)HEADERPOS, 0);
-	Fwrite(header, sizeof(header), 1, outfp);
+	Fwrite((char*)header, sizeof(header), 1, outfp);
 	Fseek(outfp, (long)INDEXPOS, 0);
-	Fwrite(mindex, MAININDEXLENGTH, 1, outfp);
+	Fwrite((char*)mindex, MAININDEXLENGTH, 1, outfp);
 
 #undef INDEXPOS
 }

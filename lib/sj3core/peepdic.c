@@ -299,7 +299,7 @@ static void
 set_idxyomi() {
 	u_char *p1, *p2;
 
-	if(p2 = get_idxptr(peepidx)) {
+	if((p2 = get_idxptr(peepidx))) {
 		p1 = peepyomi;
 		while(*p2) {
 			cd2sjh_chr(*p2++, p1);

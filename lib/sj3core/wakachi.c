@@ -115,7 +115,7 @@ void wakachi() {
 		return;
 
 	if(jrec->jlen) {
-		if(clrec = argclrec((int)jrec->jlen)) {
+		if((clrec = argclrec((int)jrec->jlen))) {
 			clrec->jnode = jrec;
 			clrec->right = R_MEISI;
 			clrec->kubun = K_TAIGEN;

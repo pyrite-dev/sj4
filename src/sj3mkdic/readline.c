@@ -233,7 +233,7 @@ int* readline() {
 		error(NOKANJISTRING);
 
 	i = j = 0;
-	while(c = readhinsi()) {
+	while((c = readhinsi())) {
 		if(c < 0) {
 			if(i >= MAXATRNUMBER)
 				error(TOOMANYATR);

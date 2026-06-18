@@ -53,7 +53,7 @@ srch_josuu_sub(JREC* jrec, TypeGram gram) {
 		dicinl	= 1;
 		dicsaml = 0;
 		prevseg = -1;
-		while(tagp = srchdict(tagp)) setnumrec(tagp, jrec, gram);
+		while((tagp = srchdict(tagp))) setnumrec(tagp, jrec, gram);
 	}
 }
 
@@ -101,7 +101,7 @@ setnrec_sub(u_char* p, u_short flag, int stb) {
 		return;
 	}
 
-	if(rec = argjrec(len1, (JREC*)NULL)) {
+	if((rec = argjrec(len1, (JREC*)NULL))) {
 		rec->class  = suuji_class;
 		rec->hinsi  = SUUSI;
 		rec->sttofs = headcode;
@@ -192,7 +192,7 @@ check_num(u_char* ptr) {
 	for(i = suuji_keta; --i >= 0;) {
 		if(hketa >= 4) return FALSE;
 		tmp = suuji_ubuf[i];
-		if(j = ((tmp >> 6) & 3)) {
+		if((j = ((tmp >> 6) & 3))) {
 			if(j < hketa) return FALSE;
 			if(j > hketa) {
 				flag |= JFLAG_N01;

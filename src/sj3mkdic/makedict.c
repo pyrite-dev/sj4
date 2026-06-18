@@ -88,7 +88,7 @@ char* get_idxlist(char* name) {
 
 	i = 0;
 	for(q = p; *q;) {
-		if(fp = fopen(q, "r"))
+		if((fp = fopen(q, "r")))
 			fclose(fp);
 		else {
 			fprintf(stderr, "Can't open %s mode \"r\"\n", q);
@@ -106,7 +106,7 @@ void parse(int argc, char** argv) {
 	char* progname = NULL;
 	char* p;
 
-	if(progname = strrchr(argv[0], '/'))
+	if((progname = strrchr(argv[0], '/')))
 		progname++;
 	else
 		progname = argv[0];

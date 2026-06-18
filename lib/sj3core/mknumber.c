@@ -291,11 +291,11 @@ num_kurai(u_char* p, int len, u_char* tbl) {
 
 		*kanjitmp++ = tbl[j = ((tmp & 0x0f) - _NUM0) * 2];
 		*kanjitmp++ = tbl[j + 1];
-		if(j = ((tmp >> 4) & 3)) {
+		if((j = ((tmp >> 4) & 3))) {
 			*kanjitmp++ = Num4tbl[j = (3 - j) * 2];
 			*kanjitmp++ = Num4tbl[j + 1];
 		}
-		if(j = ((tmp >> 6) & 3)) {
+		if((j = ((tmp >> 6) & 3))) {
 			*kanjitmp++ = Num6tbl[j = (3 - j) * 2];
 			*kanjitmp++ = Num6tbl[j + 1];
 		}

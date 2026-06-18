@@ -62,7 +62,7 @@ int cl2knj(u_char* yomi, int len, u_char* kouho) {
 	}
 	*ptr2 = 0;
 
-	strlcpy(orgyomi, yomi, (int)(ptr1 - yomi) + 1);
+	strlcpy((char*)orgyomi, (char*)yomi, (int)(ptr1 - yomi) + 1);
 
 	if(!hyomi[0]) return 0;
 

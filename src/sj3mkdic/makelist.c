@@ -112,19 +112,19 @@ makekanji(int* yomi, int* kanji, int* atr, int* len) {
 #endif
 	}
 
-	if(i = top_strcmp(yomi, kanji)) {
+	if((i = top_strcmp(yomi, kanji))) {
 		kanji += i;
 		ktmp[pos++] = (ZENHIRAASSYUKU | (i - 1));
-	} else if(i = top_strcmp(kana, kanji)) {
+	} else if((i = top_strcmp(kana, kanji))) {
 		kanji += i;
 		ktmp[pos++] = (ZENKATAASSYUKU | (i - 1));
 	}
 
 	while(*kanji) {
-		if(i = last_strcmp(yomi, kanji)) {
+		if((i = last_strcmp(yomi, kanji))) {
 			kanji += i;
 			ktmp[pos++] = (ZENHIRAASSYUKU | (i - 1));
-		} else if(i = last_strcmp(kana, kanji)) {
+		} else if((i = last_strcmp(kana, kanji))) {
 			kanji += i;
 			ktmp[pos++] = (ZENKATAASSYUKU | (i - 1));
 		} else if(((*kanji >> 8) & 0xff) == SS2 || *kanji < 0x100) {
@@ -293,7 +293,7 @@ douon_knj(DouonRec* drec) {
 	int	  i;
 	int	  len = 0;
 	u_char*	  p;
-	u_char*	  knjofscvt();
+	u_char*	  knjofscvt(u_char*, int, int*);
 	HinsiRec* hrec;
 	KanjiRec* krec;
 
@@ -442,7 +442,7 @@ void makelist(int* yomi, int* kanji, int hinsi, int* atr) {
 
 	kcode = makekanji(yomi, kanji, atr, &klen);
 
-	if(drectmp && strcmp(ycode, drectmp->yptr)) {
+	if(drectmp && strcmp((char*)ycode, (char*)drectmp->yptr)) {
 		make_d_list(drectmp);
 
 		drectmp = NULL;

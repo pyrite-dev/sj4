@@ -131,7 +131,7 @@ yomi2kata(u_char* src, u_char* dst) {
 	int first;
 	int second;
 
-	while(first = *src++) {
+	while((first = *src++)) {
 		second = *src++;
 
 		if(first != 0xa4) {
@@ -182,9 +182,9 @@ int cvtknj(u_char* yomi, u_char* knj, u_char* dst) {
 	keep = dst;
 	yomi2kata(yomi, kana);
 
-	if(len = top_strcmp(yomi, knj)) {
+	if((len = top_strcmp(yomi, knj))) {
 		*dst = (u_char)(ZENHIRAASSYUKU | (len - 1));
-	} else if(len = top_strcmp(kana, knj)) {
+	} else if((len = top_strcmp(kana, knj))) {
 		*dst = (u_char)(ZENKATAASSYUKU | (len - 1));
 	}
 
@@ -195,10 +195,10 @@ int cvtknj(u_char* yomi, u_char* knj, u_char* dst) {
 
 	if(*knj) {
 		for(;;) {
-			if(len = last_strcmp(yomi, knj)) {
+			if((len = last_strcmp(yomi, knj))) {
 				*dst++ = (u_char)(ZENHIRAASSYUKU | (len - 1));
 				break;
-			} else if(len = last_strcmp(kana, knj)) {
+			} else if((len = last_strcmp(kana, knj))) {
 				*dst++ = (u_char)(ZENKATAASSYUKU | (len - 1));
 				break;
 			} else if(*knj == SS2) {

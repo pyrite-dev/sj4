@@ -344,8 +344,8 @@ static int
 chrck_numtbl(u_short flg, u_short cond) {
 	u_short must;
 
-	if(cond = SelNumCond(cond)) {
-		if(must = (cond & SELNUMMUST)) {
+	if((cond = SelNumCond(cond))) {
+		if((must = (cond & SELNUMMUST))) {
 			if((flg & must) != must) return FALSE;
 			cond &= ~must;
 		}

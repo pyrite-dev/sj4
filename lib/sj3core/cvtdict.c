@@ -57,7 +57,7 @@ void cvtdict(KHREC* krec, CLREC* clrec, int flg) {
 
 	jlen = jrec->jlen;
 
-	if(i = jrec->sttofs) {
+	if((i = jrec->sttofs)) {
 
 		if(i == SETTOU_KIGOU) {
 			sttlen = 1;

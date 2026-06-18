@@ -79,7 +79,7 @@ void mkjiritu(int mode) {
 	}
 
 	for(jrec = maxjptr; jrec; jrec = jrec->jsort) {
-		if(stb = getstb(jrec->hinsi))
+		if((stb = getstb(jrec->hinsi)))
 			setubi(jrec, stb);
 	}
 }
@@ -95,7 +95,7 @@ dic_mu(int mode) {
 		dicsaml = 0;
 		prevseg = -1;
 
-		while(tagp = srchdict(tagp)) setjrec(tagp, mode);
+		while((tagp = srchdict(tagp))) setjrec(tagp, mode);
 	}
 }
 
@@ -111,7 +111,7 @@ JREC* argjrec(int len, JREC* rec) {
 
 		ptr  = NULL;
 		jrec = maxjptr;
-		while(child = jrec->jsort) {
+		while((child = jrec->jsort)) {
 			ptr  = jrec;
 			jrec = child;
 		}
@@ -144,7 +144,7 @@ JREC* argjrec(int len, JREC* rec) {
 		return jrec;
 	}
 
-	while(child = ptr->jsort) {
+	while((child = ptr->jsort)) {
 		if((int)child->jlen < len) break;
 
 		ptr = child;

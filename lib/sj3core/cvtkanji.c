@@ -165,7 +165,7 @@ void setstyrec(KHREC* krec) {
 	if(jrec->stbofs && (fptr = getstb(jrec->hinsi)))
 		stdy.len -= StbYomiLen(fptr + jrec->stbofs - 1);
 
-	if(fptr = Settou_ptr(jrec->sttofs))
+	if((fptr = Settou_ptr(jrec->sttofs)))
 		stdy.sttlen = SttYomiLen(fptr);
 	else
 		stdy.sttlen = 0;

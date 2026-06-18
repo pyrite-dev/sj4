@@ -61,7 +61,7 @@ void mkbunsetu() {
 		else
 			hinsi = jrec->hinsi;
 
-		if(right = Connadr[hinsi]) {
+		if((right = Connadr[hinsi])) {
 			gobilen = 0;
 			next	= cnvstart + jrec->jlen;
 
@@ -73,7 +73,7 @@ void mkbunsetu() {
 			srchfzk(jrec, next, right, 0);
 		}
 
-		else if(count = setconj(hinsi, jrec, crec)) {
+		else if((count = setconj(hinsi, jrec, crec))) {
 
 			for(i = count; i-- > 0;) {
 
@@ -108,7 +108,7 @@ argclrec(int len) {
 
 		ptr = NULL;
 		rec = maxclptr;
-		while(child = rec->clsort) {
+		while((child = rec->clsort)) {
 			ptr = rec;
 			rec = child;
 		}
@@ -141,7 +141,7 @@ argclrec(int len) {
 		return rec;
 	}
 
-	while(child = ptr->clsort) {
+	while((child = ptr->clsort)) {
 		if((int)child->cllen < len ||
 		   ((int)child->cllen == len &&
 		    child->jnode->hinsi == TANKANJI)) {

@@ -58,7 +58,7 @@ u_int deldic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
 	u_char *   stp, *edp;
 	int	   size, len;
 
-	if(err = addel_arg(yomi, kanji, hinsi, yptr, sizeof(yptr)))
+	if((err = addel_arg(yomi, kanji, hinsi, yptr, sizeof(yptr))))
 		return err;
 
 	if(!curdict->maxunit) return AD_NOTUSERDICT;

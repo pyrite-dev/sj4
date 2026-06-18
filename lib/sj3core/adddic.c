@@ -73,14 +73,14 @@ u_int adddic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
 	STDYIN*	   stdy;
 	STDYOUT	   stdydat;
 
-	if(err = addel_arg(yomi, kanji, hinsi, yptr, sizeof(yptr)))
+	if((err = addel_arg(yomi, kanji, hinsi, yptr, sizeof(yptr))))
 		return err;
 
 	inputyomi = yomi;
 	cnvstart = ystart = yptr;
 	cnvlen		  = sstrlen(yptr);
 
-	if(err = checkdict(kanji, hinsi))
+	if((err = checkdict(kanji, hinsi)))
 		return err;
 
 	if(!curdict->maxunit)

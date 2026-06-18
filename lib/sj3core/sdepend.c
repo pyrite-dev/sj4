@@ -137,11 +137,11 @@ putfile(int fd, int pos, int len, u_char* p) {
 static int
 check_passwd(u_char* buf, char* passwd) {
 	buf += PASSWDPOS;
-	return (*buf && strncmp(passwd, buf, PASSWDLEN)) ? FALSE : TRUE;
+	return (*buf && strncmp(passwd, (char*)buf, PASSWDLEN)) ? FALSE : TRUE;
 }
 static void
 set_passwd(u_char* buf, char* passwd) {
-	strncpy(buf + PASSWDPOS, passwd, PASSWDLEN);
+	strncpy((char*)buf + PASSWDPOS, passwd, PASSWDLEN);
 }
 
 static int
@@ -732,7 +732,7 @@ int set_stdypass(char* pass) {
 
 static void
 set_comment(u_char* buf, char* comment) {
-	strlcpy(buf + HEADERLENGTH, comment, COMMENTLENGTH);
+	strlcpy((char*)buf + HEADERLENGTH, comment, COMMENTLENGTH);
 }
 
 int set_dictcmnt(DictFile* dp, char* cmnt) {
