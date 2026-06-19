@@ -40,11 +40,7 @@ static struct gram_code {
 	int   code;
 } gramtbl[] = {
 
-#ifdef UTF8
-#include "GramTable.utf8"
-#else
 #include "GramTable"
-#endif
 
 };
 

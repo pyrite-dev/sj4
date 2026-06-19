@@ -73,25 +73,23 @@
 #define MAXHINDONUMBER 2000
 #define MAXOFFSETNUMBER 1000
 
-#ifdef UTF8
-#define ILLEGALFORMAT "フォーマットが異常です"
-#define TOOLONGYOMI "読み文字列が長すぎます"
-#define TOOLONGKANJI "漢字文字列が長すぎます"
-#define TOOLONGHINSI "品詞文字列が長すぎます"
-#define TOOLONGGROUP "グループ名が異常です"
-#define TOOLONGJOSI "助詞文字列が異常です"
-#define BADHINSI "登録されていない品詞です"
-#define BADGROUP "登録されていないグループです"
-#define BADJOSI "登録されていない助詞です"
-#define NOYOMISTRING "読み文字列が取得できません"
-#define NOKANJISTRING "漢字文字列が取得できません"
-#define TOOMANYATR "属性の数が多すぎます"
-#define TOOMANYHINSI "品詞の数が多すぎます"
-#define TOOMANYJOSI "助詞の数が多すぎます"
-#define NODATAINMAIN "メイン辞書に存在しません"
-#define TOOMANYTARGET "品詞を１つ指定してください"
-
-#define HINSITANKAN cnvhinsi((u_char*)"単漢")
+#ifdef ENGLISH
+#define ILLEGALFORMAT "Illegal format"
+#define TOOLONGYOMI "Pronunciation too long"
+#define TOOLONGKANJI "Kanji string too long"
+#define TOOLONGHINSI "Verb too long"
+#define TOOLONGGROUP "Illegal group"
+#define TOOLONGJOSI "Illegal particle"
+#define BADHINSI "Non-registered verb"
+#define BADGROUP "Non-registered group"
+#define BADJOSI "Non-registered particle"
+#define NOYOMISTRING "Cannot get pronunciation string"
+#define NOKANJISTRING "Cannot get kanji string"
+#define TOOMANYATR "Too many attributes"
+#define TOOMANYHINSI "Too many verbs"
+#define TOOMANYJOSI "Too many particles"
+#define NODATAINMAIN "Non-existent in main dictionary"
+#define TOOMANYTARGET "Specify only one verb"
 #else
 #define ILLEGALFORMAT "\245\325\245\251\241\274\245\336\245\303\245\310\244\254\260\333\276\357\244\307\244\271"
 #define TOOLONGYOMI "\306\311\244\337\312\270\273\372\316\363\244\254\304\271\244\271\244\256\244\336\244\271"
@@ -109,9 +107,9 @@
 #define TOOMANYJOSI "\275\365\273\354\244\316\277\364\244\254\302\277\244\271\244\256\244\336\244\271"
 #define NODATAINMAIN "\245\341\245\244\245\363\274\255\275\361\244\313\302\270\272\337\244\267\244\336\244\273\244\363"
 #define TOOMANYTARGET "\311\312\273\354\244\362\243\261\244\304\273\330\304\352\244\267\244\306\244\257\244\300\244\265\244\244"
+#endif
 
 #define HINSITANKAN cnvhinsi((u_char*)"\303\261\264\301")
-#endif
 
 #define FALSE 0
 #define TRUE (!FALSE)

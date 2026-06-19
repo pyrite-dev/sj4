@@ -173,8 +173,8 @@ makeyomi(int* yomi) {
 		j = cnvyomi(*y++);
 		if(j == 0) {
 			fprintf(stderr,
-#ifdef UTF8
-				"不正な文字が読みに使われています\n"
+#ifdef ENGLISH
+				"Invalid character used for pronunciation\n"
 #else
 				"\311\324\300\265\244\312\312\270\273\372\244\254\306\311\244\337\244\313\273\310\244\357\244\354\244\306\244\244\244\336\244\271\n"
 #endif

@@ -124,5 +124,6 @@ int  top_strcmp(int*, int*);
 int  last_strcmp(int*, int*);
 int  string_cmp(u_char*, int, u_char*, int);
 void utf8_print(char*, int);
+int  unicode_to_eucjp(int utf);
 
 #endif /* SJ3MKDIC_H */

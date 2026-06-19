@@ -87,7 +87,7 @@ readchar() {
 		}
 	}
 
-	return n;
+	return unicode_to_eucjp(n);
 #else
 	int c1;
 	int c2;
@@ -154,28 +154,6 @@ retry:
 		if(Isillegal(c))
 			error(ILLEGALFORMAT);
 
-#ifdef UTF8
-		if(c >= 0x10000) {
-			hinsi[i++] = ((c >> (6 * 3)) & 7) | 0xf0;
-
-			j = 3;
-		} else if(c >= 0x800) {
-			hinsi[i++] = ((c >> (6 * 2)) & 15) | 0xe0;
-
-			j = 2;
-		} else if(c >= 0x80) {
-			hinsi[i++] = ((c >> (6 * 1)) & 31) | 0xc0;
-
-			j = 1;
-		} else {
-			hinsi[i++] = c;
-		}
-
-		for(k = 0; k < j; k++) {
-			if(i >= 126) error(TOOLONGHINSI);
-			hinsi[i++] = ((c >> (6 * (j - k - 1))) & 63) | 0x80;
-		}
-#else
 		if(c > 0xffffff) {
 			if(i >= 126)
 				error(TOOLONGHINSI);
@@ -198,13 +176,10 @@ retry:
 				error(TOOLONGHINSI);
 			hinsi[i++] = ((c >> 8) & 0xff);
 		}
-#endif
 		if(i >= 127)
 			error(TOOLONGHINSI);
-#ifndef UTF8
 		hinsi[i++] = (c & 0xff);
-#endif
-		c = readchar();
+		c	   = readchar();
 	}
 
 	if(i == 0)
@@ -215,8 +190,8 @@ retry:
 		i	     = cnvhinsi(hinsi + 1);
 		if(i > 0) {
 			fprintf(stderr,
-#ifdef UTF8
-				"品詞 \"%s\" に括弧がついている\n"
+#ifdef ENGLISH
+				"Verb \"%s\" has parenthis\n"
 #else
 				"\311\312\273\354 \"%s\" \244\313\263\347\270\314\244\254\244\304\244\244\244\306\244\244\244\353\n"
 #endif
@@ -225,8 +200,8 @@ retry:
 				    1);
 		} else if(!i) {
 			fprintf(stderr,
-#ifdef UTF8
-				"\"%s\" がコード化できません\n"
+#ifdef ENGLISH
+				"Cannot turn \"%s\" into code\n"
 #else
 				"\"%s\" \244\254\245\263\241\274\245\311\262\275\244\307\244\255\244\336\244\273\244\363\n"
 #endif
@@ -240,8 +215,8 @@ retry:
 		i	 = cnvhinsi(hinsi);
 		if(!i) {
 			fprintf(stderr,
-#ifdef UTF8
-				"\"%s\" がコード化できません\n"
+#ifdef ENGLISH
+				"Cannot turn \"%s\" into code\n"
 #else
 				"\"%s\" \244\254\245\263\241\274\245\311\262\275\244\307\244\255\244\336\244\273\244\363\n"
 #endif

@@ -13,11 +13,13 @@ file(GLOB_RECURSE SJ3MKDIC_SRCS src/sj3mkdic/**.c)
 add_executable(sj3mkdic ${SJ3MKDIC_SRCS})
 target_include_directories(sj3mkdic PRIVATE include/sj3common include/sj3core)
 
+file(GLOB_RECURSE SJ3TEST_SRCS src/sj3test/**.c)
+add_executable(sj3test ${SJ3TEST_SRCS})
+target_link_libraries(sj3test PRIVATE sj3core)
+
 if(UTF8)
 	target_compile_definitions(sj3core PRIVATE UTF8)
 	target_compile_definitions(sj3mkdic PRIVATE UTF8)
 endif()
 
-file(GLOB_RECURSE SJ3TEST_SRCS src/sj3test/**.c)
-add_executable(sj3test ${SJ3TEST_SRCS})
-target_link_libraries(sj3test PRIVATE sj3core)
+target_compile_definitions(sj3mkdic PRIVATE ENGLISH)

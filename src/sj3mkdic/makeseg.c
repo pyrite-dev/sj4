@@ -61,8 +61,8 @@ set_ofsask(u_char* src, u_char* dst) {
 		case LEADINGHANKAKU:
 #ifndef USEHANKAKUINDICT
 			fprintf(stderr,
-#ifdef UTF8
-				"\264\301\273\372\260\265\275\314\312\270\273\372\316\363\244\254\304\271\244\271\244\256\244\353\n"
+#ifdef ENGLISH
+				"Attribute code error\n"
 #else
 				"\302\260\300\255\245\263\241\274\245\311\241\246\245\250\245\351\241\274\n"
 #endif
@@ -76,8 +76,8 @@ set_ofsask(u_char* src, u_char* dst) {
 #endif
 		case OFFSETASSYUKU:
 			fprintf(stderr,
-#ifdef UTF8
-				"二重にオフセットが参照されている\n"
+#ifdef ENGLISH
+				"Offset is referenced twice\n"
 #else
 				"\306\363\275\305\244\313\245\252\245\325\245\273\245\303\245\310\244\254\273\262\276\310\244\265\244\354\244\306\244\244\244\353\n"
 #endif
@@ -116,8 +116,8 @@ int make_knjstr(u_char* src, int len, u_char* dst) {
 		case LEADINGHANKAKU:
 #ifndef USEHANKAKUINDICT
 			fprintf(stderr,
-#ifdef UTF8
-				"\264\301\273\372\260\265\275\314\312\270\273\372\316\363\244\254\304\271\244\271\244\256\244\353\n"
+#ifdef ENGLISH
+				"Attribute code error\n"
 #else
 				"\302\260\300\255\245\263\241\274\245\311\241\246\245\250\245\351\241\274\n"
 #endif
@@ -168,8 +168,8 @@ make_knjask() {
 		p = (u_char*)Malloc(len);
 		if(!p) {
 			fprintf(stderr,
-#ifdef UTF8
-				"メモリが足りません\n"
+#ifdef ENGLISH
+				"Not enough memory\n"
 #else
 				"\245\341\245\342\245\352\244\254\302\255\244\352\244\336\244\273\244\363\n"
 #endif
@@ -217,8 +217,8 @@ void makeseg() {
 	i = make_knjask();
 	if(i >= 0x100) {
 		fprintf(stderr,
-#ifdef UTF8
-			"漢字圧縮文字列が長すぎる\n"
+#ifdef ENGLISH
+			"Kanji compression string is too long\n"
 #else
 			"\264\301\273\372\260\265\275\314\312\270\273\372\316\363\244\254\304\271\244\271\244\256\244\353\n"
 #endif
@@ -301,8 +301,8 @@ void makeseg() {
 			mindex[idxpos++] = *p;
 		} else {
 			fprintf(stderr,
-#ifdef UTF8
-				"インデックスがあふれました\n"
+#ifdef ENGLISH
+				"Index overflow\n"
 #else
 				"\245\244\245\363\245\307\245\303\245\257\245\271\244\254\244\242\244\325\244\354\244\336\244\267\244\277\n"
 #endif
@@ -315,8 +315,8 @@ void makeseg() {
 		mindex[idxpos] = 0;
 	} else {
 		fprintf(stderr,
-#ifdef UTF8
-			"インデックスがあふれました\n"
+#ifdef ENGLISH
+			"Index overflow\n"
 #else
 			"\245\244\245\363\245\307\245\303\245\257\245\271\244\254\244\242\244\325\244\354\244\336\244\267\244\277\n"
 #endif
@@ -331,8 +331,8 @@ void makeseg() {
 		 (long)(HEADERLENGTH + COMMENTLENGTH + MAININDEXLENGTH + idxnum * MAINSEGMENTLENGTH),
 		 0) < 0) {
 		fprintf(stderr,
-#ifdef UTF8
-			"出力ファイルでシークエラー\n"
+#ifdef ENGLISH
+			"Output file seek error\n"
 #else
 			"\275\320\316\317\245\325\245\241\245\244\245\353\244\307\245\267\241\274\245\257\245\250\245\351\241\274\n"
 #endif
@@ -341,8 +341,8 @@ void makeseg() {
 	}
 	if(Fwrite((char*)buf, sizeof(buf), 1, outfp) != 1) {
 		fprintf(stderr,
-#ifdef UTF8
-			"出力ファイルでライトエラー\n"
+#ifdef ENGLISH
+			"Output file write error\n"
 #else
 			"\275\320\316\317\245\325\245\241\245\244\245\353\244\307\245\351\245\244\245\310\245\250\245\351\241\274\n"
 #endif
@@ -352,8 +352,8 @@ void makeseg() {
 	Fflush(outfp);
 
 	printf(
-#ifdef UTF8
-	    "セグメント番号:%d:"
+#ifdef ENGLISH
+	    "Segment number:%d:"
 #else
 	    "\245\273\245\260\245\341\245\363\245\310\310\326\271\346:%d:"
 #endif
@@ -362,10 +362,10 @@ void makeseg() {
 
 	output_yomi(stdout, douon_ptr->yptr);
 
-#ifdef UTF8
-	printf("\tセグメント長:%d", i);
-	printf("\t同音語数:%d\n", douon_num);
-	printf("漢字圧縮文字列:");
+#ifdef ENGLISH
+	printf("\tSegment length:%d", i);
+	printf("\tSame pronunciation words:%d\n", douon_num);
+	printf("Kanji compression:");
 #else
 	printf("\t\245\273\245\260\245\341\245\363\245\310\304\271:%d", i);
 	printf("\t\306\261\262\273\270\354\277\364:%d\n", douon_num);
@@ -373,7 +373,12 @@ void makeseg() {
 #endif
 	for(i = j = 0; i < askknj_num; i++) {
 		putchar('\t');
-		if(i && j == 0) putchar('\t');
+		if(i && j == 0) {
+			putchar('\t');
+#ifdef ENGLISH
+			putchar('\t');
+#endif
+		}
 		output_knj(stdout, askknj[i]->kptr, askknj[i]->klen);
 		printf(":%d", askknj[i]->hindo + askknj[i]->exist);
 		if(++j >= 4) {
@@ -389,9 +394,9 @@ void makeseg() {
 
 err:
 	fprintf(stderr,
-#ifdef UTF8
-		"セグメント構成中にバッファがあふれた\n"
-		"セグメント先頭の読み:"
+#ifdef ENGLISH
+		"Buffer overflew during constructing segment\n"
+		"Pronunciation of segment beginning:"
 #else
 		"\245\273\245\260\245\341\245\363\245\310\271\275\300\256\303\346\244\313\245\320\245\303\245\325\245\241\244\254\244\242\244\325\244\354\244\277\n"
 		"\245\273\245\260\245\341\245\363\245\310\300\350\306\254\244\316\306\311\244\337:"

@@ -37,6 +37,8 @@
 
 #include "sj3mkdic.h"
 
+#include "ucstable.h"
+
 int bubun_str(u_char* p1, int l1, u_char* p2, int l2) {
 	u_char* p;
 	int	l;
@@ -198,4 +200,24 @@ void utf8_print(char* out, int c) {
 	}
 
 	out[i++] = 0;
+}
+
+int unicode_to_eucjp(int utf) {
+	if(0 <= utf && utf <= 0xffff) {
+		const T_BITMAP_INDEX* b = &utf16_to_euc_jp_table[(utf >> 8) & 0xff];
+
+		if(b->byType == 2) {
+			if(b->dwBitmapIndex != 0) {
+				b = &utf16_to_euc_jp_table[b->dwBitmapIndex + (utf & 0xff)];
+
+				if(b->byType == 3) {
+					return b->dwEucJpCode;
+				}
+			}
+		}
+
+		return utf;
+	}
+
+	return -1;
 }
