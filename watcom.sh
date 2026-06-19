@@ -20,7 +20,7 @@ executable() {
 			continue
 		fi
 		echo $i
-		owcc -Iinclude/sj3common -Iinclude/sj3core -bnt -c -o $i.obj $i || exit 1
+		owcc -DUTF8 -DENGLISH -Iinclude/sj3common -Iinclude/sj3core -bnt -c -o $i.obj $i || exit 1
 	done
 
 	owcc -bnt -o $N.exe src/$N/*.obj $2
