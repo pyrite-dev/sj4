@@ -202,6 +202,8 @@
 #define seg_count Jseg_count
 #define mkidxtbl Jmkidxtbl
 #define initwork Jinitwork
+#define alloccontext Jalloccontext
+#define free_context Jfree_context
 
 #define free_jlst Jfree_jlst
 #define free_clst Jfree_clst

@@ -163,11 +163,11 @@ hiraknj(SJ3_CONTEXT u_char* p) {
 		if(p[codesize(*p)] == KANJISTREND) flg = FALSE;
 		switch(*p & KANJIMODEMASK) {
 		case ZENHIRAASSYUKU:
-			result = hiraknj_hask(p, &i);
+			result = hiraknj_hask(SJ3_CONTEXT_PASS p, &i);
 			break;
 
 		case ZENKATAASSYUKU:
-			result = hiraknj_kask(p, &i);
+			result = hiraknj_kask(SJ3_CONTEXT_PASS p, &i);
 			break;
 
 		case OFFSETASSYUKU:
@@ -175,11 +175,11 @@ hiraknj(SJ3_CONTEXT u_char* p) {
 			break;
 
 		case AIATTRIBUTE:
-			result = hiraknj_atrb(p, &i);
+			result = hiraknj_atrb(SJ3_CONTEXT_PASS p, &i);
 			break;
 
 		case LEADINGHANKAKU:
-			result = hiraknj_norm(p, &i);
+			result = hiraknj_norm(SJ3_CONTEXT_PASS p, &i);
 			break;
 
 		case KANJIASSYUKU:
@@ -187,7 +187,7 @@ hiraknj(SJ3_CONTEXT u_char* p) {
 			break;
 
 		default:
-			result = hiraknj_hira(p, &i);
+			result = hiraknj_hira(SJ3_CONTEXT_PASS p, &i);
 		}
 
 		if(result) return result;
@@ -198,7 +198,7 @@ hiraknj(SJ3_CONTEXT u_char* p) {
 	return 0;
 }
 
-int hiraknj_atrb(u_char* p, int* len) {
+int hiraknj_atrb(SJ3_CONTEXT u_char* p, int* len) {
 	*len = 2;
 	return 0;
 }
@@ -213,22 +213,22 @@ int hiraknj_knj(SJ3_CONTEXT u_char* p, int* len) {
 	return hiraknj(SJ3_CONTEXT_PASS askknj[*p & KNJASSYUKUMASK]);
 }
 
-int hiraknj_hask(u_char* p, int* len) {
+int hiraknj_hask(SJ3_CONTEXT u_char* p, int* len) {
 	*len = 1;
 	return 2;
 }
 
-int hiraknj_kask(u_char* p, int* len) {
+int hiraknj_kask(SJ3_CONTEXT u_char* p, int* len) {
 	*len = 1;
 	return 3;
 }
 
-int hiraknj_norm(u_char* p, int* len) {
+int hiraknj_norm(SJ3_CONTEXT u_char* p, int* len) {
 	*len = codesize(*p);
 	return 1;
 }
 
-int hiraknj_hira(u_char* p, int* len) {
+int hiraknj_hira(SJ3_CONTEXT u_char* p, int* len) {
 	u_char ch;
 
 	*len = codesize(*p);

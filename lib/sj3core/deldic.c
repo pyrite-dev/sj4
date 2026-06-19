@@ -69,7 +69,7 @@ u_int deldic(SJ3_CONTEXT u_char* yomi, u_char* kanji, TypeGram hinsi) {
 	cnvlen	 = sstrlen(yptr);
 
 	useg = srchidx(SJ3_CONTEXT_PASS(TypeDicSeg) DICSEGBASE, cnvlen);
-	(*curdict->getdic)(curdict, useg);
+	(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, useg);
 
 	if(!(dblknum = srchkana(SJ3_CONTEXT_PASS & p1, &samlen))) return AD_NOMIDASI;
 
@@ -108,7 +108,7 @@ u_int deldic(SJ3_CONTEXT u_char* yomi, u_char* kanji, TypeGram hinsi) {
 	set_size(p1, (int)(getsize(p1) - size),
 		 (int)getplen(p1), (int)getnlen(p1));
 
-	(*curdict->putdic)(curdict, useg);
+	(*curdict->putdic)(SJ3_CONTEXT_PASS curdict, useg);
 
 	del_stdy(SJ3_CONTEXT_PASS useg, ofs, size);
 
@@ -154,7 +154,7 @@ del_douon(SJ3_CONTEXT TypeDicSeg seg, u_char* ptr, TypeDicOfs ofs) {
 		}
 	}
 
-	(*curdict->putdic)(curdict, seg);
+	(*curdict->putdic)(SJ3_CONTEXT_PASS curdict, seg);
 
 	del_stdy(SJ3_CONTEXT_PASS seg, ofs, size);
 
@@ -171,17 +171,17 @@ del_segment(SJ3_CONTEXT TypeDicSeg seg) {
 
 	if(curdict->segunit > 1) {
 		for(sg = seg + 1; sg < curdict->segunit; sg++) {
-			(*curdict->getdic)(curdict, sg);
-			(*curdict->putdic)(curdict, sg - 1);
+			(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, sg);
+			(*curdict->putdic)(SJ3_CONTEXT_PASS curdict, sg - 1);
 		}
 		curdict->segunit--;
 	} else {
 		memset(dicbuf, DICSEGTERM, (int)curdict->seglen);
 		dicbuf[0] = 0;
-		(*curdict->putdic)(curdict, DICSEGBASE);
+		(*curdict->putdic)(SJ3_CONTEXT_PASS curdict, DICSEGBASE);
 	}
 
-	(*curdict->rszdic)(curdict, curdict->segunit);
+	(*curdict->rszdic)(SJ3_CONTEXT_PASS curdict, curdict->segunit);
 
 	del_uidx(SJ3_CONTEXT_PASS seg);
 
@@ -227,7 +227,7 @@ del_uidx(SJ3_CONTEXT TypeDicSeg seg) {
 	len = q - p;
 	memset(idxbuf + curdict->idxlen - len, 0, len);
 
-	(*curdict->putidx)(curdict, 0);
+	(*curdict->putidx)(SJ3_CONTEXT_PASS curdict, 0);
 
 	mkidxtbl(SJ3_CONTEXT_PASS curdict);
 }

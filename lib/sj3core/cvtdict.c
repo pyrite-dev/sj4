@@ -82,7 +82,7 @@ void cvtdict(SJ3_CONTEXT KHREC* krec, CLREC* clrec, int flg) {
 
 	if(flg) {
 
-		(*Cvtnum_func[krec->mode - 1])(ystart + sttlen, yptr, jrec);
+		(*Cvtnum_func[krec->mode - 1])(SJ3_CONTEXT_PASS ystart + sttlen, yptr, jrec);
 
 		yptr += (i = jrec->numlen) * 2;
 		jlen -= i;
@@ -108,7 +108,7 @@ void cvtdict(SJ3_CONTEXT KHREC* krec, CLREC* clrec, int flg) {
 
 	if(ofs) {
 		if(seldict(SJ3_CONTEXT_PASS jrec->dicid)) {
-			(*curdict->getdic)(curdict, jrec->jseg);
+			(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, jrec->jseg);
 			get_askknj(SJ3_CONTEXT_PASS2);
 			kanjitmp +=
 			    getkanji(SJ3_CONTEXT_PASS yptr, jlen, dicbuf + ofs, kanjitmp);

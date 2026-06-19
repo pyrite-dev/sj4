@@ -50,7 +50,7 @@ ph_setsty(SJ3_CONTEXT CLREC* clrec) {
 		return;
 	}
 
-	(*curdict->getdic)(curdict, jrec->jseg);
+	(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, jrec->jseg);
 	ptr = dicbuf + jrec->jofsst + 1;
 
 	for(; *ptr != HINSIBLKTERM; ptr = skipkstr(ptr)) {

@@ -39,7 +39,7 @@
 
 #include "sj_kanakan.h"
 
-int setj_atrb(u_char* p) {
+int setj_atrb(SJ3_CONTEXT u_char* p) {
 	return 2;
 }
 
@@ -52,11 +52,11 @@ int setj_ofs(SJ3_CONTEXT u_char* p) {
 		if(p[codesize(*p)] == KANJISTREND) contf = FALSE;
 		switch(*p & KANJIMODEMASK) {
 		case ZENHIRAASSYUKU:
-			p += setj_norm1(p);
+			p += setj_norm1(SJ3_CONTEXT_PASS p);
 			break;
 
 		case ZENKATAASSYUKU:
-			p += setj_norm1(p);
+			p += setj_norm1(SJ3_CONTEXT_PASS p);
 			break;
 
 		case OFFSETASSYUKU:
@@ -64,11 +64,11 @@ int setj_ofs(SJ3_CONTEXT u_char* p) {
 			break;
 
 		case AIATTRIBUTE:
-			p += setj_atrb(p);
+			p += setj_atrb(SJ3_CONTEXT_PASS p);
 			break;
 
 		case LEADINGHANKAKU:
-			p += setj_norm2(p);
+			p += setj_norm2(SJ3_CONTEXT_PASS p);
 			break;
 
 		case KANJIASSYUKU:
@@ -80,7 +80,7 @@ int setj_ofs(SJ3_CONTEXT u_char* p) {
 			break;
 
 		default:
-			p += setj_norm2(p);
+			p += setj_norm2(SJ3_CONTEXT_PASS p);
 		}
 	} while(contf);
 
@@ -96,11 +96,11 @@ int setj_knj(SJ3_CONTEXT u_char* p) {
 		if(p[codesize(*p)] == KANJISTREND) contf = FALSE;
 		switch(*p & KANJIMODEMASK) {
 		case ZENHIRAASSYUKU:
-			p += setj_norm1(p);
+			p += setj_norm1(SJ3_CONTEXT_PASS p);
 			break;
 
 		case ZENKATAASSYUKU:
-			p += setj_norm1(p);
+			p += setj_norm1(SJ3_CONTEXT_PASS p);
 			break;
 
 		case OFFSETASSYUKU:
@@ -108,11 +108,11 @@ int setj_knj(SJ3_CONTEXT u_char* p) {
 			break;
 
 		case AIATTRIBUTE:
-			p += setj_atrb(p);
+			p += setj_atrb(SJ3_CONTEXT_PASS p);
 			break;
 
 		case LEADINGHANKAKU:
-			p += setj_norm2(p);
+			p += setj_norm2(SJ3_CONTEXT_PASS p);
 			break;
 
 		case KANJIASSYUKU:
@@ -124,22 +124,22 @@ int setj_knj(SJ3_CONTEXT u_char* p) {
 			break;
 
 		default:
-			p += setj_norm2(p);
+			p += setj_norm2(SJ3_CONTEXT_PASS p);
 		}
 	} while(contf);
 
 	return 1;
 }
 
-int setj_norm1(u_char* p) {
+int setj_norm1(SJ3_CONTEXT u_char* p) {
 	return 1;
 }
 
-int setj_norm2(u_char* p) {
+int setj_norm2(SJ3_CONTEXT u_char* p) {
 	return 2;
 }
 
-int setj_norm3(u_char* p) {
+int setj_norm3(SJ3_CONTEXT u_char* p) {
 	return 3;
 }
 
@@ -187,11 +187,11 @@ void setjrec(SJ3_CONTEXT u_char* tagp, int mode) {
 		for(tmp = ptr + 1; *tmp != HINSIBLKTERM;) {
 			switch(*tmp & KANJIMODEMASK) {
 			case ZENHIRAASSYUKU:
-				tmp += setj_norm1(tmp);
+				tmp += setj_norm1(SJ3_CONTEXT_PASS tmp);
 				break;
 
 			case ZENKATAASSYUKU:
-				tmp += setj_norm1(tmp);
+				tmp += setj_norm1(SJ3_CONTEXT_PASS tmp);
 				break;
 
 			case OFFSETASSYUKU:
@@ -199,11 +199,11 @@ void setjrec(SJ3_CONTEXT u_char* tagp, int mode) {
 				break;
 
 			case AIATTRIBUTE:
-				tmp += setj_atrb(tmp);
+				tmp += setj_atrb(SJ3_CONTEXT_PASS tmp);
 				break;
 
 			case LEADINGHANKAKU:
-				tmp += setj_norm2(tmp);
+				tmp += setj_norm2(SJ3_CONTEXT_PASS tmp);
 				break;
 
 			case KANJIASSYUKU:
@@ -215,7 +215,7 @@ void setjrec(SJ3_CONTEXT u_char* tagp, int mode) {
 				break;
 
 			default:
-				tmp += setj_norm2(tmp);
+				tmp += setj_norm2(SJ3_CONTEXT_PASS tmp);
 			}
 		}
 
@@ -255,11 +255,11 @@ void setnumrec(SJ3_CONTEXT u_char* tagp, JREC* rec, TypeGram gram) {
 		for(tmp = ptr + 1; *tmp != HINSIBLKTERM;) {
 			switch(*tmp & KANJIMODEMASK) {
 			case ZENHIRAASSYUKU:
-				tmp += setj_norm1(tmp);
+				tmp += setj_norm1(SJ3_CONTEXT_PASS tmp);
 				break;
 
 			case ZENKATAASSYUKU:
-				tmp += setj_norm1(tmp);
+				tmp += setj_norm1(SJ3_CONTEXT_PASS tmp);
 				break;
 
 			case OFFSETASSYUKU:
@@ -267,11 +267,11 @@ void setnumrec(SJ3_CONTEXT u_char* tagp, JREC* rec, TypeGram gram) {
 				break;
 
 			case AIATTRIBUTE:
-				tmp += setj_atrb(tmp);
+				tmp += setj_atrb(SJ3_CONTEXT_PASS tmp);
 				break;
 
 			case LEADINGHANKAKU:
-				tmp += setj_norm2(tmp);
+				tmp += setj_norm2(SJ3_CONTEXT_PASS tmp);
 				break;
 
 			case KANJIASSYUKU:
@@ -283,7 +283,7 @@ void setnumrec(SJ3_CONTEXT u_char* tagp, JREC* rec, TypeGram gram) {
 				break;
 
 			default:
-				tmp += setj_norm2(tmp);
+				tmp += setj_norm2(SJ3_CONTEXT_PASS tmp);
 			}
 		}
 

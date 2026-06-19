@@ -99,7 +99,7 @@ cl_kanji(SJ3_CONTEXT JREC* jrec, CLREC* clrec) {
 	int	kcount = khcount;
 
 	if(seldict(SJ3_CONTEXT_PASS jrec->dicid)) {
-		(*curdict->getdic)(curdict, jrec->jseg);
+		(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, jrec->jseg);
 		ptr = dicbuf + jrec->jofsst + 1;
 
 		get_askknj(SJ3_CONTEXT_PASS2);
@@ -116,12 +116,12 @@ cl_kanji(SJ3_CONTEXT JREC* jrec, CLREC* clrec) {
 }
 
 u_char*
-makekan_none(u_char* s, u_char* d, int flg) {
+makekan_none(SJ3_CONTEXT u_char* s, u_char* d, int flg) {
 	return d;
 }
 
 u_char*
-makekan_1byte(u_char* s, u_char* d, int flg) {
+makekan_1byte(SJ3_CONTEXT u_char* s, u_char* d, int flg) {
 	if((*s & KANJIMODEMASK) == ZENHIRAASSYUKU)
 		*d++ = 0x10 | (*s & KNJASSYUKUMASK);
 	else
@@ -142,7 +142,7 @@ u_char* makekan_ofs(SJ3_CONTEXT u_char* s, u_char* d, int flg) {
 }
 
 u_char*
-makekan_norm(u_char* s, u_char* d, int flg) {
+makekan_norm(SJ3_CONTEXT u_char* s, u_char* d, int flg) {
 	u_char c;
 
 	if(*s != 0) {
@@ -159,7 +159,7 @@ makekan_norm(u_char* s, u_char* d, int flg) {
 }
 
 u_char*
-makekan_ascii(u_char* s, u_char* d, int flg) {
+makekan_ascii(SJ3_CONTEXT u_char* s, u_char* d, int flg) {
 	u_char c;
 
 	c = s[1];
@@ -181,11 +181,11 @@ makekan(SJ3_CONTEXT u_char* s, u_char* d, int flg) {
 		if(s[csize] == KANJISTREND) {
 			switch(*s & KANJIMODEMASK) {
 			case ZENHIRAASSYUKU:
-				d = makekan_1byte(s, d, flg);
+				d = makekan_1byte(SJ3_CONTEXT_PASS s, d, flg);
 				break;
 
 			case ZENKATAASSYUKU:
-				d = makekan_1byte(s, d, flg);
+				d = makekan_1byte(SJ3_CONTEXT_PASS s, d, flg);
 				break;
 
 			case OFFSETASSYUKU:
@@ -193,11 +193,11 @@ makekan(SJ3_CONTEXT u_char* s, u_char* d, int flg) {
 				break;
 
 			case AIATTRIBUTE:
-				d = makekan_none(s, d, flg);
+				d = makekan_none(SJ3_CONTEXT_PASS s, d, flg);
 				break;
 
 			case LEADINGHANKAKU:
-				d = makekan_ascii(s, d, flg);
+				d = makekan_ascii(SJ3_CONTEXT_PASS s, d, flg);
 				break;
 
 			case KANJIASSYUKU:
@@ -205,17 +205,17 @@ makekan(SJ3_CONTEXT u_char* s, u_char* d, int flg) {
 				break;
 
 			default:
-				d = makekan_norm(s, d, flg);
+				d = makekan_norm(SJ3_CONTEXT_PASS s, d, flg);
 			}
 			break;
 		} else
 			switch(*s & KANJIMODEMASK) {
 			case ZENHIRAASSYUKU:
-				d = makekan_1byte(s, d, FALSE);
+				d = makekan_1byte(SJ3_CONTEXT_PASS s, d, FALSE);
 				break;
 
 			case ZENKATAASSYUKU:
-				d = makekan_1byte(s, d, FALSE);
+				d = makekan_1byte(SJ3_CONTEXT_PASS s, d, FALSE);
 				break;
 
 			case OFFSETASSYUKU:
@@ -223,11 +223,11 @@ makekan(SJ3_CONTEXT u_char* s, u_char* d, int flg) {
 				break;
 
 			case AIATTRIBUTE:
-				d = makekan_none(s, d, FALSE);
+				d = makekan_none(SJ3_CONTEXT_PASS s, d, FALSE);
 				break;
 
 			case LEADINGHANKAKU:
-				d = makekan_ascii(s, d, FALSE);
+				d = makekan_ascii(SJ3_CONTEXT_PASS s, d, FALSE);
 				break;
 
 			case KANJIASSYUKU:
@@ -235,7 +235,7 @@ makekan(SJ3_CONTEXT u_char* s, u_char* d, int flg) {
 				break;
 
 			default:
-				d = makekan_norm(s, d, FALSE);
+				d = makekan_norm(SJ3_CONTEXT_PASS s, d, FALSE);
 			}
 		s += codesize(*s);
 	}
@@ -404,7 +404,7 @@ cl_numcmn(SJ3_CONTEXT JREC* jrec, CLREC* clrec) {
 		i = sel_sjmode(jrec);
 
 		if(seldict(SJ3_CONTEXT_PASS jrec->dicid)) {
-			(*curdict->getdic)(curdict, jrec->jseg);
+			(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, jrec->jseg);
 
 			p = dicbuf + jrec->jofsst + 1;
 

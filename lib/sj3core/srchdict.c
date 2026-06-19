@@ -90,7 +90,7 @@ srchdict(SJ3_CONTEXT u_char* tagp) {
 
 		segno = srchidx(SJ3_CONTEXT_PASS prevseg, (int)dicinl);
 
-		(*curdict->getdic)(curdict, segno);
+		(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, segno);
 
 		if(prevseg != segno) {
 
@@ -109,7 +109,7 @@ srchdict(SJ3_CONTEXT u_char* tagp) {
 
 				if(segno >= curdict->segunit) return NULL;
 
-				(*curdict->getdic)(curdict, segno);
+				(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, segno);
 
 				tagp = dicbuf;
 			}

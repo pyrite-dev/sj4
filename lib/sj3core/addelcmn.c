@@ -347,7 +347,7 @@ void chg_uidx(SJ3_CONTEXT TypeDicSeg seg, u_char* yomi, int len) {
 	}
 	while(len--) *p++ = *yomi++;
 
-	(*curdict->putidx)(curdict, 0);
+	(*curdict->putidx)(SJ3_CONTEXT_PASS curdict, 0);
 
 	mkidxtbl(SJ3_CONTEXT_PASS curdict);
 }

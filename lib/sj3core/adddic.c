@@ -98,7 +98,7 @@ u_int adddic(SJ3_CONTEXT u_char* yomi, u_char* kanji, TypeGram hinsi) {
 	segnum = srchidx(SJ3_CONTEXT_PASS(TypeDicSeg) DICSEGBASE, cnvlen);
 
 	for(;;) {
-		(*curdict->getdic)(curdict, segnum);
+		(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, segnum);
 		i      = srchkana(SJ3_CONTEXT_PASS & p1, &saml);
 		dstofs = douofs = p1 - dicbuf;
 		hnsofs = knjofs = 0;
@@ -153,7 +153,7 @@ u_int adddic(SJ3_CONTEXT u_char* yomi, u_char* kanji, TypeGram hinsi) {
 			if((unsigned int)freidx < getplen(p1) + nlen + 1)
 				return AD_OVFLWINDEX;
 
-			if((*curdict->putdic)(curdict, curdict->segunit))
+			if((*curdict->putdic)(SJ3_CONTEXT_PASS curdict, curdict->segunit))
 				return AD_OVFLWUSRDIC;
 
 			sprt_seg(SJ3_CONTEXT_PASS segnum, pos);
@@ -166,15 +166,15 @@ u_int adddic(SJ3_CONTEXT u_char* yomi, u_char* kanji, TypeGram hinsi) {
 			if((unsigned int)freidx < cnvlen + 1)
 				return AD_OVFLWINDEX;
 
-			if((*curdict->putdic)(curdict, curdict->segunit))
+			if((*curdict->putdic)(SJ3_CONTEXT_PASS curdict, curdict->segunit))
 				return AD_OVFLWUSRDIC;
 			curdict->segunit++;
 
-			(*curdict->getdic)(curdict, curdict->segunit - 1);
+			(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, curdict->segunit - 1);
 			memset(dicbuf, DICSEGTERM, (int)curdict->seglen);
 			dicbuf[0] = 0;
-			(*curdict->putdic)(curdict, curdict->segunit - 1);
-			(*curdict->rszdic)(curdict, curdict->segunit);
+			(*curdict->putdic)(SJ3_CONTEXT_PASS curdict, curdict->segunit - 1);
+			(*curdict->rszdic)(SJ3_CONTEXT_PASS curdict, curdict->segunit);
 			mkidxtbl(SJ3_CONTEXT_PASS curdict);
 
 			segnum++;
@@ -183,7 +183,7 @@ u_int adddic(SJ3_CONTEXT u_char* yomi, u_char* kanji, TypeGram hinsi) {
 			if((unsigned int)freidx < getplen(p1) + nlen + 1)
 				return AD_OVFLWINDEX;
 
-			if((*curdict->putdic)(curdict, curdict->segunit))
+			if((*curdict->putdic)(SJ3_CONTEXT_PASS curdict, curdict->segunit))
 				return AD_OVFLWUSRDIC;
 
 			sprt_seg(SJ3_CONTEXT_PASS segnum, douofs);
@@ -258,7 +258,7 @@ u_int adddic(SJ3_CONTEXT u_char* yomi, u_char* kanji, TypeGram hinsi) {
 	if(!knjofs)
 		*dstptr++ = HINSIBLKTERM;
 
-	(*curdict->putdic)(curdict, segnum);
+	(*curdict->putdic)(SJ3_CONTEXT_PASS curdict, segnum);
 
 	if(StudyExist()) {
 		size -= nxtask;
@@ -418,13 +418,13 @@ sprt_seg(SJ3_CONTEXT TypeDicSeg seg, TypeDicOfs ofs) {
 	STDYIN*	   stdy;
 
 	for(s = curdict->segunit - 1; s >= seg; s--) {
-		(*curdict->getdic)(curdict, s);
-		(*curdict->putdic)(curdict, s + 1);
+		(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, s);
+		(*curdict->putdic)(SJ3_CONTEXT_PASS curdict, s + 1);
 	}
 	curdict->segunit++;
-	(*curdict->rszdic)(curdict, curdict->segunit);
+	(*curdict->rszdic)(SJ3_CONTEXT_PASS curdict, curdict->segunit);
 
-	(*curdict->getdic)(curdict, seg + 1);
+	(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, seg + 1);
 
 	pos = dicbuf + ofs;
 
@@ -455,7 +455,7 @@ sprt_seg(SJ3_CONTEXT TypeDicSeg seg, TypeDicOfs ofs) {
 	p += i;
 	memset(p, DICSEGTERM, (dicbuf + curdict->seglen - p));
 
-	(*curdict->putdic)(curdict, seg + 1);
+	(*curdict->putdic)(SJ3_CONTEXT_PASS curdict, seg + 1);
 
 	if(StudyExist()) {
 		dicid = curdict->dicid;
@@ -473,9 +473,9 @@ sprt_seg(SJ3_CONTEXT TypeDicSeg seg, TypeDicOfs ofs) {
 		}
 	}
 
-	(*curdict->getdic)(curdict, seg);
+	(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, seg);
 	memset(dicbuf + ofs, DICSEGTERM, (int)(curdict->seglen - ofs));
-	(*curdict->putdic)(curdict, seg);
+	(*curdict->putdic)(SJ3_CONTEXT_PASS curdict, seg);
 }
 
 static void
@@ -493,7 +493,7 @@ apnd_uidx(SJ3_CONTEXT TypeDicSeg seg, u_char* yomi, int len) {
 		*p++ = *yomi++;
 	*p = 0;
 
-	(*curdict->putidx)(curdict, 0);
+	(*curdict->putidx)(SJ3_CONTEXT_PASS curdict, 0);
 
 	mkidxtbl(SJ3_CONTEXT_PASS curdict);
 }

@@ -151,6 +151,10 @@ int hzstrlen(u_char*, int);
 void seg_count(SJ3_CONTEXT DICT*);
 void mkidxtbl(SJ3_CONTEXT DICT*);
 void initwork(SJ3_CONTEXT2);
+#ifndef SJ3_GLOBAL
+Sj3Context* alloccontext(const char*);
+void	    free_context(Sj3Context*);
+#endif
 
 /* istrcmp.c */
 int istrcmp(u_char*, u_char*, int, int);
@@ -178,12 +182,12 @@ JREC* argjrec(SJ3_CONTEXT int, JREC*);
 
 /* mkkouho.c */
 void	mkkouho(SJ3_CONTEXT2);
-u_char* makekan_none(u_char*, u_char*, int);
-u_char* makekan_1byte(u_char*, u_char*, int);
+u_char* makekan_none(SJ3_CONTEXT u_char*, u_char*, int);
+u_char* makekan_1byte(SJ3_CONTEXT u_char*, u_char*, int);
 u_char* makekan_knj(SJ3_CONTEXT u_char*, u_char*, int);
 u_char* makekan_ofs(SJ3_CONTEXT u_char*, u_char*, int);
-u_char* makekan_norm(u_char*, u_char*, int);
-u_char* makekan_ascii(u_char*, u_char*, int);
+u_char* makekan_norm(SJ3_CONTEXT u_char*, u_char*, int);
+u_char* makekan_ascii(SJ3_CONTEXT u_char*, u_char*, int);
 int	sel_sjmode(JREC*);
 
 /* mknumber.c */
@@ -260,12 +264,12 @@ extern u_short* selsjadrs[];
 int setconj(SJ3_CONTEXT TypeGram, JREC*, CREC*);
 
 /* setjrec.c */
-int  setj_atrb(u_char*);
+int  setj_atrb(SJ3_CONTEXT u_char*);
 int  setj_ofs(SJ3_CONTEXT u_char*);
 int  setj_knj(SJ3_CONTEXT u_char*);
-int  setj_norm1(u_char*);
-int  setj_norm2(u_char*);
-int  setj_norm3(u_char*); /* unused??? */
+int  setj_norm1(SJ3_CONTEXT u_char*);
+int  setj_norm2(SJ3_CONTEXT u_char*);
+int  setj_norm3(SJ3_CONTEXT u_char*); /* unused??? */
 void setjrec(SJ3_CONTEXT u_char*, int);
 void setnumrec(SJ3_CONTEXT u_char*, JREC*, TypeGram);
 void setcrec(SJ3_CONTEXT u_char*);
@@ -273,13 +277,13 @@ void setcrec(SJ3_CONTEXT u_char*);
 /* setkouho.c */
 void setkouho(SJ3_CONTEXT CLREC*, TypeDicOfs, int);
 void ph_setkouho(SJ3_CONTEXT CLREC*, TypeDicOfs, STDYIN*);
-int  hiraknj_atrb(u_char*, int*);
+int  hiraknj_atrb(SJ3_CONTEXT u_char*, int*);
 int  hiraknj_ofs(SJ3_CONTEXT u_char*, int*);
 int  hiraknj_knj(SJ3_CONTEXT u_char*, int*);
-int  hiraknj_hask(u_char*, int*);
-int  hiraknj_kask(u_char*, int*);
-int  hiraknj_norm(u_char*, int*);
-int  hiraknj_hira(u_char*, int*);
+int  hiraknj_hask(SJ3_CONTEXT u_char*, int*);
+int  hiraknj_kask(SJ3_CONTEXT u_char*, int*);
+int  hiraknj_norm(SJ3_CONTEXT u_char*, int*);
+int  hiraknj_hira(SJ3_CONTEXT u_char*, int*);
 
 /* setubi.c */
 u_char* getstb(TypeGram);

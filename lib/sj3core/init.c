@@ -43,7 +43,7 @@ void seg_count(SJ3_CONTEXT DICT* dict) {
 	TypeDicSeg segcnt = 0;
 
 	if(dict->getidx) {
-		(*dict->getidx)(dict);
+		(*dict->getidx)(SJ3_CONTEXT_PASS dict);
 
 		p = idxbuf;
 		q = p + dict->idxlen;
@@ -64,8 +64,8 @@ void mkidxtbl(SJ3_CONTEXT DICT* dict) {
 
 	seg = 0;
 
-	(*dict->getidx)(dict);
-	(*dict->getofs)(dict);
+	(*dict->getidx)(SJ3_CONTEXT_PASS dict);
+	(*dict->getofs)(SJ3_CONTEXT_PASS dict);
 
 	idxofs[0] = 0;
 	for(p = idxbuf; p < idxbuf + dict->idxlen && seg < dict->segunit;) {
@@ -78,3 +78,49 @@ void initwork(SJ3_CONTEXT2) {
 	jrt1st = jrt2nd = maxjptr = (JREC*)0;
 	clt1st = clt2nd = maxclptr = (CLREC*)0;
 }
+
+#ifndef SJ3_GLOBAL
+Sj3Context* alloccontext(const char* dic) {
+	Sj3Context* ctx = calloc(1, sizeof(*ctx));
+	DictFile*   dict;
+	DICTL*	    node;
+
+	ctx->work = calloc(1, sizeof(*ctx->work));
+	ctx->stdy = calloc(1, sizeof(*ctx->stdy));
+
+	node		     = calloc(1, sizeof(*node));
+	ctx->work->Jdictlist = node;
+
+	initwork(ctx);
+
+	dict = opendict(ctx, (char*)dic, "");
+
+	node->dict = &dict->dict;
+	node->next = NULL;
+
+	seldict(ctx, dict->dict.dicid);
+
+	return ctx;
+}
+
+void free_context(Sj3Context* ctx) {
+	DICTL* node;
+
+	node = ctx->work->Jdictlist;
+	while(node != NULL) {
+		DICTL* next = node->next;
+
+		closedict(ctx, (DictFile*)node->dict);
+		free(node);
+
+		node = next;
+	}
+
+	freework(ctx);
+
+	free(ctx->stdy);
+	free(ctx->work);
+
+	free(ctx);
+}
+#endif

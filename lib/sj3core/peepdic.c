@@ -50,7 +50,7 @@ int getusr(SJ3_CONTEXT u_char* buf) {
 
 	peepyomi[0] = peepknj[0] = peepgrm = 0;
 
-	(*curdict->getdic)(curdict, peepidx = DICSEGBASE);
+	(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, peepidx = DICSEGBASE);
 	get_askknj(SJ3_CONTEXT_PASS2);
 
 	peepdptr = segtop();
@@ -74,7 +74,7 @@ int getusr(SJ3_CONTEXT u_char* buf) {
 }
 
 int nextusr(SJ3_CONTEXT u_char* buf) {
-	(*curdict->getdic)(curdict, peepidx);
+	(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, peepidx);
 	get_askknj(SJ3_CONTEXT_PASS2);
 
 	if(next_kanji(SJ3_CONTEXT_PASS2)) {
@@ -89,7 +89,7 @@ int nextusr(SJ3_CONTEXT u_char* buf) {
 }
 
 int prevusr(SJ3_CONTEXT u_char* buf) {
-	(*curdict->getdic)(curdict, peepidx);
+	(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, peepidx);
 	get_askknj(SJ3_CONTEXT_PASS2);
 
 	if(prev_kanji(SJ3_CONTEXT_PASS2)) {
@@ -185,7 +185,7 @@ prev_douon(SJ3_CONTEXT2) {
 	if(peepdptr <= segtop()) {
 		if(peepidx <= DICSEGBASE) return 0;
 
-		(*curdict->getdic)(curdict, --peepidx);
+		(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, --peepidx);
 		get_askknj(SJ3_CONTEXT_PASS2);
 
 		set_idxyomi(SJ3_CONTEXT_PASS2);
@@ -272,7 +272,7 @@ next_douon(SJ3_CONTEXT2) {
 
 	if(segend(p1)) {
 		if(peepidx + 1 < curdict->segunit) {
-			(*curdict->getdic)(curdict, ++peepidx);
+			(*curdict->getdic)(SJ3_CONTEXT_PASS curdict, ++peepidx);
 			get_askknj(SJ3_CONTEXT_PASS2);
 			peepdptr = segtop();
 
