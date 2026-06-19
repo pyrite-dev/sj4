@@ -38,7 +38,7 @@
 
 #include "sj_kanakan.h"
 
-int ph2knj(u_char* zyomi, u_char* kanji, int knjlen) {
+int ph2knj(SJ3_CONTEXT u_char* zyomi, u_char* kanji, int knjlen) {
 	u_char* ptr;
 	u_char* dst;
 	int	i;
@@ -52,7 +52,7 @@ int ph2knj(u_char* zyomi, u_char* kanji, int knjlen) {
 	}
 	*dst = 0;
 
-	freework();
+	freework(SJ3_CONTEXT_PASS2);
 	prevclgrm = 0;
 	prevclrow = 0;
 
@@ -68,30 +68,30 @@ int ph2knj(u_char* zyomi, u_char* kanji, int knjlen) {
 
 	while(cnvlen && kanjilen) {
 		if(!clt1st) {
-			mkjiritu(DO_CLSTUDY | DO_IKKATU);
+			mkjiritu(SJ3_CONTEXT_PASS DO_CLSTUDY | DO_IKKATU);
 
-			mkbunsetu();
+			mkbunsetu(SJ3_CONTEXT_PASS2);
 
-			if(!maxclptr) wakachi();
+			if(!maxclptr) wakachi(SJ3_CONTEXT_PASS2);
 
 			jrt1st = maxjptr;
 			clt1st = maxclptr;
 		}
 
-		mk2claus();
+		mk2claus(SJ3_CONTEXT_PASS2);
 
-		selclrec();
+		selclrec(SJ3_CONTEXT_PASS2);
 
 		prevclgrm = selcl->jnode->hinsi;
 		prevclrow = selcl->right;
 
-		clt1st = free_clst(clt1st, (int)selcl->cllen);
+		clt1st = free_clst(SJ3_CONTEXT_PASS clt1st, (int)selcl->cllen);
 		jrt1st = free_jlst(jrt1st);
 
 		cnvstart += selcl->cllen;
 		cnvlen -= selcl->cllen;
 
-		cvtphknj();
+		cvtphknj(SJ3_CONTEXT_PASS2);
 
 		clt1st = clt2nd;
 		jrt1st = jrt2nd;

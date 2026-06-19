@@ -38,10 +38,10 @@
 
 #include "sj_kanakan.h"
 
-static int  prev_kanji(), prev_hinsi(), prev_douon();
-static int  next_kanji(), next_hinsi(), next_douon();
-static void set_kanji(), set_buf(u_char*), add_yomi();
-static void set_idxyomi();
+static int  prev_kanji(SJ3_CONTEXT2), prev_hinsi(SJ3_CONTEXT2), prev_douon(SJ3_CONTEXT2);
+static int  next_kanji(SJ3_CONTEXT2), next_hinsi(SJ3_CONTEXT2), next_douon(SJ3_CONTEXT2);
+static void set_kanji(SJ3_CONTEXT2), set_buf(SJ3_CONTEXT u_char*), add_yomi(SJ3_CONTEXT2);
+static void set_idxyomi(SJ3_CONTEXT2);
 
 static void cd2sjh_chr(u_char ch, u_char* dst);
 
@@ -57,7 +57,7 @@ int getusr(SJ3_CONTEXT u_char* buf) {
 
 	if(segend(peepdptr)) return 0;
 
-	add_yomi();
+	add_yomi(SJ3_CONTEXT_PASS2);
 
 	nlen	 = getnlen(peepdptr);
 	peephptr = peepdptr + DOUONBLKSIZENUMBER + nlen;
@@ -66,9 +66,9 @@ int getusr(SJ3_CONTEXT u_char* buf) {
 
 	peepkptr = peephptr + 1;
 
-	set_kanji();
+	set_kanji(SJ3_CONTEXT_PASS2);
 
-	set_buf(buf);
+	set_buf(SJ3_CONTEXT_PASS buf);
 
 	return -1;
 }
@@ -77,10 +77,10 @@ int nextusr(SJ3_CONTEXT u_char* buf) {
 	(*curdict->getdic)(curdict, peepidx);
 	get_askknj(SJ3_CONTEXT_PASS2);
 
-	if(next_kanji()) {
-		set_kanji();
+	if(next_kanji(SJ3_CONTEXT_PASS2)) {
+		set_kanji(SJ3_CONTEXT_PASS2);
 
-		set_buf(buf);
+		set_buf(SJ3_CONTEXT_PASS buf);
 
 		return -1;
 	}
@@ -92,10 +92,10 @@ int prevusr(SJ3_CONTEXT u_char* buf) {
 	(*curdict->getdic)(curdict, peepidx);
 	get_askknj(SJ3_CONTEXT_PASS2);
 
-	if(prev_kanji()) {
-		set_kanji();
+	if(prev_kanji(SJ3_CONTEXT_PASS2)) {
+		set_kanji(SJ3_CONTEXT_PASS2);
 
-		set_buf(buf);
+		set_buf(SJ3_CONTEXT_PASS buf);
 
 		return -1;
 	}
@@ -113,7 +113,7 @@ set_kanji(SJ3_CONTEXT2) {
 }
 
 static void
-set_buf(u_char* buf) {
+set_buf(SJ3_CONTEXT u_char* buf) {
 	u_char* p;
 	int	i, csize;
 
@@ -131,12 +131,12 @@ set_buf(u_char* buf) {
 }
 
 static int
-prev_kanji() {
+prev_kanji(SJ3_CONTEXT2) {
 	u_char* p1;
 	u_char* p2;
 
 	p1 = peephptr + 1;
-	if(peepkptr <= p1) return prev_hinsi();
+	if(peepkptr <= p1) return prev_hinsi(SJ3_CONTEXT_PASS2);
 
 	p2 = peepkptr;
 	while(p1 < p2) {
@@ -148,7 +148,7 @@ prev_kanji() {
 }
 
 static int
-prev_hinsi() {
+prev_hinsi(SJ3_CONTEXT2) {
 	u_char* p1;
 	u_char* p2;
 	int	nlen;
@@ -156,7 +156,7 @@ prev_hinsi() {
 	nlen = getnlen(peepdptr);
 	p1   = peepdptr + DOUONBLKSIZENUMBER + nlen;
 
-	if(peephptr <= p1) return prev_douon();
+	if(peephptr <= p1) return prev_douon(SJ3_CONTEXT_PASS2);
 
 	p2 = peephptr;
 	while(p1 < p2) {
@@ -177,7 +177,7 @@ prev_hinsi() {
 }
 
 static int
-prev_douon() {
+prev_douon(SJ3_CONTEXT2) {
 	u_char* p1;
 	u_char* p2;
 	int	nlen;
@@ -186,27 +186,27 @@ prev_douon() {
 		if(peepidx <= DICSEGBASE) return 0;
 
 		(*curdict->getdic)(curdict, --peepidx);
-		get_askknj();
+		get_askknj(SJ3_CONTEXT_PASS2);
 
-		set_idxyomi();
+		set_idxyomi(SJ3_CONTEXT_PASS2);
 
 		p1 = segtop();
 		do {
 			peepdptr = p1;
 
-			add_yomi();
+			add_yomi(SJ3_CONTEXT_PASS2);
 
 			p1 = getntag(p1);
 		} while(!segend(p1));
 	} else {
-		set_idxyomi();
+		set_idxyomi(SJ3_CONTEXT_PASS2);
 
 		p1 = segtop();
 		p2 = peepdptr;
 		do {
 			peepdptr = p1;
 
-			add_yomi();
+			add_yomi(SJ3_CONTEXT_PASS2);
 
 			p1 = getntag(p1);
 		} while(p1 < p2);
@@ -234,12 +234,12 @@ prev_douon() {
 }
 
 static int
-next_kanji() {
+next_kanji(SJ3_CONTEXT2) {
 	u_char* p1;
 
 	p1 = skipkstr(peepkptr);
 
-	if(*p1 == HINSIBLKTERM) return next_hinsi();
+	if(*p1 == HINSIBLKTERM) return next_hinsi(SJ3_CONTEXT_PASS2);
 
 	peepkptr = p1;
 
@@ -247,12 +247,12 @@ next_kanji() {
 }
 
 static int
-next_hinsi() {
+next_hinsi(SJ3_CONTEXT2) {
 	u_char* p1;
 
 	p1 = skiphblk(peephptr);
 
-	if(p1 >= getntag(peepdptr)) return next_douon();
+	if(p1 >= getntag(peepdptr)) return next_douon(SJ3_CONTEXT_PASS2);
 
 	peephptr = p1;
 
@@ -264,7 +264,7 @@ next_hinsi() {
 }
 
 static int
-next_douon() {
+next_douon(SJ3_CONTEXT2) {
 	u_char* p1;
 	int	nlen;
 
@@ -273,17 +273,17 @@ next_douon() {
 	if(segend(p1)) {
 		if(peepidx + 1 < curdict->segunit) {
 			(*curdict->getdic)(curdict, ++peepidx);
-			get_askknj();
+			get_askknj(SJ3_CONTEXT_PASS2);
 			peepdptr = segtop();
 
-			set_idxyomi();
+			set_idxyomi(SJ3_CONTEXT_PASS2);
 		} else
 			return 0;
 	} else {
 		peepdptr = p1;
 	}
 
-	add_yomi();
+	add_yomi(SJ3_CONTEXT_PASS2);
 
 	nlen	 = getnlen(peepdptr);
 	peephptr = peepdptr + DOUONBLKSIZENUMBER + nlen;
@@ -296,10 +296,10 @@ next_douon() {
 }
 
 static void
-set_idxyomi() {
+set_idxyomi(SJ3_CONTEXT2) {
 	u_char *p1, *p2;
 
-	if((p2 = get_idxptr(peepidx))) {
+	if((p2 = get_idxptr(SJ3_CONTEXT_PASS peepidx))) {
 		p1 = peepyomi;
 		while(*p2) {
 			cd2sjh_chr(*p2++, p1);
@@ -310,7 +310,7 @@ set_idxyomi() {
 }
 
 static void
-add_yomi() {
+add_yomi(SJ3_CONTEXT2) {
 	int	nlen;
 	u_char *p1, *p2;
 

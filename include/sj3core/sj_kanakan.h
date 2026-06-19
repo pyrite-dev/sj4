@@ -234,19 +234,19 @@ extern u_char kigou[];
 /* sdepend.c */
 DictFile* opendict(SJ3_CONTEXT char*, char*);
 int	  closedict(SJ3_CONTEXT DictFile*);
-void	  lock_dict(SJ3_CONTEXT DictFile*, int);
-void	  unlock_dict(SJ3_CONTEXT DictFile*, int);
-int	  is_dict_locked(SJ3_CONTEXT DictFile*);
-StdyFile* openstdy(SJ3_CONTEXT char*, char*);
-int	  closestdy(SJ3_CONTEXT StdyFile*);
+void	  lock_dict(DictFile*, int);
+void	  unlock_dict(DictFile*, int);
+int	  is_dict_locked(DictFile*);
+StdyFile* openstdy(char*, char*);
+int	  closestdy(StdyFile*);
 int	  putstydic(SJ3_CONTEXT2);
 int	  putcldic(SJ3_CONTEXT2);
-int	  makedict(SJ3_CONTEXT char*, int, int, int);
-int	  makestdy(SJ3_CONTEXT char*, int, int, int);
+int	  makedict(char*, int, int, int);
+int	  makestdy(char*, int, int, int);
 void	  sj_closeall(SJ3_CONTEXT2);
-int	  set_dictpass(SJ3_CONTEXT DictFile*, char*);
+int	  set_dictpass(DictFile*, char*);
 int	  set_stdypass(SJ3_CONTEXT char*);
-int	  set_dictcmnt(SJ3_CONTEXT DictFile*, char*);
+int	  set_dictcmnt(DictFile*, char*);
 int	  set_stdycmnt(SJ3_CONTEXT char*);
 int	  get_stdysize(SJ3_CONTEXT int*, int*, int*);
 
@@ -260,12 +260,12 @@ extern u_short* selsjadrs[];
 int setconj(SJ3_CONTEXT TypeGram, JREC*, CREC*);
 
 /* setjrec.c */
-int  setj_atrb(SJ3_CONTEXT u_char*);
+int  setj_atrb(u_char*);
 int  setj_ofs(SJ3_CONTEXT u_char*);
 int  setj_knj(SJ3_CONTEXT u_char*);
-int  setj_norm1(SJ3_CONTEXT u_char*);
-int  setj_norm2(SJ3_CONTEXT u_char*);
-int  setj_norm3(SJ3_CONTEXT u_char*); /* unused??? */
+int  setj_norm1(u_char*);
+int  setj_norm2(u_char*);
+int  setj_norm3(u_char*); /* unused??? */
 void setjrec(SJ3_CONTEXT u_char*, int);
 void setnumrec(SJ3_CONTEXT u_char*, JREC*, TypeGram);
 void setcrec(SJ3_CONTEXT u_char*);
@@ -273,16 +273,16 @@ void setcrec(SJ3_CONTEXT u_char*);
 /* setkouho.c */
 void setkouho(SJ3_CONTEXT CLREC*, TypeDicOfs, int);
 void ph_setkouho(SJ3_CONTEXT CLREC*, TypeDicOfs, STDYIN*);
-int  hiraknj_atrb(SJ3_CONTEXT u_char*, int*);
+int  hiraknj_atrb(u_char*, int*);
 int  hiraknj_ofs(SJ3_CONTEXT u_char*, int*);
 int  hiraknj_knj(SJ3_CONTEXT u_char*, int*);
-int  hiraknj_hask(SJ3_CONTEXT u_char*, int*);
-int  hiraknj_kask(SJ3_CONTEXT u_char*, int*);
-int  hiraknj_norm(SJ3_CONTEXT u_char*, int*);
-int  hiraknj_hira(SJ3_CONTEXT u_char*, int*);
+int  hiraknj_hask(u_char*, int*);
+int  hiraknj_kask(u_char*, int*);
+int  hiraknj_norm(u_char*, int*);
+int  hiraknj_hira(u_char*, int*);
 
 /* setubi.c */
-u_char* getstb(SJ3_CONTEXT TypeGram);
+u_char* getstb(TypeGram);
 void	setubi(SJ3_CONTEXT JREC*, u_char*);
 
 /* sj2code.c */
@@ -290,10 +290,10 @@ int sj2cd_chr(u_char*, u_char*);
 int sj2cd_str(u_char*, u_char*, int);
 
 /* skiphblk.c */
-u_char* skiphblk(SJ3_CONTEXT u_char*);
+u_char* skiphblk(u_char*);
 
 /* skipkstr.c */
-u_char* skipkstr(SJ3_CONTEXT u_char*);
+u_char* skipkstr(u_char*);
 
 /* srchdict.c */
 int	yomicmp(SJ3_CONTEXT u_char*, u_char*, u_char*);

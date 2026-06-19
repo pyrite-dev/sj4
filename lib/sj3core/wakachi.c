@@ -39,7 +39,7 @@
 
 #include "sj_kanakan.h"
 
-void wakachi() {
+void wakachi(SJ3_CONTEXT2) {
 	JREC*  jrec;
 	CLREC* clrec;
 
@@ -66,24 +66,24 @@ void wakachi() {
 			i    = maxlen;
 		}
 
-		if(!(jrec = argjrec(i, (JREC*)NULL))) return;
+		if(!(jrec = argjrec(SJ3_CONTEXT_PASS i, (JREC*)NULL))) return;
 
 		jrec->class = C_WAKACHI;
 		jrec->hinsi = D_MEISI_1;
 
 		if(Chrtbl[*(next - 1)] & TAI_KGU)
-			srchfzk(jrec, next, R_DAIMEISI, 0);
+			srchfzk(SJ3_CONTEXT_PASS jrec, next, R_DAIMEISI, 0);
 	}
 
 	else {
 
-		if(!(jrec = argjrec(0, (JREC*)NULL))) return;
+		if(!(jrec = argjrec(SJ3_CONTEXT_PASS 0, (JREC*)NULL))) return;
 		jrec->class = C_WAKACHI;
 		jrec->hinsi = MEISI_6;
 
 		while((int)jrec->jlen < maxlen) {
 
-			count = setconj((TypeGram)MEISI_6, jrec, crec);
+			count = setconj(SJ3_CONTEXT_PASS(TypeGram) MEISI_6, jrec, crec);
 
 			for(i = count; i-- > 0;) {
 
@@ -92,17 +92,17 @@ void wakachi() {
 				next	= cnvstart + jrec->jlen + gobilen;
 
 				if(gobilen) {
-					if(terminate(right, next)) {
+					if(terminate(SJ3_CONTEXT_PASS right, next)) {
 						fzk_ka_flg = 0;
-						setclrec(jrec, next, right);
+						setclrec(SJ3_CONTEXT_PASS jrec, next, right);
 					}
 				} else if((Chrtbl[*next] & NUMBER) && (jrec->jlen)) {
 					fzk_ka_flg = 0;
-					setclrec(jrec, next, right);
+					setclrec(SJ3_CONTEXT_PASS jrec, next, right);
 					return;
 				}
 
-				srchfzk(jrec, next, right, 0);
+				srchfzk(SJ3_CONTEXT_PASS jrec, next, right, 0);
 			}
 
 			if(maxclptr) break;
@@ -115,7 +115,7 @@ void wakachi() {
 		return;
 
 	if(jrec->jlen) {
-		if((clrec = argclrec((int)jrec->jlen))) {
+		if((clrec = argclrec(SJ3_CONTEXT_PASS(int) jrec->jlen))) {
 			clrec->jnode = jrec;
 			clrec->right = R_MEISI;
 			clrec->kubun = K_TAIGEN;

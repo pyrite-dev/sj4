@@ -41,10 +41,10 @@
 
 #include "sj_kanakan.h"
 
-static void srch_kurai1(u_char*, u_char*), srch_kurai2(u_char*, u_char*);
+static void srch_kurai1(SJ3_CONTEXT u_char*, u_char*), srch_kurai2(SJ3_CONTEXT u_char*, u_char*);
 
 static void
-srch_josuu_sub(JREC* jrec, TypeGram gram) {
+srch_josuu_sub(SJ3_CONTEXT JREC* jrec, TypeGram gram) {
 	u_char* tagp;
 	DICTL*	dp;
 
@@ -53,12 +53,12 @@ srch_josuu_sub(JREC* jrec, TypeGram gram) {
 		dicinl	= 1;
 		dicsaml = 0;
 		prevseg = -1;
-		while((tagp = srchdict(tagp))) setnumrec(tagp, jrec, gram);
+		while((tagp = srchdict(SJ3_CONTEXT_PASS tagp))) setnumrec(SJ3_CONTEXT_PASS tagp, jrec, gram);
 	}
 }
 
 static void
-srch_josuu(JREC* jrec) {
+srch_josuu(SJ3_CONTEXT JREC* jrec) {
 	u_char* kp;
 	int	klen;
 	int	len;
@@ -71,16 +71,16 @@ srch_josuu(JREC* jrec) {
 	cnvstart += (len = jrec->numlen);
 	cnvlen -= len;
 
-	srch_josuu_sub(jrec, JOSUUSI);
+	srch_josuu_sub(SJ3_CONTEXT_PASS jrec, JOSUUSI);
 
-	if(!headcode) srch_josuu_sub(jrec, JOSUUSI2);
+	if(!headcode) srch_josuu_sub(SJ3_CONTEXT_PASS jrec, JOSUUSI2);
 
 	cnvstart = kp;
 	cnvlen	 = klen;
 }
 
 static void
-setnrec_sub(u_char* p, u_short flag, int stb) {
+setnrec_sub(SJ3_CONTEXT u_char* p, u_short flag, int stb) {
 	JREC* rec;
 	int   len1;
 	int   len2;
@@ -101,7 +101,7 @@ setnrec_sub(u_char* p, u_short flag, int stb) {
 		return;
 	}
 
-	if((rec = argjrec(len1, (JREC*)NULL))) {
+	if((rec = argjrec(SJ3_CONTEXT_PASS len1, (JREC*)NULL))) {
 		rec->class  = suuji_class;
 		rec->hinsi  = SUUSI;
 		rec->sttofs = headcode;
@@ -109,16 +109,16 @@ setnrec_sub(u_char* p, u_short flag, int stb) {
 		rec->flags  = flag;
 		rec->numlen = (u_char)len2;
 
-		if(!stb) srch_josuu(rec);
+		if(!stb) srch_josuu(SJ3_CONTEXT_PASS rec);
 	}
 }
 
 static void
-setnrec(u_char* p, u_short flag) {
-	setnrec_sub(p, flag, 0);
+setnrec(SJ3_CONTEXT u_char* p, u_short flag) {
+	setnrec_sub(SJ3_CONTEXT_PASS p, flag, 0);
 
 	if(!headcode && (*p == Y_S_KIGOU2)) {
-		setnrec_sub(p + 1, flag, -1);
+		setnrec_sub(SJ3_CONTEXT_PASS p + 1, flag, -1);
 	}
 }
 
@@ -174,7 +174,7 @@ string_cmp(u_char* s, int l, u_char* d) {
 }
 
 static int
-check_num(u_char* ptr) {
+check_num(SJ3_CONTEXT u_char* ptr) {
 	int	i;
 	int	j;
 	int	k;
@@ -256,13 +256,13 @@ check_num(u_char* ptr) {
 
 	if(cnt > 1) flag |= JFLAG_NSN;
 
-	setnrec(ptr, flag);
+	setnrec(SJ3_CONTEXT_PASS ptr, flag);
 
 	return TRUE;
 }
 
 static void
-srch_number1(u_char* ptr) {
+srch_number1(SJ3_CONTEXT u_char* ptr) {
 	u_char	  ch;
 	u_char	  mode;
 	u_char*	  p;
@@ -291,19 +291,19 @@ srch_number1(u_char* ptr) {
 		case C_N_ARABIA:
 			if(!(mode & SJTBLNARABIAF)) break;
 
-			check_num(tptr);
-			srch_number1(tptr);
-			srch_kurai2(tptr, (u_char*)NULL);
+			check_num(SJ3_CONTEXT_PASS tptr);
+			srch_number1(SJ3_CONTEXT_PASS tptr);
+			srch_kurai2(SJ3_CONTEXT_PASS tptr, (u_char*)NULL);
 
 			break;
 
 		case C_N_SUUJI:
 			if(mode & (SJTBLNARABIAF | SJTBLNYOMIF)) break;
 
-			check_num(tptr);
-			srch_number1(tptr);
-			srch_kurai1(tptr, (u_char*)NULL);
-			srch_kurai2(tptr, (u_char*)NULL);
+			check_num(SJ3_CONTEXT_PASS tptr);
+			srch_number1(SJ3_CONTEXT_PASS tptr);
+			srch_kurai1(SJ3_CONTEXT_PASS tptr, (u_char*)NULL);
+			srch_kurai2(SJ3_CONTEXT_PASS tptr, (u_char*)NULL);
 
 			break;
 
@@ -315,9 +315,9 @@ srch_number1(u_char* ptr) {
 				suuji_class = C_N_NANSUU;
 			}
 
-			check_num(tptr);
-			srch_kurai1(tptr, SjTblCnctP(p));
-			srch_kurai2(tptr, SjTblCnctP(p));
+			check_num(SJ3_CONTEXT_PASS tptr);
+			srch_kurai1(SJ3_CONTEXT_PASS tptr, SjTblCnctP(p));
+			srch_kurai2(SJ3_CONTEXT_PASS tptr, SjTblCnctP(p));
 
 			if(mode & SJTBLNNANSUUF) suuji_class = cls;
 			break;
@@ -325,9 +325,9 @@ srch_number1(u_char* ptr) {
 		default:
 			if(mode & SJTBLNARABIAF) {
 				suuji_class = C_N_ARABIA;
-				check_num(tptr);
-				srch_number1(tptr);
-				srch_kurai2(tptr, (u_char*)NULL);
+				check_num(SJ3_CONTEXT_PASS tptr);
+				srch_number1(SJ3_CONTEXT_PASS tptr);
+				srch_kurai2(SJ3_CONTEXT_PASS tptr, (u_char*)NULL);
 
 				suuji_class = C_N_KAZU;
 			} else if(mode & SJTBLNYOMIF) {
@@ -335,21 +335,21 @@ srch_number1(u_char* ptr) {
 					suuji_class = C_N_NANSUU;
 				else
 					suuji_class = C_N_KAZU;
-				check_num(tptr);
+				check_num(SJ3_CONTEXT_PASS tptr);
 			} else if(mode & SJTBLNNARABIF) {
 				suuji_class = C_N_SUUJI;
-				check_num(tptr);
-				srch_number1(tptr);
+				check_num(SJ3_CONTEXT_PASS tptr);
+				srch_number1(SJ3_CONTEXT_PASS tptr);
 				break;
 			} else {
 				suuji_class = C_N_SUUJI;
-				srch_number1(tptr);
+				srch_number1(SJ3_CONTEXT_PASS tptr);
 
 				suuji_class = C_N_KAZU;
-				check_num(tptr);
+				check_num(SJ3_CONTEXT_PASS tptr);
 			}
-			srch_kurai1(tptr, SjTblCnctP(p));
-			srch_kurai2(tptr, SjTblCnctP(p));
+			srch_kurai1(SJ3_CONTEXT_PASS tptr, SjTblCnctP(p));
+			srch_kurai2(SJ3_CONTEXT_PASS tptr, SjTblCnctP(p));
 			break;
 		}
 
@@ -358,7 +358,7 @@ srch_number1(u_char* ptr) {
 }
 
 static void
-srch_kurai1(u_char* ptr, u_char* cnct) {
+srch_kurai1(SJ3_CONTEXT u_char* ptr, u_char* cnct) {
 	u_char	  ch;
 	u_char*	  p;
 	int	  l;
@@ -386,7 +386,7 @@ srch_kurai1(u_char* ptr, u_char* cnct) {
 			cls	    = suuji_class;
 			suuji_class = (suuji_class == C_N_ARABIA) ? C_N_ARAKURA : C_N_KANKURA;
 			suuji_ubuf[suuji_keta - 1] |= (keta << 4);
-			check_num(tptr);
+			check_num(SJ3_CONTEXT_PASS tptr);
 			suuji_class = cls;
 			suuji_ubuf[suuji_keta - 1] &= 0xcf;
 			continue;
@@ -401,11 +401,11 @@ srch_kurai1(u_char* ptr, u_char* cnct) {
 			suuji_ubuf[suuji_keta++] = (_NUM1 | (keta << 4));
 		}
 
-		check_num(tptr);
+		check_num(SJ3_CONTEXT_PASS tptr);
 
-		srch_number1(tptr);
-		srch_kurai1(tptr, (u_char*)NULL);
-		srch_kurai2(tptr, Kr1TblCnctP(p));
+		srch_number1(SJ3_CONTEXT_PASS tptr);
+		srch_kurai1(SJ3_CONTEXT_PASS tptr, (u_char*)NULL);
+		srch_kurai2(SJ3_CONTEXT_PASS tptr, Kr1TblCnctP(p));
 
 		if(cnct)
 			suuji_ubuf[suuji_keta - 1] &= 0xcf;
@@ -415,7 +415,7 @@ srch_kurai1(u_char* ptr, u_char* cnct) {
 }
 
 static void
-srch_kurai2(u_char* ptr, u_char* cnct) {
+srch_kurai2(SJ3_CONTEXT u_char* ptr, u_char* cnct) {
 	u_char	  ch;
 	u_char*	  p;
 	int	  l;
@@ -445,7 +445,7 @@ srch_kurai2(u_char* ptr, u_char* cnct) {
 			suuji_ubuf[suuji_keta - 1] |= (keta << 6);
 			cls	    = suuji_class;
 			suuji_class = (suuji_class == C_N_ARABIA) ? C_N_ARAKURA : C_N_KANKURA;
-			check_num(tptr);
+			check_num(SJ3_CONTEXT_PASS tptr);
 			suuji_class = cls;
 			suuji_ubuf[suuji_keta - 1] &= 0x3f;
 			continue;
@@ -459,10 +459,10 @@ srch_kurai2(u_char* ptr, u_char* cnct) {
 			suuji_ubuf[suuji_keta++] = (_NUM1 | (keta << 6));
 		}
 
-		check_num(tptr);
+		check_num(SJ3_CONTEXT_PASS tptr);
 
-		srch_number1(tptr);
-		srch_kurai1(tptr, (u_char*)NULL);
+		srch_number1(SJ3_CONTEXT_PASS tptr);
+		srch_kurai1(SJ3_CONTEXT_PASS tptr, (u_char*)NULL);
 
 		if(cnct)
 			suuji_ubuf[suuji_keta - 1] &= 0x3f;
@@ -472,7 +472,7 @@ srch_kurai2(u_char* ptr, u_char* cnct) {
 }
 
 static void
-srch_number2(u_char* p) {
+srch_number2(SJ3_CONTEXT u_char* p) {
 	u_char ch;
 	int    i;
 
@@ -507,68 +507,68 @@ srch_number2(u_char* p) {
 		suuji_keta++;
 
 		if(!suuji_comma && suuji_keta > NUMKETALENGTH) {
-			setnrec(p, 0);
+			setnrec(SJ3_CONTEXT_PASS p, 0);
 		} else if(suuji_comma == 3) {
 			if(suuji_keta <= NUMKETALENGTH) {
 				suuji_class = C_N_ARACMA;
-				check_num(p);
+				check_num(SJ3_CONTEXT_PASS p);
 			} else {
 				suuji_class = C_N_KAZULCMA;
-				setnrec(p, 0);
+				setnrec(SJ3_CONTEXT_PASS p, 0);
 			}
 		}
 	}
 }
 
 static void
-srchnum_sub(u_char* p) {
+srchnum_sub(SJ3_CONTEXT u_char* p) {
 	suuji_yptr = p;
 
 	suuji_comma = suuji_keta = 0;
 	suuji_class		 = 0;
-	srch_number1(p);
+	srch_number1(SJ3_CONTEXT_PASS p);
 
 	suuji_keta  = 0;
 	suuji_class = C_N_KAZU;
-	srch_kurai1(p, (u_char*)NULL);
+	srch_kurai1(SJ3_CONTEXT_PASS p, (u_char*)NULL);
 	if(suuji_exit) return;
 
-	srch_number2(p);
+	srch_number2(SJ3_CONTEXT_PASS p);
 }
 
-void srchnum() {
+void srchnum(SJ3_CONTEXT2) {
 	suuji_len = suuji_exit = 0;
 
-	srchnum_sub(cnvstart);
+	srchnum_sub(SJ3_CONTEXT_PASS cnvstart);
 
 	if(!headcode && (*cnvstart == Y_S_KIGOU1)) {
 		headcode = SETTOU_KIGOU;
 		headlen	 = 1;
 
-		srchnum_sub(cnvstart + 1);
+		srchnum_sub(SJ3_CONTEXT_PASS cnvstart + 1);
 
 		headcode = headlen = 0;
 	}
 }
 
-void setwdnum(u_char* p, int len, u_short* wd) {
+void setwdnum(SJ3_CONTEXT u_char* p, int len, u_short* wd) {
 	suuji_len   = (u_char)len;
 	suuji_wkeep = wd;
 	suuji_ukeep = NULL;
 	headcode = headlen = 0;
 	suuji_exit	   = 0;
 
-	srchnum_sub(p);
+	srchnum_sub(SJ3_CONTEXT_PASS p);
 }
 
-int setucnum(u_char* p, int len, u_char* ud) {
+int setucnum(SJ3_CONTEXT u_char* p, int len, u_char* ud) {
 	suuji_len   = (u_char)len;
 	suuji_wkeep = NULL;
 	suuji_ukeep = ud;
 	headcode = headlen = 0;
 	suuji_exit	   = 0;
 
-	srchnum_sub(p);
+	srchnum_sub(SJ3_CONTEXT_PASS p);
 
 	return (int)suuji_exit;
 }

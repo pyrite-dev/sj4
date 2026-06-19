@@ -36,7 +36,7 @@
 #ifndef SJ_GLOBAL_H
 #define SJ_GLOBAL_H
 
-#if 0
+#ifdef SJ3_GLOBAL
 extern Global* work_base;
 extern STDY*   stdy_base;
 #endif

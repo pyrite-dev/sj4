@@ -160,29 +160,29 @@ search_same_dict(ino_t ino) {
 }
 
 static int
-getofs(DictFile* dp) {
+getofs(SJ3_CONTEXT DictFile* dp) {
 	idxofs = dp->ofsptr;
 	return 0;
 }
 static int
-getidx(DictFile* dp) {
+getidx(SJ3_CONTEXT DictFile* dp) {
 	idxbuf = dp->buffer + dp->idxstrt;
 	return 0;
 }
 /* XXX: not IFunc */
 static int
-getdic(DictFile* dp, TypeDicSeg seg) {
+getdic(SJ3_CONTEXT DictFile* dp, TypeDicSeg seg) {
 	if(seg >= dp->dict.segunit) return -1;
 	dicbuf = dp->buffer + dp->segstrt + dp->dict.seglen * seg;
 	return 0;
 }
 static int
-putidx(DictFile* dp) {
+putidx(SJ3_CONTEXT DictFile* dp) {
 	return putfile(dp->fd, dp->idxstrt, dp->dict.idxlen, idxbuf);
 }
 /* XXX: not IFunc */
 static int
-putdic(DictFile* dp, TypeDicSeg seg) {
+putdic(SJ3_CONTEXT DictFile* dp, TypeDicSeg seg) {
 	u_char* p;
 	long	i, j;
 
@@ -210,7 +210,7 @@ putdic(DictFile* dp, TypeDicSeg seg) {
 }
 /* XXX: not IFunc */
 static int
-rszdic(DictFile* dp, TypeDicSeg seg) {
+rszdic(SJ3_CONTEXT DictFile* dp, TypeDicSeg seg) {
 	long	i;
 	u_char* p;
 
@@ -235,7 +235,7 @@ rszdic(DictFile* dp, TypeDicSeg seg) {
 }
 
 DictFile*
-opendict(char* name, char* passwd) {
+opendict(SJ3_CONTEXT char* name, char* passwd) {
 	FILE*	    fp;
 	struct stat sbuf;
 	DictFile*   dfp;
@@ -315,7 +315,7 @@ opendict(char* name, char* passwd) {
 		serv_errno = SJ3_NotEnoughMemory;
 		goto error3;
 	}
-	mkidxtbl(&(dfp->dict));
+	mkidxtbl(SJ3_CONTEXT_PASS & (dfp->dict));
 
 	dfp->link = dictlink;
 	dictlink  = dfp;
@@ -332,7 +332,7 @@ error1:
 	return NULL;
 }
 
-int closedict(DictFile* dfp) {
+int closedict(SJ3_CONTEXT DictFile* dfp) {
 	DictFile* df;
 
 	if(--dfp->refcnt > 0) return 0;
@@ -538,7 +538,7 @@ int closestdy(StdyFile* sfp) {
 	return 0;
 }
 
-int putstydic() {
+int putstydic(SJ3_CONTEXT2) {
 	int	  fd;
 	u_char*	  hd;
 	StdyFile* sf;
@@ -558,7 +558,7 @@ int putstydic() {
 	return putfile(fd, get4byte(hd + STDYNORMPOS), len, (u_char*)sf->stdy.stdydic);
 }
 
-int putcldic() {
+int putcldic(SJ3_CONTEXT2) {
 	int	  fd;
 	u_char*	  hd;
 	StdyFile* sf;
@@ -712,8 +712,8 @@ error:
 	return ret;
 }
 
-void sj_closeall() {
-	while(dictlink) closedict(dictlink);
+void sj_closeall(SJ3_CONTEXT2) {
+	while(dictlink) closedict(SJ3_CONTEXT_PASS dictlink);
 	while(stdylink) closestdy(stdylink);
 }
 
@@ -722,7 +722,7 @@ int set_dictpass(DictFile* dp, char* pass) {
 	return putfile(dp->fd, 0, HEADERLENGTH + COMMENTLENGTH, dp->buffer);
 }
 
-int set_stdypass(char* pass) {
+int set_stdypass(SJ3_CONTEXT char* pass) {
 	StdyFile* sp;
 
 	sp = (StdyFile*)stdy_base;
@@ -740,7 +740,7 @@ int set_dictcmnt(DictFile* dp, char* cmnt) {
 	return putfile(dp->fd, 0, HEADERLENGTH + COMMENTLENGTH, dp->buffer);
 }
 
-int set_stdycmnt(char* cmnt) {
+int set_stdycmnt(SJ3_CONTEXT char* cmnt) {
 	StdyFile* sp;
 
 	sp = (StdyFile*)stdy_base;
@@ -748,7 +748,7 @@ int set_stdycmnt(char* cmnt) {
 	return putfile(sp->fd, 0, HEADERLENGTH + COMMENTLENGTH, sp->header);
 }
 
-int get_stdysize(int* stynum, int* clstep, int* cllen) {
+int get_stdysize(SJ3_CONTEXT int* stynum, int* clstep, int* cllen) {
 	*stynum = STUDYMAX;
 	*clstep = CLSTUDYSTEP;
 	*cllen	= CLSTUDYLEN;

@@ -38,7 +38,7 @@
 #include "sj_kanakan.h"
 
 TypeDicSeg
-srchidx(TypeDicSeg low, int len) {
+srchidx(SJ3_CONTEXT TypeDicSeg low, int len) {
 	TypeDicSeg high;
 	TypeDicSeg mid;
 	int	   cmp;
@@ -52,7 +52,7 @@ srchidx(TypeDicSeg low, int len) {
 
 		mid = (low + high) >> 1;
 
-		target = get_idxptr(mid);
+		target = get_idxptr(SJ3_CONTEXT_PASS mid);
 
 		cmp = istrcmp(cnvstart, target, len, sstrlen(target));
 

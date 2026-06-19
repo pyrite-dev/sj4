@@ -162,7 +162,7 @@ void setstyrec(SJ3_CONTEXT KHREC* krec) {
 	stdy.sttfg	 = krec->sttfg;
 	stdy.ka_fg	 = krec->ka_fg;
 
-	if(jrec->stbofs && (fptr = getstb(SJ3_CONTEXT_PASS jrec->hinsi)))
+	if(jrec->stbofs && (fptr = getstb(jrec->hinsi)))
 		stdy.len -= StbYomiLen(fptr + jrec->stbofs - 1);
 
 	if((fptr = Settou_ptr(jrec->sttofs)))

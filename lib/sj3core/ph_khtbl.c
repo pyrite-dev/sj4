@@ -38,15 +38,15 @@
 #include "sj_kanakan.h"
 
 static void
-ph_setsty(CLREC* clrec) {
+ph_setsty(SJ3_CONTEXT CLREC* clrec) {
 	JREC*	   jrec;
 	TypeDicOfs offset;
 	u_char*	   ptr;
 	STDYIN*	   sptr;
 
-	if(!seldict((jrec = clrec->jnode)->dicid)) {
+	if(!seldict(SJ3_CONTEXT_PASS(jrec = clrec->jnode)->dicid)) {
 		if(!khcount)
-			ph_setkouho(clrec, (TypeDicOfs)1, (STDYIN*)NULL);
+			ph_setkouho(SJ3_CONTEXT_PASS clrec, (TypeDicOfs)1, (STDYIN*)NULL);
 		return;
 	}
 
@@ -57,35 +57,35 @@ ph_setsty(CLREC* clrec) {
 
 		offset = ptr - dicbuf;
 
-		sptr = srchstdy(jrec->jseg, offset, jrec->dicid);
+		sptr = srchstdy(SJ3_CONTEXT_PASS jrec->jseg, offset, jrec->dicid);
 
 		if(!khcount) {
-			ph_setkouho(clrec, offset, sptr);
+			ph_setkouho(SJ3_CONTEXT_PASS clrec, offset, sptr);
 			continue;
 		}
 
 		if(!sptr) continue;
 
 		if(sptr->styno < kouhotbl[0].styno) {
-			ph_setkouho(clrec, offset, sptr);
+			ph_setkouho(SJ3_CONTEXT_PASS clrec, offset, sptr);
 		}
 
 		else if(sptr->styno == kouhotbl->styno) {
 			if(!(kouhotbl[0].ka_fg &&
 			     sptr->ka_kj == kouhotbl[0].ka_kj)) {
-				ph_setkouho(clrec, offset, sptr);
+				ph_setkouho(SJ3_CONTEXT_PASS clrec, offset, sptr);
 			}
 		}
 	}
 }
 
-int ph_khtbl(CLREC* clrec) {
+int ph_khtbl(SJ3_CONTEXT CLREC* clrec) {
 	JREC* jrec;
 	int   flg = FALSE;
 
 	switch((jrec = clrec->jnode)->class) {
 	case C_DICT:
-		ph_setsty(clrec);
+		ph_setsty(SJ3_CONTEXT_PASS clrec);
 		break;
 
 	case C_N_ARABIA:
@@ -99,14 +99,14 @@ int ph_khtbl(CLREC* clrec) {
 	case C_N_KAZULCMA:
 	case C_N_SUUJILONG:
 		if(jrec->jofsst) {
-			ph_setsty(clrec);
+			ph_setsty(SJ3_CONTEXT_PASS clrec);
 			break;
 		} else
 			flg = TRUE;
 	case C_BUNSETU:
 	case C_MINASI:
 	case C_WAKACHI:
-		if(!khcount) ph_setkouho(clrec, (TypeDicOfs)0, (STDYIN*)0);
+		if(!khcount) ph_setkouho(SJ3_CONTEXT_PASS clrec, (TypeDicOfs)0, (STDYIN*)0);
 		break;
 	}
 

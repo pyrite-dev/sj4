@@ -46,11 +46,27 @@ typedef unsigned char  u_char;
 typedef unsigned short u_short;
 typedef unsigned int   u_int;
 
-typedef void (*VFunc)(void*, void*, void*);
-typedef u_char* (*UCPFunc)(u_char*, u_char*, int);
-typedef int (*IFunc)(void*, int);
+typedef void (*VFunc)(
+#ifndef SJ3_GLOBAL
+    void*,
+#endif
+    void*, void*, void*);
+typedef u_char* (*UCPFunc)(
+#ifndef SJ3_GLOBAL
+    void*,
+#endif
+    u_char*, u_char*, int);
+typedef int (*IFunc)(
+#ifndef SJ3_GLOBAL
+    void*,
+#endif
+    void*, int);
 
-typedef int (*IFuncDict)(void*);
+typedef int (*IFuncDict)(
+#ifndef SJ3_GLOBAL
+    void*,
+#endif
+    void*);
 
 typedef u_char	TypeGroup;
 typedef u_char	TypeGram;

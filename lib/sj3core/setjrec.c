@@ -43,7 +43,7 @@ int setj_atrb(u_char* p) {
 	return 2;
 }
 
-int setj_ofs(u_char* p) {
+int setj_ofs(SJ3_CONTEXT u_char* p) {
 	int contf = TRUE;
 
 	p = dicbuf + ((*p & KANJICODEMASK) << 8) + *(p + 1);
@@ -60,7 +60,7 @@ int setj_ofs(u_char* p) {
 			break;
 
 		case OFFSETASSYUKU:
-			p += setj_ofs(p);
+			p += setj_ofs(SJ3_CONTEXT_PASS p);
 			break;
 
 		case AIATTRIBUTE:
@@ -72,7 +72,7 @@ int setj_ofs(u_char* p) {
 			break;
 
 		case KANJIASSYUKU:
-			p += setj_knj(p);
+			p += setj_knj(SJ3_CONTEXT_PASS p);
 			break;
 
 		case KANJISTREND:
@@ -87,7 +87,7 @@ int setj_ofs(u_char* p) {
 	return 2;
 }
 
-int setj_knj(u_char* p) {
+int setj_knj(SJ3_CONTEXT u_char* p) {
 	int contf = TRUE;
 
 	p = askknj[*p & KNJASSYUKUMASK];
@@ -104,7 +104,7 @@ int setj_knj(u_char* p) {
 			break;
 
 		case OFFSETASSYUKU:
-			p += setj_ofs(p);
+			p += setj_ofs(SJ3_CONTEXT_PASS p);
 			break;
 
 		case AIATTRIBUTE:
@@ -116,7 +116,7 @@ int setj_knj(u_char* p) {
 			break;
 
 		case KANJIASSYUKU:
-			p += setj_knj(p);
+			p += setj_knj(SJ3_CONTEXT_PASS p);
 			break;
 
 		case KANJISTREND:
@@ -144,7 +144,7 @@ int setj_norm3(u_char* p) {
 }
 
 static u_char
-chkhead(TypeGram gram) {
+chkhead(SJ3_CONTEXT TypeGram gram) {
 	if(!headcode) return TRUE;
 
 	if(headcode == SETTOU_DAI) {
@@ -162,7 +162,7 @@ chkhead(TypeGram gram) {
 	return FALSE;
 }
 
-void setjrec(u_char* tagp, int mode) {
+void setjrec(SJ3_CONTEXT u_char* tagp, int mode) {
 	TypeGram gram;
 	u_char*	 ptr;
 	u_char*	 endp;
@@ -195,7 +195,7 @@ void setjrec(u_char* tagp, int mode) {
 				break;
 
 			case OFFSETASSYUKU:
-				tmp += setj_ofs(tmp);
+				tmp += setj_ofs(SJ3_CONTEXT_PASS tmp);
 				break;
 
 			case AIATTRIBUTE:
@@ -207,7 +207,7 @@ void setjrec(u_char* tagp, int mode) {
 				break;
 
 			case KANJIASSYUKU:
-				tmp += setj_knj(tmp);
+				tmp += setj_knj(SJ3_CONTEXT_PASS tmp);
 				break;
 
 			case KANJISTREND:
@@ -221,9 +221,9 @@ void setjrec(u_char* tagp, int mode) {
 
 		if((gram = *ptr) == IKKATU && !(mode & DO_IKKATU)) continue;
 
-		if(!chkhead(gram)) continue;
+		if(!chkhead(SJ3_CONTEXT_PASS gram)) continue;
 
-		if(!(rec = argjrec(len, (JREC*)NULL))) continue;
+		if(!(rec = argjrec(SJ3_CONTEXT_PASS len, (JREC*)NULL))) continue;
 
 		rec->jseg   = prevseg;
 		rec->jofsst = ptr - dicbuf;
@@ -235,7 +235,7 @@ void setjrec(u_char* tagp, int mode) {
 	}
 }
 
-void setnumrec(u_char* tagp, JREC* rec, TypeGram gram) {
+void setnumrec(SJ3_CONTEXT u_char* tagp, JREC* rec, TypeGram gram) {
 	u_char* ptr;
 	u_char* endp;
 	u_char* tmp;
@@ -263,7 +263,7 @@ void setnumrec(u_char* tagp, JREC* rec, TypeGram gram) {
 				break;
 
 			case OFFSETASSYUKU:
-				tmp += setj_ofs(tmp);
+				tmp += setj_ofs(SJ3_CONTEXT_PASS tmp);
 				break;
 
 			case AIATTRIBUTE:
@@ -275,7 +275,7 @@ void setnumrec(u_char* tagp, JREC* rec, TypeGram gram) {
 				break;
 
 			case KANJIASSYUKU:
-				tmp += setj_knj(tmp);
+				tmp += setj_knj(SJ3_CONTEXT_PASS tmp);
 				break;
 
 			case KANJISTREND:
@@ -289,7 +289,7 @@ void setnumrec(u_char* tagp, JREC* rec, TypeGram gram) {
 
 		if(gram != *ptr) continue;
 
-		if(!(jrec = argjrec((int)(rec->jlen + len), rec))) continue;
+		if(!(jrec = argjrec(SJ3_CONTEXT_PASS(int)(rec->jlen + len), rec))) continue;
 
 		jrec->jseg   = prevseg;
 		jrec->jofsst = ptr - dicbuf;
@@ -298,10 +298,10 @@ void setnumrec(u_char* tagp, JREC* rec, TypeGram gram) {
 	}
 }
 
-void setcrec(u_char* tagp) {
+void setcrec(SJ3_CONTEXT u_char* tagp) {
 	JREC* rec;
 
-	if(!(rec = argjrec((int)ClYomiLen(tagp), (JREC*)NULL))) return;
+	if(!(rec = argjrec(SJ3_CONTEXT_PASS(int) ClYomiLen(tagp), (JREC*)NULL))) return;
 
 	rec->jofsst = tagp - CLSTUDYDICT;
 	rec->class  = C_BUNSETU;

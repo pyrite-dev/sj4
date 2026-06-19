@@ -108,7 +108,7 @@ cl_kanji(SJ3_CONTEXT JREC* jrec, CLREC* clrec) {
 			if(diffknj(SJ3_CONTEXT_PASS jrec, ptr, kcount)) {
 				setkouho(SJ3_CONTEXT_PASS clrec, (TypeDicOfs)(ptr - dicbuf), 0);
 			}
-			ptr = skipkstr(SJ3_CONTEXT_PASS ptr);
+			ptr = skipkstr(ptr);
 		}
 	} else {
 		setkouho(SJ3_CONTEXT_PASS clrec, (TypeDicOfs)1, 0);
@@ -410,7 +410,7 @@ cl_numcmn(SJ3_CONTEXT JREC* jrec, CLREC* clrec) {
 
 			while(*p != HINSIBLKTERM) {
 				setkouho(SJ3_CONTEXT_PASS clrec, (TypeDicOfs)(p - dicbuf), i);
-				p = skipkstr(SJ3_CONTEXT_PASS p);
+				p = skipkstr(p);
 			}
 		} else {
 			setkouho(SJ3_CONTEXT_PASS clrec, (TypeDicOfs)1, i);

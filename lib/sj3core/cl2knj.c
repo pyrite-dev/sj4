@@ -37,7 +37,7 @@
 
 #include "sj_kanakan.h"
 
-static CLREC *nextrecblk(), *prevrecblk();
+static CLREC *nextrecblk(SJ3_CONTEXT2), *prevrecblk(SJ3_CONTEXT2);
 
 static void initkbuf(SJ3_CONTEXT u_char*);
 
@@ -102,7 +102,7 @@ int nextcl(SJ3_CONTEXT u_char* kouho, int mode) {
 	if(!mode && (selectid < khcount))
 		selectid++;
 
-	else if((mode < 2) && (clptr = nextrecblk())) {
+	else if((mode < 2) && (clptr = nextrecblk(SJ3_CONTEXT_PASS2))) {
 		selectid = 1;
 		clt1st	 = clptr;
 		mkkouho(SJ3_CONTEXT_PASS2);
@@ -142,7 +142,7 @@ int prevcl(SJ3_CONTEXT u_char* kouho, int mode) {
 	if(!mode && (selectid > 1))
 		selectid--;
 
-	else if((mode < 2) && (clptr = prevrecblk())) {
+	else if((mode < 2) && (clptr = prevrecblk(SJ3_CONTEXT_PASS2))) {
 		clt1st = clptr;
 		mkkouho(SJ3_CONTEXT_PASS2);
 		getrank(SJ3_CONTEXT_PASS2);

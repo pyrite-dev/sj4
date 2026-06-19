@@ -38,7 +38,7 @@
 
 #include "sj_kanakan.h"
 
-int terminate(TypeCnct right, u_char* yomi) {
+int terminate(SJ3_CONTEXT TypeCnct right, u_char* yomi) {
 	u_char ch;
 
 	if((yomi > cnvstart) && (Chrtbl[*(yomi - 1)] & NUMBER))

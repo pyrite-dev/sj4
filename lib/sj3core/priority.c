@@ -94,7 +94,7 @@ sttcnt(TypeGram hinsi1, TypeGram hinsi2) {
 	return 4;
 }
 
-int priority(CLREC* clrec) {
+int priority(SJ3_CONTEXT CLREC* clrec) {
 	int	 prty;
 	CLREC*	 cl2rec;
 	int	 keeplen;
@@ -234,7 +234,7 @@ finish:
 	return (prty + prev);
 }
 
-void pritiny() {
+void pritiny(SJ3_CONTEXT2) {
 	CLREC* clrec;
 	int    keeplen;
 	int    i, prty = 0;

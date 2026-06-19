@@ -96,7 +96,7 @@ void cvtdict(SJ3_CONTEXT KHREC* krec, CLREC* clrec, int flg) {
 		stblen = 0;
 	}
 
-	else if((i = jrec->stbofs) && (fptr = getstb(SJ3_CONTEXT_PASS jrec->hinsi))) {
+	else if((i = jrec->stbofs) && (fptr = getstb(jrec->hinsi))) {
 		fptr += i - 1;
 		stblen = StbYomiLen(fptr);
 		jlen -= stblen;

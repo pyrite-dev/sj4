@@ -335,7 +335,7 @@ checksub(SJ3_CONTEXT u_char* kanji, TypeGram grm) {
 					return -1;
 			}
 			dounum++;
-			ptr = skipkstr(SJ3_CONTEXT_PASS ptr);
+			ptr = skipkstr(ptr);
 		}
 
 		ptr++;

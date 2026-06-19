@@ -56,7 +56,7 @@ void mkbunsetu(SJ3_CONTEXT2) {
 
 	while(jrec) {
 
-		if(jrec->stbofs && (cnj = getstb(SJ3_CONTEXT_PASS jrec->hinsi)))
+		if(jrec->stbofs && (cnj = getstb(jrec->hinsi)))
 			hinsi = StbHinsi(cnj + jrec->stbofs - 1);
 		else
 			hinsi = jrec->hinsi;

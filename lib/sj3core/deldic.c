@@ -80,7 +80,7 @@ u_int deldic(SJ3_CONTEXT u_char* yomi, u_char* kanji, TypeGram hinsi) {
 	if(*p3 == HINSIBLKTERM) return AD_NOKANJI;
 	ofs = p3 - dicbuf;
 
-	edp = skipkstr(SJ3_CONTEXT_PASS p3);
+	edp = skipkstr(p3);
 
 	if(kblknum == 1) {
 		if(hblknum == 1) {

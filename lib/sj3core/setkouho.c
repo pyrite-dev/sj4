@@ -39,9 +39,9 @@
 
 #include "sj_kanakan.h"
 
-static int hiraknj(u_char*);
+static int hiraknj(SJ3_CONTEXT u_char*);
 
-void setkouho(CLREC* clrec, TypeDicOfs offs, int mode) {
+void setkouho(SJ3_CONTEXT CLREC* clrec, TypeDicOfs offs, int mode) {
 	JREC*	jrec;
 	KHREC*	kptr;
 	u_char* fptr;
@@ -85,7 +85,7 @@ void setkouho(CLREC* clrec, TypeDicOfs offs, int mode) {
 	kptr->sttfg = 1;
 	kptr->sttkj = 0;
 
-	i = hiraknj(dicbuf + offs);
+	i = hiraknj(SJ3_CONTEXT_PASS dicbuf + offs);
 	if(offs > 1 && (i == 2 || i == 3)) return;
 
 	if(khcount >= MAXKOUHONUMBER) return;
@@ -118,7 +118,7 @@ void setkouho(CLREC* clrec, TypeDicOfs offs, int mode) {
 	}
 }
 
-void ph_setkouho(CLREC* clrec, TypeDicOfs offs, STDYIN* sptr) {
+void ph_setkouho(SJ3_CONTEXT CLREC* clrec, TypeDicOfs offs, STDYIN* sptr) {
 	JREC*	jrec;
 	u_char* p;
 
@@ -154,7 +154,7 @@ void ph_setkouho(CLREC* clrec, TypeDicOfs offs, STDYIN* sptr) {
 }
 
 static int
-hiraknj(u_char* p) {
+hiraknj(SJ3_CONTEXT u_char* p) {
 	char flg = TRUE;
 	int  i;
 	int  result;
@@ -171,7 +171,7 @@ hiraknj(u_char* p) {
 			break;
 
 		case OFFSETASSYUKU:
-			result = hiraknj_ofs(p, &i);
+			result = hiraknj_ofs(SJ3_CONTEXT_PASS p, &i);
 			break;
 
 		case AIATTRIBUTE:
@@ -183,7 +183,7 @@ hiraknj(u_char* p) {
 			break;
 
 		case KANJIASSYUKU:
-			result = hiraknj_knj(p, &i);
+			result = hiraknj_knj(SJ3_CONTEXT_PASS p, &i);
 			break;
 
 		default:
@@ -203,14 +203,14 @@ int hiraknj_atrb(u_char* p, int* len) {
 	return 0;
 }
 
-int hiraknj_ofs(u_char* p, int* len) {
+int hiraknj_ofs(SJ3_CONTEXT u_char* p, int* len) {
 	*len = 2;
-	return hiraknj(dicbuf + ((*p & KANJICODEMASK) << 8) + *(p + 1));
+	return hiraknj(SJ3_CONTEXT_PASS dicbuf + ((*p & KANJICODEMASK) << 8) + *(p + 1));
 }
 
-int hiraknj_knj(u_char* p, int* len) {
+int hiraknj_knj(SJ3_CONTEXT u_char* p, int* len) {
 	*len = 1;
-	return hiraknj(askknj[*p & KNJASSYUKUMASK]);
+	return hiraknj(SJ3_CONTEXT_PASS askknj[*p & KNJASSYUKUMASK]);
 }
 
 int hiraknj_hask(u_char* p, int* len) {

@@ -37,7 +37,7 @@
 
 #include "sj_kanakan.h"
 
-int study(STDYOUT* stdy) {
+int study(SJ3_CONTEXT STDYOUT* stdy) {
 	STDYOUT	   outp;
 	STDYIN*	   p1;
 	STDYIN*	   p2;
@@ -54,7 +54,7 @@ int study(STDYOUT* stdy) {
 
 	if(outp.stdy1.offset == 0) return STUDYNOTSTUDY;
 
-	p1 = srchstdy(outp.stdy1.seg, outp.stdy1.offset, outp.stdy1.dicid);
+	p1 = srchstdy(SJ3_CONTEXT_PASS outp.stdy1.seg, outp.stdy1.offset, outp.stdy1.dicid);
 	if(p1) {
 		nm = p1->styno;
 
@@ -69,7 +69,7 @@ int study(STDYOUT* stdy) {
 
 		p1->nmflg = outp.stdy1.nmflg;
 
-		putstydic();
+		putstydic(SJ3_CONTEXT_PASS2);
 
 		return STUDYNORMEND;
 	}
@@ -127,13 +127,13 @@ int study(STDYOUT* stdy) {
 	p1->nmflg  = outp.stdy1.nmflg;
 	STUDYCOUNT += 1;
 
-	putstydic();
+	putstydic(SJ3_CONTEXT_PASS2);
 
 	return ret;
 }
 
 STDYIN*
-srchstdy(TypeDicSeg seg, TypeDicOfs ofs, TypeDicID dicid) {
+srchstdy(SJ3_CONTEXT TypeDicSeg seg, TypeDicOfs ofs, TypeDicID dicid) {
 	int	high;
 	int	mid;
 	int	low;

@@ -37,7 +37,7 @@
 
 #include "sj_kanakan.h"
 
-int yomicmp(u_char* ptr1, u_char* ptr2, u_char* saml) {
+int yomicmp(SJ3_CONTEXT u_char* ptr1, u_char* ptr2, u_char* saml) {
 	int i, j;
 	int same;
 
@@ -47,7 +47,7 @@ int yomicmp(u_char* ptr1, u_char* ptr2, u_char* saml) {
 	j = getnlen(ptr2);
 
 	if(j == 0) {
-		ptr2 = get_idxptr(prevseg);
+		ptr2 = get_idxptr(SJ3_CONTEXT_PASS prevseg);
 
 		for(i = same; i; i--)
 			if(*ptr1++ != *ptr2++) return OVER;
@@ -79,7 +79,7 @@ int yomicmp(u_char* ptr1, u_char* ptr2, u_char* saml) {
 }
 
 u_char*
-srchdict(u_char* tagp) {
+srchdict(SJ3_CONTEXT u_char* tagp) {
 	TypeDicSeg segno;
 	int	   cmp;
 	int	   maxlen;
@@ -88,7 +88,7 @@ srchdict(u_char* tagp) {
 
 	while((int)dicinl <= maxlen) {
 
-		segno = srchidx(prevseg, (int)dicinl);
+		segno = srchidx(SJ3_CONTEXT_PASS prevseg, (int)dicinl);
 
 		(*curdict->getdic)(curdict, segno);
 
@@ -116,13 +116,13 @@ srchdict(u_char* tagp) {
 		}
 
 		if(tagp == dicbuf) {
-			get_askknj();
+			get_askknj(SJ3_CONTEXT_PASS2);
 			tagp += *tagp + 1;
 		}
 
 		while(!segend(tagp)) {
 
-			cmp = yomicmp(cnvstart, tagp, &dicsaml);
+			cmp = yomicmp(SJ3_CONTEXT_PASS cnvstart, tagp, &dicsaml);
 
 			if((int)dicsaml > maxlen) return NULL;
 

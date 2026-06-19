@@ -20,5 +20,6 @@ file(GLOB_RECURSE SJ3TEST_SRCS src/sj3test/**.c)
 add_executable(sj3test ${SJ3TEST_SRCS})
 target_link_libraries(sj3test PRIVATE sj3core)
 
-target_compile_definitions(sj3core PRIVATE UTF8)
+#target_compile_definitions(sj3core PUBLIC SJ3_GLOBAL)
+
 target_compile_definitions(sj3mkdic PRIVATE UTF8 ENGLISH)

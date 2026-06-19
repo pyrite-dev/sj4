@@ -107,7 +107,7 @@ cnvrow(JREC* rec, TypeCnct row) {
 	return row;
 }
 
-int setconj(TypeGram hinsi, JREC* jrec, CREC* crec) {
+int setconj(SJ3_CONTEXT TypeGram hinsi, JREC* jrec, CREC* crec) {
 	u_char*	 yptr;
 	int	 cmp;
 	TypeCnct right;

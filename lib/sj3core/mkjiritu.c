@@ -79,7 +79,7 @@ void mkjiritu(SJ3_CONTEXT int mode) {
 	}
 
 	for(jrec = maxjptr; jrec; jrec = jrec->jsort) {
-		if((stb = getstb(SJ3_CONTEXT_PASS jrec->hinsi)))
+		if((stb = getstb(jrec->hinsi)))
 			setubi(SJ3_CONTEXT_PASS jrec, stb);
 	}
 }

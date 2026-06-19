@@ -38,7 +38,7 @@
 
 #include "sj_kanakan.h"
 
-int srchhead() {
+int srchhead(SJ3_CONTEXT2) {
 	if(*cnvstart == _O) {
 		headcode = SETTOU_O;
 		headlen	 = 1;

@@ -45,7 +45,7 @@ getstb(TypeGram hinsi) {
 	return Stbadr(hinsi);
 }
 
-void setubi(JREC* rec, u_char* stbtbl) {
+void setubi(SJ3_CONTEXT JREC* rec, u_char* stbtbl) {
 	u_char* stb;
 	u_char* yptr;
 	u_char* sptr;
@@ -68,7 +68,7 @@ void setubi(JREC* rec, u_char* stbtbl) {
 
 		if((cmp != MATCH) || isdpnd(*(yptr + slen))) continue;
 
-		if(!(new = argjrec((int)(rec->jlen + slen), rec))) continue;
+		if(!(new = argjrec(SJ3_CONTEXT_PASS(int)(rec->jlen + slen), rec))) continue;
 
 		new->stbofs = (u_char)(stb - stbtbl);
 		new->flags |= StbBakeru(stb) ? JFLAG_KA : 0;

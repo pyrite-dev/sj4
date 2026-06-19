@@ -1,26 +1,27 @@
 #include <sj_kanakan.h>
 
 int main(int argc, char** argv) {
-	DictFile* dict;
-	DICTL*	  node;
-	char	  out[64 * 1024];
-	int	  i = 0;
-	char	  c[64 * 1024];
-	char	  b;
+	DictFile*  dict;
+	DICTL*	   node;
+	char	   out[64 * 1024];
+	int	   i = 0;
+	char	   c[64 * 1024];
+	char	   b;
+	Sj3Context ctx;
 
-	work_base = calloc(1, sizeof(Global));
-	node	  = calloc(1, sizeof(DICTL));
+	ctx.work = calloc(1, sizeof(Global));
 
-	dictlist = node;
+	node		    = calloc(1, sizeof(DICTL));
+	ctx.work->Jdictlist = node;
 
-	initwork();
+	initwork(&ctx);
 
-	dict = opendict("dic.bin", "");
+	dict = opendict(&ctx, "dic.bin", "");
 
 	node->dict = &dict->dict;
 	node->next = NULL;
 
-	seldict(dict->dict.dicid);
+	seldict(&ctx, dict->dict.dicid);
 
 	c[0] = 0;
 
@@ -36,7 +37,7 @@ int main(int argc, char** argv) {
 		}
 
 		i = 0;
-		while((strlen(c) - i) > 0 && (i += cl2knj((u_char*)c + i, strlen(c) - i, (u_char*)out))) {
+		while((strlen(c) - i) > 0 && (i += cl2knj(&ctx, (u_char*)c + i, strlen(c) - i, (u_char*)out))) {
 			STDYOUT* s = (STDYOUT*)out;
 
 			printf("> %s\n", out + sizeof(STDYOUT));

@@ -36,7 +36,7 @@
 #include "sj_kcnv.h"
 #include "sj_kanakan.h"
 
-void selclrec() {
+void selclrec(SJ3_CONTEXT2) {
 	int    len;
 	CLREC* rec;
 
@@ -85,10 +85,10 @@ void selclrec() {
 		ch		  = *(cnvstart + len);
 		*(cnvstart + len) = 0;
 
-		mkjiritu(DO_IKKATU);
+		mkjiritu(SJ3_CONTEXT_PASS DO_IKKATU);
 
-		mkbunsetu();
-		if(!maxclptr) wakachi();
+		mkbunsetu(SJ3_CONTEXT_PASS2);
+		if(!maxclptr) wakachi(SJ3_CONTEXT_PASS2);
 
 		jrt1st = maxjptr;
 		selcl = clt1st = maxclptr;
