@@ -29,14 +29,21 @@
 	PC				Linux 6.6.87.2-microsoft-standard-WSL2 
 					Windows 11
 
+* Differences
+	 - Multiple contexts can be created in SJ4. SJ3's behavior of using
+	   global variables can be brought back with -DSJ3_GLOBAL.
+	 - Dictionary input is UTF-8 instead of EUC-JP, but output binary is
+	   still in EUC-JP. This allows SJ4 to use characters like emojis.
+	 - SJ4 is monolithic unlike SJ3, which is C/S.
+	 - SJ4 has Windows support.
+
 * Bug report
 	If some bugs are found, please send bug report(Japanese or English)
 	https://forgejo.nishi.boats/pyrite-dev/sj4
 	or send me email at nishi@nishi.boats.
 
 * Acknowledgements
-
-	I would like to thank to the people who worked on Sj3 originally,
+	I would like to thank to the people who worked on SJ3 originally,
 	including Sony Corporation.
 
                                                               June 20, 2026
