@@ -86,7 +86,7 @@ int ph2knj(SJ3_CONTEXT u_char* zyomi, u_char* kanji, int knjlen) {
 		prevclrow = selcl->right;
 
 		clt1st = free_clst(SJ3_CONTEXT_PASS clt1st, (int)selcl->cllen);
-		jrt1st = free_jlst(jrt1st);
+		jrt1st = free_jlst(SJ3_CONTEXT_PASS jrt1st);
 
 		cnvstart += selcl->cllen;
 		cnvlen -= selcl->cllen;
@@ -98,8 +98,8 @@ int ph2knj(SJ3_CONTEXT u_char* zyomi, u_char* kanji, int knjlen) {
 	}
 
 	if(!kanjilen) {
-		free_clall(clt1st);
-		free_jall(jrt1st);
+		free_clall(SJ3_CONTEXT_PASS clt1st);
+		free_jall(SJ3_CONTEXT_PASS jrt1st);
 	}
 
 	*kanjipos = 0;

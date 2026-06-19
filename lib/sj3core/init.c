@@ -118,6 +118,9 @@ void free_context(Sj3Context* ctx) {
 
 	freework(ctx);
 
+	free(ctx->jrec_pool);
+	free(ctx->clrec_pool);
+
 	free(ctx->stdy);
 	free(ctx->work);
 

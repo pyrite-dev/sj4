@@ -87,8 +87,8 @@ void cvtphknj(SJ3_CONTEXT2) {
 
 not_enough_memory:
 
-	free_clall(clt1st);
-	free_jall(jrt1st);
+	free_clall(SJ3_CONTEXT_PASS clt1st);
+	free_jall(SJ3_CONTEXT_PASS jrt1st);
 }
 
 void cvtkouho(SJ3_CONTEXT KHREC* krec) {

@@ -157,6 +157,11 @@ typedef struct workarea {
 typedef struct sj3context {
 	Global* work;
 	STDY*	stdy;
+
+	JREC*  jrec_free;
+	JREC*  jrec_pool;
+	CLREC* clrec_free;
+	CLREC* clrec_pool;
 } Sj3Context;
 
 #endif

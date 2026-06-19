@@ -46,10 +46,15 @@
 #define JREC_NUM 128
 #define CLREC_NUM 128
 
+#ifdef SJ3_GLOBAL
 static JREC*  jrec  = NULL;
 static CLREC* clrec = NULL;
+#else
+#define jrec ctx->jrec_free
+#define clrec ctx->clrec_free
+#endif
 
-JREC* alloc_jrec() {
+JREC* alloc_jrec(SJ3_CONTEXT2) {
 	JREC* p;
 	int   i;
 
@@ -59,6 +64,10 @@ JREC* alloc_jrec() {
 		for(i = 0, p = jrec; i < JREC_NUM - 1; i++, p++)
 			p->jsort = p + 1;
 		p->jsort = NULL;
+
+#ifndef SJ3_GLOBAL
+		ctx->jrec_pool = jrec;
+#endif
 	}
 	p    = jrec;
 	jrec = jrec->jsort;
@@ -66,7 +75,7 @@ JREC* alloc_jrec() {
 	return p;
 }
 
-void free_jrec(JREC* p) {
+void free_jrec(SJ3_CONTEXT JREC* p) {
 	if(p != NULL) {
 		p->jsort = jrec;
 		jrec	 = p;
@@ -74,7 +83,7 @@ void free_jrec(JREC* p) {
 }
 
 CLREC*
-alloc_clrec() {
+alloc_clrec(SJ3_CONTEXT2) {
 	CLREC* p;
 	int    i;
 
@@ -84,6 +93,10 @@ alloc_clrec() {
 		for(i = 0, p = clrec; i < CLREC_NUM - 1; i++, p++)
 			p->clsort = p + 1;
 		p->clsort = NULL;
+
+#ifndef SJ3_GLOBAL
+		ctx->clrec_pool = clrec;
+#endif
 	}
 	p     = clrec;
 	clrec = clrec->clsort;
@@ -91,7 +104,7 @@ alloc_clrec() {
 	return p;
 }
 
-void free_clrec(CLREC* p) {
+void free_clrec(SJ3_CONTEXT CLREC* p) {
 	if(p != NULL) {
 		p->clsort = clrec;
 		clrec	  = p;

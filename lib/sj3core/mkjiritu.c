@@ -104,7 +104,7 @@ JREC* argjrec(SJ3_CONTEXT int len, JREC* rec) {
 	JREC* jrec;
 	JREC* child;
 
-	jrec = alloc_jrec();
+	jrec = alloc_jrec(SJ3_CONTEXT_PASS2);
 
 	if(!jrec) {
 		if(!maxjptr) return NULL;

@@ -99,8 +99,8 @@ void mk2claus(SJ3_CONTEXT2) {
 
 		if(len != clrec->cllen) {
 			if(clt2nd != maxclptr) {
-				free_clall(maxclptr);
-				free_jall(maxjptr);
+				free_clall(SJ3_CONTEXT_PASS maxclptr);
+				free_jall(SJ3_CONTEXT_PASS maxjptr);
 			}
 
 			save2ln = set2nd(SJ3_CONTEXT_PASS clrec);
@@ -138,16 +138,16 @@ void mk2claus(SJ3_CONTEXT2) {
 
 		if(clt2nd == maxclptr) continue;
 
-		free_clall(clt2nd);
-		free_jall(jrt2nd);
+		free_clall(SJ3_CONTEXT_PASS clt2nd);
+		free_jall(SJ3_CONTEXT_PASS jrt2nd);
 		jrt2nd = maxjptr;
 		clt2nd = maxclptr;
 	}
 
 	if(clt2nd != maxclptr) {
-		free_clall(maxclptr);
+		free_clall(SJ3_CONTEXT_PASS maxclptr);
 		maxclptr = NULL;
-		free_jall(maxjptr);
+		free_jall(SJ3_CONTEXT_PASS maxjptr);
 		maxjptr = NULL;
 	}
 

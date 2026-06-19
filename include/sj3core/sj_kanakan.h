@@ -64,10 +64,10 @@ TypeIdxOfs count_uidx(SJ3_CONTEXT2);
 void	   chg_uidx(SJ3_CONTEXT TypeDicSeg, u_char*, int);
 
 /* alloc.c */
-JREC*  alloc_jrec(void);
-void   free_jrec(JREC*);
-CLREC* alloc_clrec(void);
-void   free_clrec(CLREC*);
+JREC*  alloc_jrec(SJ3_CONTEXT2);
+void   free_jrec(SJ3_CONTEXT JREC*);
+CLREC* alloc_clrec(SJ3_CONTEXT2);
+void   free_clrec(SJ3_CONTEXT CLREC*);
 
 /* charsize.c */
 int codesize(u_char);
@@ -163,10 +163,10 @@ int istrcmp(u_char*, u_char*, int, int);
 void sstrncpy(u_char*, u_char*, int);
 
 /* memory.c */
-JREC*  free_jlst(JREC*);
+JREC*  free_jlst(SJ3_CONTEXT JREC*);
 CLREC* free_clst(SJ3_CONTEXT CLREC*, int);
-void   free_clall(CLREC*);
-void   free_jall(JREC*);
+void   free_clall(SJ3_CONTEXT CLREC*);
+void   free_jall(SJ3_CONTEXT JREC*);
 void   freework(SJ3_CONTEXT2);
 
 /* mk2claus.c */

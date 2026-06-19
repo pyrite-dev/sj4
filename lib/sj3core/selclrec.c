@@ -77,8 +77,8 @@ void selclrec(SJ3_CONTEXT2) {
 		int    klen;
 		u_char ch;
 
-		free_clall(clt1st);
-		free_jall(jrt1st);
+		free_clall(SJ3_CONTEXT_PASS clt1st);
+		free_jall(SJ3_CONTEXT_PASS jrt1st);
 
 		klen		  = cnvlen;
 		cnvlen		  = len;
@@ -97,8 +97,8 @@ void selclrec(SJ3_CONTEXT2) {
 		*(cnvstart + len) = ch;
 	}
 
-	free_clall(clt2nd);
+	free_clall(SJ3_CONTEXT_PASS clt2nd);
 	clt2nd = NULL;
-	free_jall(jrt2nd);
+	free_jall(SJ3_CONTEXT_PASS jrt2nd);
 	jrt2nd = NULL;
 }

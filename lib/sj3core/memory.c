@@ -37,7 +37,7 @@
 
 #include "sj_kanakan.h"
 
-JREC* free_jlst(JREC* p) {
+JREC* free_jlst(SJ3_CONTEXT JREC* p) {
 	JREC* jpk;
 	JREC* jp;
 	JREC* jn;
@@ -57,7 +57,7 @@ JREC* free_jlst(JREC* p) {
 		}
 
 		else {
-			free_jrec(p);
+			free_jrec(SJ3_CONTEXT_PASS p);
 		}
 	}
 
@@ -97,7 +97,7 @@ free_clst(SJ3_CONTEXT CLREC* p, int l) {
 		else {
 			(p->jnode->count)--;
 
-			free_clrec(p);
+			free_clrec(SJ3_CONTEXT_PASS p);
 		}
 	}
 
@@ -106,31 +106,31 @@ free_clst(SJ3_CONTEXT CLREC* p, int l) {
 	return cpk;
 }
 
-void free_clall(CLREC* p) {
+void free_clall(SJ3_CONTEXT CLREC* p) {
 	CLREC* next;
 
 	while(p) {
 		(p->jnode->count)--;
 		next = p->clsort;
-		free_clrec(p);
+		free_clrec(SJ3_CONTEXT_PASS p);
 		p = next;
 	}
 }
 
-void free_jall(JREC* p) {
+void free_jall(SJ3_CONTEXT JREC* p) {
 	JREC* next;
 
 	while(p) {
 		next = p->jsort;
-		free_jrec(p);
+		free_jrec(SJ3_CONTEXT_PASS p);
 		p = next;
 	}
 }
 
 void freework(SJ3_CONTEXT2) {
-	free_clall(maxclptr);
+	free_clall(SJ3_CONTEXT_PASS maxclptr);
 	clt1st = maxclptr = NULL;
 
-	free_jall(maxjptr);
+	free_jall(SJ3_CONTEXT_PASS maxjptr);
 	jrt1st = maxjptr = NULL;
 }

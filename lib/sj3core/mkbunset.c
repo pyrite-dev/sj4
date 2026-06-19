@@ -100,7 +100,7 @@ argclrec(SJ3_CONTEXT int len) {
 	CLREC* rec;
 	CLREC* child;
 
-	rec = alloc_clrec();
+	rec = alloc_clrec(SJ3_CONTEXT_PASS2);
 
 	if(!rec) {
 		if(!maxclptr)

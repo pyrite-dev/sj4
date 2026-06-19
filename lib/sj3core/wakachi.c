@@ -50,7 +50,7 @@ void wakachi(SJ3_CONTEXT2) {
 	int	 i;
 	int	 maxlen;
 
-	free_jall(maxjptr);
+	free_jall(SJ3_CONTEXT_PASS maxjptr);
 	maxjptr = NULL;
 
 	maxlen = (cnvlen > MAXCLINPUTLEN) ? MAXCLINPUTLEN : cnvlen;
