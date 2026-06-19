@@ -26,8 +26,12 @@
 	doc/doc		Operation guide for SJ3 and other documents(Japanese)
 
 * Tested machine
-	PC				Linux 6.6.87.2-microsoft-standard-WSL2 
+	PC				Debian GNU/Linux 13
 					Windows 11
+
+* Tested compilers
+	GCC/Clang			Debian GNU/Linux 13
+	Open Watcom 2.0			Windows 11
 
 * Differences
 	 - Multiple contexts can be created in SJ4. SJ3's behavior of using
