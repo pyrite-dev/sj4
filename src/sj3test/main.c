@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
 		}
 
 		i = 0;
-		while((strlen(c) - i) > 0 && (i += cl2knj(c + i, strlen(c) - i, out))) {
+		while((strlen(c) - i) > 0 && (i += cl2knj((u_char*)c + i, strlen(c) - i, (u_char*)out))) {
 			STDYOUT* s = (STDYOUT*)out;
 
 			printf("> %s\n", out + sizeof(STDYOUT));
