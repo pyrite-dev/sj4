@@ -38,12 +38,12 @@
 
 #include "sj_kanakan.h"
 
-static int  del_douon(TypeDicSeg, u_char*, TypeDicOfs);
-static int  del_segment(TypeDicSeg);
-static void del_uidx(TypeDicSeg);
-static void del_stdy(TypeDicSeg, TypeDicOfs, int);
+static int  del_douon(SJ3_CONTEXT TypeDicSeg, u_char*, TypeDicOfs);
+static int  del_segment(SJ3_CONTEXT TypeDicSeg);
+static void del_uidx(SJ3_CONTEXT TypeDicSeg);
+static void del_stdy(SJ3_CONTEXT TypeDicSeg, TypeDicOfs, int);
 
-u_int deldic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
+u_int deldic(SJ3_CONTEXT u_char* yomi, u_char* kanji, TypeGram hinsi) {
 	u_char	   yptr[MAXWDYOMILEN + 1];
 	u_char	   kptr[MAXWDKANJILEN + 1];
 	u_short	   err;
@@ -58,20 +58,20 @@ u_int deldic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
 	u_char *   stp, *edp;
 	int	   size, len;
 
-	if((err = addel_arg(yomi, kanji, hinsi, yptr, sizeof(yptr))))
+	if((err = addel_arg(SJ3_CONTEXT_PASS yomi, kanji, hinsi, yptr, sizeof(yptr))))
 		return err;
 
 	if(!curdict->maxunit) return AD_NOTUSERDICT;
 
-	knjlen = cvtknj(yomi, kanji, kptr);
+	knjlen = cvtknj(SJ3_CONTEXT_PASS yomi, kanji, kptr);
 
 	cnvstart = yptr;
 	cnvlen	 = sstrlen(yptr);
 
-	useg = srchidx((TypeDicSeg)DICSEGBASE, cnvlen);
+	useg = srchidx(SJ3_CONTEXT_PASS(TypeDicSeg) DICSEGBASE, cnvlen);
 	(*curdict->getdic)(curdict, useg);
 
-	if(!(dblknum = srchkana(&p1, &samlen))) return AD_NOMIDASI;
+	if(!(dblknum = srchkana(SJ3_CONTEXT_PASS & p1, &samlen))) return AD_NOMIDASI;
 
 	if(!(hblknum = srchgram(p1, &p2, hinsi))) return AD_NOHINSI;
 
@@ -80,14 +80,14 @@ u_int deldic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
 	if(*p3 == HINSIBLKTERM) return AD_NOKANJI;
 	ofs = p3 - dicbuf;
 
-	edp = skipkstr(p3);
+	edp = skipkstr(SJ3_CONTEXT_PASS p3);
 
 	if(kblknum == 1) {
 		if(hblknum == 1) {
 			if(dblknum == 1) {
-				return del_segment(useg);
+				return del_segment(SJ3_CONTEXT_PASS useg);
 			} else {
-				return del_douon(useg, p1, ofs);
+				return del_douon(SJ3_CONTEXT_PASS useg, p1, ofs);
 			}
 		} else {
 			stp = p2;
@@ -110,13 +110,13 @@ u_int deldic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
 
 	(*curdict->putdic)(curdict, useg);
 
-	del_stdy(useg, ofs, size);
+	del_stdy(SJ3_CONTEXT_PASS useg, ofs, size);
 
 	return AD_DONE;
 }
 
 static int
-del_douon(TypeDicSeg seg, u_char* ptr, TypeDicOfs ofs) {
+del_douon(SJ3_CONTEXT TypeDicSeg seg, u_char* ptr, TypeDicOfs ofs) {
 	u_char *nxt, *p1, *p2;
 	int	size;
 	int	nlen, plen, len;
@@ -133,7 +133,7 @@ del_douon(TypeDicSeg seg, u_char* ptr, TypeDicOfs ofs) {
 		plen = getplen(nxt);
 
 		if(ptr == segtop()) {
-			if(nlen + plen > (unsigned int)count_uidx() + sstrlen(get_idxptr(seg)))
+			if(nlen + plen > (unsigned int)count_uidx(SJ3_CONTEXT_PASS2) + sstrlen(get_idxptr(SJ3_CONTEXT_PASS seg)))
 				return AD_OVFLWINDEX;
 		}
 
@@ -150,19 +150,19 @@ del_douon(TypeDicSeg seg, u_char* ptr, TypeDicOfs ofs) {
 		memset(dicbuf + curdict->seglen - size, DICSEGTERM, size);
 
 		if(ptr == segtop()) {
-			chg_uidx(seg, ptr + DOUONBLKSIZENUMBER, nlen + len);
+			chg_uidx(SJ3_CONTEXT_PASS seg, ptr + DOUONBLKSIZENUMBER, nlen + len);
 		}
 	}
 
 	(*curdict->putdic)(curdict, seg);
 
-	del_stdy(seg, ofs, size);
+	del_stdy(SJ3_CONTEXT_PASS seg, ofs, size);
 
 	return AD_DONE;
 }
 
 static int
-del_segment(TypeDicSeg seg) {
+del_segment(SJ3_CONTEXT TypeDicSeg seg) {
 	int	   i;
 	STDYIN*	   styp;
 	TypeDicID  dicid;
@@ -183,7 +183,7 @@ del_segment(TypeDicSeg seg) {
 
 	(*curdict->rszdic)(curdict, curdict->segunit);
 
-	del_uidx(seg);
+	del_uidx(SJ3_CONTEXT_PASS seg);
 
 	if(StudyExist()) {
 		dicid = curdict->dicid;
@@ -208,18 +208,18 @@ del_segment(TypeDicSeg seg) {
 		for(i = 0, styp = STUDYDICT; i < STUDYCOUNT; i++, styp++)
 			if(styp->styno > stdynum) styp->styno -= 1;
 
-		putstydic();
+		putstydic(SJ3_CONTEXT_PASS2);
 	}
 
 	return AD_DONE;
 }
 
 static void
-del_uidx(TypeDicSeg seg) {
+del_uidx(SJ3_CONTEXT TypeDicSeg seg) {
 	u_char *p, *q;
 	int	len;
 
-	p = get_idxptr(seg);
+	p = get_idxptr(SJ3_CONTEXT_PASS seg);
 	for(q = p; *q++;);
 
 	mvmemi(q, p, idxbuf + curdict->idxlen - q);
@@ -229,11 +229,11 @@ del_uidx(TypeDicSeg seg) {
 
 	(*curdict->putidx)(curdict, 0);
 
-	mkidxtbl(curdict);
+	mkidxtbl(SJ3_CONTEXT_PASS curdict);
 }
 
 static void
-del_stdy(TypeDicSeg seg, TypeDicOfs ofs, int size) {
+del_stdy(SJ3_CONTEXT TypeDicSeg seg, TypeDicOfs ofs, int size) {
 	int	   i;
 	TypeStyNum stdynum;
 	STDYIN*	   stdy;
@@ -265,6 +265,6 @@ del_stdy(TypeDicSeg seg, TypeDicOfs ofs, int size) {
 		for(i = 0, stdy = STUDYDICT; i < STUDYCOUNT; i++, stdy++)
 			if(stdy->styno > stdynum) (stdy->styno)--;
 
-		putstydic();
+		putstydic(SJ3_CONTEXT_PASS2);
 	}
 }

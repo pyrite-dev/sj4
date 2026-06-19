@@ -154,4 +154,9 @@ typedef struct workarea {
 	Global global;
 } WorkArea;
 
+typedef struct sj3context {
+	Global* work;
+	STDY*	stdy;
+} Sj3Context;
+
 #endif

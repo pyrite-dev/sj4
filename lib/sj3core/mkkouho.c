@@ -41,12 +41,12 @@
 
 #include "sj_kanakan.h"
 
-static void    getkhtbl(CLREC*), cl_kanji(JREC*, CLREC*);
-static int     diffknj(JREC*, u_char*, int);
-static void    cl_numcmn(JREC*, CLREC*);
-static u_char* makekan(u_char*, u_char*, int);
+static void    getkhtbl(SJ3_CONTEXT CLREC*), cl_kanji(SJ3_CONTEXT JREC*, CLREC*);
+static int     diffknj(SJ3_CONTEXT JREC*, u_char*, int);
+static void    cl_numcmn(SJ3_CONTEXT JREC*, CLREC*);
+static u_char* makekan(SJ3_CONTEXT u_char*, u_char*, int);
 
-void mkkouho() {
+void mkkouho(SJ3_CONTEXT2) {
 	CLREC* clrec;
 	int    keeplen;
 
@@ -57,20 +57,20 @@ void mkkouho() {
 	clrec = clt1st;
 
 	do {
-		getkhtbl(clrec);
+		getkhtbl(SJ3_CONTEXT_PASS clrec);
 		clrec = clrec->clsort;
 	} while(clrec && (keeplen == clrec->cllen));
 }
 
 static void
-getkhtbl(CLREC* clrec) {
+getkhtbl(SJ3_CONTEXT CLREC* clrec) {
 	JREC* jrec;
 
 	jrec = clrec->jnode;
 
 	switch(jrec->class) {
 	case C_DICT:
-		cl_kanji(jrec, clrec);
+		cl_kanji(SJ3_CONTEXT_PASS jrec, clrec);
 		break;
 	case C_N_ARABIA:
 	case C_N_ARACMA:
@@ -82,36 +82,36 @@ getkhtbl(CLREC* clrec) {
 	case C_N_KAZULONG:
 	case C_N_KAZULCMA:
 	case C_N_SUUJILONG:
-		cl_numcmn(jrec, clrec);
+		cl_numcmn(SJ3_CONTEXT_PASS jrec, clrec);
 		break;
 	case C_BUNSETU:
 		break;
 	case C_MINASI:
 	case C_WAKACHI:
-		setkouho(clrec, (TypeDicOfs)0, 0);
+		setkouho(SJ3_CONTEXT_PASS clrec, (TypeDicOfs)0, 0);
 		break;
 	}
 }
 
 static void
-cl_kanji(JREC* jrec, CLREC* clrec) {
+cl_kanji(SJ3_CONTEXT JREC* jrec, CLREC* clrec) {
 	u_char* ptr;
 	int	kcount = khcount;
 
-	if(seldict(jrec->dicid)) {
+	if(seldict(SJ3_CONTEXT_PASS jrec->dicid)) {
 		(*curdict->getdic)(curdict, jrec->jseg);
 		ptr = dicbuf + jrec->jofsst + 1;
 
-		get_askknj();
+		get_askknj(SJ3_CONTEXT_PASS2);
 
 		while(*ptr != HINSIBLKTERM) {
-			if(diffknj(jrec, ptr, kcount)) {
-				setkouho(clrec, (TypeDicOfs)(ptr - dicbuf), 0);
+			if(diffknj(SJ3_CONTEXT_PASS jrec, ptr, kcount)) {
+				setkouho(SJ3_CONTEXT_PASS clrec, (TypeDicOfs)(ptr - dicbuf), 0);
 			}
-			ptr = skipkstr(ptr);
+			ptr = skipkstr(SJ3_CONTEXT_PASS ptr);
 		}
 	} else {
-		setkouho(clrec, (TypeDicOfs)1, 0);
+		setkouho(SJ3_CONTEXT_PASS clrec, (TypeDicOfs)1, 0);
 	}
 }
 
@@ -132,12 +132,12 @@ makekan_1byte(u_char* s, u_char* d, int flg) {
 }
 
 u_char*
-makekan_knj(u_char* s, u_char* d, int flg) {
-	return makekan(askknj[*s & KNJASSYUKUMASK], d, flg);
+makekan_knj(SJ3_CONTEXT u_char* s, u_char* d, int flg) {
+	return makekan(SJ3_CONTEXT_PASS askknj[*s & KNJASSYUKUMASK], d, flg);
 }
 
-u_char* makekan_ofs(u_char* s, u_char* d, int flg) {
-	return makekan(dicbuf + ((*s & KANJICODEMASK) << 8) + *(s + 1),
+u_char* makekan_ofs(SJ3_CONTEXT u_char* s, u_char* d, int flg) {
+	return makekan(SJ3_CONTEXT_PASS dicbuf + ((*s & KANJICODEMASK) << 8) + *(s + 1),
 		       d, flg);
 }
 
@@ -173,7 +173,7 @@ makekan_ascii(u_char* s, u_char* d, int flg) {
 }
 
 static u_char*
-makekan(u_char* s, u_char* d, int flg) {
+makekan(SJ3_CONTEXT u_char* s, u_char* d, int flg) {
 	int csize;
 
 	for(;;) {
@@ -189,7 +189,7 @@ makekan(u_char* s, u_char* d, int flg) {
 				break;
 
 			case OFFSETASSYUKU:
-				d = makekan_ofs(s, d, flg);
+				d = makekan_ofs(SJ3_CONTEXT_PASS s, d, flg);
 				break;
 
 			case AIATTRIBUTE:
@@ -201,7 +201,7 @@ makekan(u_char* s, u_char* d, int flg) {
 				break;
 
 			case KANJIASSYUKU:
-				d = makekan_knj(s, d, flg);
+				d = makekan_knj(SJ3_CONTEXT_PASS s, d, flg);
 				break;
 
 			default:
@@ -219,7 +219,7 @@ makekan(u_char* s, u_char* d, int flg) {
 				break;
 
 			case OFFSETASSYUKU:
-				d = makekan_ofs(s, d, FALSE);
+				d = makekan_ofs(SJ3_CONTEXT_PASS s, d, FALSE);
 				break;
 
 			case AIATTRIBUTE:
@@ -231,7 +231,7 @@ makekan(u_char* s, u_char* d, int flg) {
 				break;
 
 			case KANJIASSYUKU:
-				d = makekan_knj(s, d, FALSE);
+				d = makekan_knj(SJ3_CONTEXT_PASS s, d, FALSE);
 				break;
 
 			default:
@@ -304,7 +304,7 @@ sameknj(u_char* p, u_char plen, u_char* q, u_char qlen) {
 #undef QEND
 
 static int
-diffknj(JREC* jrec, u_char* ptr, int num) {
+diffknj(SJ3_CONTEXT JREC* jrec, u_char* ptr, int num) {
 	KHREC* kptr;
 	JREC*  jptr;
 	int    i;
@@ -313,7 +313,7 @@ diffknj(JREC* jrec, u_char* ptr, int num) {
 
 	if(jrec->hinsi == TANKANJI) return TRUE;
 
-	makekan(ptr, kbuf1, TRUE);
+	makekan(SJ3_CONTEXT_PASS ptr, kbuf1, TRUE);
 
 	for(i = 0, kptr = kouhotbl; i < num; i++, kptr++) {
 		if((jptr = kptr->clrec->jnode) == jrec)
@@ -331,7 +331,7 @@ diffknj(JREC* jrec, u_char* ptr, int num) {
 
 		if(jptr->stbofs != jrec->stbofs) continue;
 
-		makekan(dicbuf + kptr->offs, kbuf2, TRUE);
+		makekan(SJ3_CONTEXT_PASS dicbuf + kptr->offs, kbuf2, TRUE);
 
 		if(sameknj(kbuf1, jrec->jlen, kbuf2, jptr->jlen))
 			return FALSE;
@@ -388,7 +388,7 @@ int sel_sjmode(JREC* jrec) {
 }
 
 static void
-cl_numcmn(JREC* jrec, CLREC* clrec) {
+cl_numcmn(SJ3_CONTEXT JREC* jrec, CLREC* clrec) {
 	u_char*	 p;
 	int	 i;
 	u_short	 j;
@@ -403,24 +403,24 @@ cl_numcmn(JREC* jrec, CLREC* clrec) {
 	if(jrec->jofsst) {
 		i = sel_sjmode(jrec);
 
-		if(seldict(jrec->dicid)) {
+		if(seldict(SJ3_CONTEXT_PASS jrec->dicid)) {
 			(*curdict->getdic)(curdict, jrec->jseg);
 
 			p = dicbuf + jrec->jofsst + 1;
 
 			while(*p != HINSIBLKTERM) {
-				setkouho(clrec, (TypeDicOfs)(p - dicbuf), i);
-				p = skipkstr(p);
+				setkouho(SJ3_CONTEXT_PASS clrec, (TypeDicOfs)(p - dicbuf), i);
+				p = skipkstr(SJ3_CONTEXT_PASS p);
 			}
 		} else {
-			setkouho(clrec, (TypeDicOfs)1, i);
+			setkouho(SJ3_CONTEXT_PASS clrec, (TypeDicOfs)1, i);
 		}
 	} else {
 		tbl = Selsjadrs(jrec->class - C_N_ARABIA);
 		while((j = *tbl++) != SELNUMTERM) {
 			if(!chrck_numtbl(jrec->flags, j)) continue;
 
-			setkouho(clrec, (TypeDicOfs)0, (int)SelNumFunc(j));
+			setkouho(SJ3_CONTEXT_PASS clrec, (TypeDicOfs)0, (int)SelNumFunc(j));
 		}
 	}
 }

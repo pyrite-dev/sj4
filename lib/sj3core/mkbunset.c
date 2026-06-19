@@ -38,7 +38,7 @@
 
 #include "sj_kanakan.h"
 
-void mkbunsetu() {
+void mkbunsetu(SJ3_CONTEXT2) {
 	JREC*	 jrec;
 	TypeGram hinsi;
 	u_char*	 cnj;
@@ -56,7 +56,7 @@ void mkbunsetu() {
 
 	while(jrec) {
 
-		if(jrec->stbofs && (cnj = getstb(jrec->hinsi)))
+		if(jrec->stbofs && (cnj = getstb(SJ3_CONTEXT_PASS jrec->hinsi)))
 			hinsi = StbHinsi(cnj + jrec->stbofs - 1);
 		else
 			hinsi = jrec->hinsi;
@@ -65,15 +65,15 @@ void mkbunsetu() {
 			gobilen = 0;
 			next	= cnvstart + jrec->jlen;
 
-			if(terminate(right, next)) {
+			if(terminate(SJ3_CONTEXT_PASS right, next)) {
 				fzk_ka_flg = 0;
-				setclrec(jrec, next, right);
+				setclrec(SJ3_CONTEXT_PASS jrec, next, right);
 			}
 
-			srchfzk(jrec, next, right, 0);
+			srchfzk(SJ3_CONTEXT_PASS jrec, next, right, 0);
 		}
 
-		else if((count = setconj(hinsi, jrec, crec))) {
+		else if((count = setconj(SJ3_CONTEXT_PASS hinsi, jrec, crec))) {
 
 			for(i = count; i-- > 0;) {
 
@@ -81,12 +81,12 @@ void mkbunsetu() {
 				gobilen = crec[i].len;
 				next	= cnvstart + jrec->jlen + gobilen;
 
-				if(terminate(right, next)) {
+				if(terminate(SJ3_CONTEXT_PASS right, next)) {
 					fzk_ka_flg = 0;
-					setclrec(jrec, next, right);
+					setclrec(SJ3_CONTEXT_PASS jrec, next, right);
 				}
 
-				srchfzk(jrec, next, right, 0);
+				srchfzk(SJ3_CONTEXT_PASS jrec, next, right, 0);
 			}
 		}
 
@@ -95,7 +95,7 @@ void mkbunsetu() {
 }
 
 CLREC*
-argclrec(int len) {
+argclrec(SJ3_CONTEXT int len) {
 	CLREC* ptr;
 	CLREC* rec;
 	CLREC* child;

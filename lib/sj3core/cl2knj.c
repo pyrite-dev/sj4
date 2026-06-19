@@ -39,16 +39,16 @@
 
 static CLREC *nextrecblk(), *prevrecblk();
 
-static void initkbuf(u_char*);
+static void initkbuf(SJ3_CONTEXT u_char*);
 
-int cl2knj(u_char* yomi, int len, u_char* kouho) {
+int cl2knj(SJ3_CONTEXT u_char* yomi, int len, u_char* kouho) {
 	u_char* ptr1;
 	u_char* ptr2;
 	int	i;
 
 	khcount = nkhcount = 0;
 
-	initkbuf(kouho);
+	initkbuf(SJ3_CONTEXT_PASS kouho);
 
 	if(len > MAXCLINPUTLEN * 2) len = MAXCLINPUTLEN * 2;
 
@@ -66,36 +66,36 @@ int cl2knj(u_char* yomi, int len, u_char* kouho) {
 
 	if(!hyomi[0]) return 0;
 
-	freework();
+	freework(SJ3_CONTEXT_PASS2);
 
 	inputyomi = orgyomi;
 	cnvstart = ystart = hyomi;
 	cnvlen		  = sstrlen(hyomi);
 
-	mkjiritu(0);
+	mkjiritu(SJ3_CONTEXT_PASS 0);
 
-	mkbunsetu();
+	mkbunsetu(SJ3_CONTEXT_PASS2);
 
-	if(!maxclptr) wakachi();
+	if(!maxclptr) wakachi(SJ3_CONTEXT_PASS2);
 
 	jrt1st = maxjptr;
 	clt1st = maxclptr;
 
-	mkkouho();
+	mkkouho(SJ3_CONTEXT_PASS2);
 
-	getrank();
+	getrank(SJ3_CONTEXT_PASS2);
 
 	selectid = 1;
 
-	cvtclknj();
+	cvtclknj(SJ3_CONTEXT_PASS2);
 
 	return hzstrlen(inputyomi, (int)clt1st->cllen);
 }
 
-int nextcl(u_char* kouho, int mode) {
+int nextcl(SJ3_CONTEXT u_char* kouho, int mode) {
 	CLREC* clptr;
 
-	initkbuf(kouho);
+	initkbuf(SJ3_CONTEXT_PASS kouho);
 
 	if(!khcount) return 0;
 
@@ -105,20 +105,20 @@ int nextcl(u_char* kouho, int mode) {
 	else if((mode < 2) && (clptr = nextrecblk())) {
 		selectid = 1;
 		clt1st	 = clptr;
-		mkkouho();
-		getrank();
+		mkkouho(SJ3_CONTEXT_PASS2);
+		getrank(SJ3_CONTEXT_PASS2);
 	} else {
-		cvtclknj();
+		cvtclknj(SJ3_CONTEXT_PASS2);
 		return 0;
 	}
 
-	cvtclknj();
+	cvtclknj(SJ3_CONTEXT_PASS2);
 
 	return hzstrlen(inputyomi, (int)clt1st->cllen);
 }
 
 static CLREC*
-nextrecblk() {
+nextrecblk(SJ3_CONTEXT2) {
 	CLREC* clptr;
 	int    keeplen;
 
@@ -132,10 +132,10 @@ nextrecblk() {
 	return clptr;
 }
 
-int prevcl(u_char* kouho, int mode) {
+int prevcl(SJ3_CONTEXT u_char* kouho, int mode) {
 	CLREC* clptr;
 
-	initkbuf(kouho);
+	initkbuf(SJ3_CONTEXT_PASS kouho);
 
 	if(!khcount) return 0;
 
@@ -144,21 +144,21 @@ int prevcl(u_char* kouho, int mode) {
 
 	else if((mode < 2) && (clptr = prevrecblk())) {
 		clt1st = clptr;
-		mkkouho();
-		getrank();
+		mkkouho(SJ3_CONTEXT_PASS2);
+		getrank(SJ3_CONTEXT_PASS2);
 		selectid = khcount;
 	} else {
-		cvtclknj();
+		cvtclknj(SJ3_CONTEXT_PASS2);
 		return 0;
 	}
 
-	cvtclknj();
+	cvtclknj(SJ3_CONTEXT_PASS2);
 
 	return hzstrlen(inputyomi, (int)clt1st->cllen);
 }
 
 static CLREC*
-prevrecblk() {
+prevrecblk(SJ3_CONTEXT2) {
 	CLREC* clptr;
 	CLREC* keepptr;
 	int    keeplen;
@@ -182,11 +182,11 @@ prevrecblk() {
 }
 
 static void
-initkbuf(u_char* kouho) {
+initkbuf(SJ3_CONTEXT u_char* kouho) {
 	kanjitmp = kouho;
 	memset(kanjitmp, 0, sizeof(STDYOUT) + 1);
 }
 
-int selectnum() {
+int selectnum(SJ3_CONTEXT2) {
 	return selectid;
 }

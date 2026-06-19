@@ -37,36 +37,36 @@
 
 #include "sj_kanakan.h"
 
-static void setstynum(), setnspr(KHREC*, STDYIN*), regetrank();
+static void setstynum(SJ3_CONTEXT2), setnspr(SJ3_CONTEXT KHREC*, STDYIN*), regetrank(SJ3_CONTEXT2);
 
-void getrank() {
+void getrank(SJ3_CONTEXT2) {
 
 	trank = nrank = 1;
 
-	setstynum();
+	setstynum(SJ3_CONTEXT_PASS2);
 
-	regetrank();
+	regetrank(SJ3_CONTEXT_PASS2);
 }
 
 static void
-setstynum() {
+setstynum(SJ3_CONTEXT2) {
 	KHREC*	kptr;
 	STDYIN* sptr;
 	int	count;
 
 	for(kptr = kouhotbl, count = khcount; count--; kptr++) {
 
-		sptr = srchstdy(kptr->clrec->jnode->jseg, kptr->offs,
+		sptr = srchstdy(SJ3_CONTEXT_PASS kptr->clrec->jnode->jseg, kptr->offs,
 				kptr->clrec->jnode->dicid);
 
 		if(!sptr) continue;
 
-		setnspr(kptr, sptr);
+		setnspr(SJ3_CONTEXT_PASS kptr, sptr);
 	}
 }
 
 static void
-setnspr(KHREC* kptr, STDYIN* sptr) {
+setnspr(SJ3_CONTEXT KHREC* kptr, STDYIN* sptr) {
 	KHREC*	   ptr;
 	int	   keepnm;
 	TypeStyNum styno;
@@ -122,7 +122,7 @@ setnspr(KHREC* kptr, STDYIN* sptr) {
 }
 
 static void
-regetrank() {
+regetrank(SJ3_CONTEXT2) {
 	KHREC* kptr;
 	int    count;
 	int    tmp;

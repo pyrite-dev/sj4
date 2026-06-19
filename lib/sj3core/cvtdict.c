@@ -38,7 +38,7 @@
 
 #include "sj_kanakan.h"
 
-void cvtdict(KHREC* krec, CLREC* clrec, int flg) {
+void cvtdict(SJ3_CONTEXT KHREC* krec, CLREC* clrec, int flg) {
 	TypeDicOfs ofs;
 	u_char*	   yptr;
 	int	   jlen;
@@ -96,7 +96,7 @@ void cvtdict(KHREC* krec, CLREC* clrec, int flg) {
 		stblen = 0;
 	}
 
-	else if((i = jrec->stbofs) && (fptr = getstb(jrec->hinsi))) {
+	else if((i = jrec->stbofs) && (fptr = getstb(SJ3_CONTEXT_PASS jrec->hinsi))) {
 		fptr += i - 1;
 		stblen = StbYomiLen(fptr);
 		jlen -= stblen;
@@ -107,11 +107,11 @@ void cvtdict(KHREC* krec, CLREC* clrec, int flg) {
 	}
 
 	if(ofs) {
-		if(seldict(jrec->dicid)) {
+		if(seldict(SJ3_CONTEXT_PASS jrec->dicid)) {
 			(*curdict->getdic)(curdict, jrec->jseg);
-			get_askknj();
+			get_askknj(SJ3_CONTEXT_PASS2);
 			kanjitmp +=
-			    getkanji(yptr, jlen, dicbuf + ofs, kanjitmp);
+			    getkanji(SJ3_CONTEXT_PASS yptr, jlen, dicbuf + ofs, kanjitmp);
 			yptr += jlen * 2;
 		} else {
 			while(jlen-- > 0) {
@@ -137,7 +137,7 @@ void cvtdict(KHREC* krec, CLREC* clrec, int flg) {
 	}
 }
 
-void cvtminasi(int len) {
+void cvtminasi(SJ3_CONTEXT int len) {
 	u_char* ptr;
 
 	ptr = inputyomi;
@@ -159,7 +159,7 @@ void cvtminasi(int len) {
 	}
 }
 
-void cvtwakachi(CLREC* clrec) {
+void cvtwakachi(SJ3_CONTEXT CLREC* clrec) {
 	int	jlen;
 	u_char* ym;
 	int	cnt;

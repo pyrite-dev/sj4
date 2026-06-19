@@ -38,9 +38,9 @@
 
 #include "sj_kanakan.h"
 
-static void dic_mu(int), dic_cl();
+static void dic_mu(SJ3_CONTEXT int), dic_cl(SJ3_CONTEXT2);
 
-void mkjiritu(int mode) {
+void mkjiritu(SJ3_CONTEXT int mode) {
 	u_char	chkind1;
 	u_char	chkind2;
 	JREC*	jrec;
@@ -53,25 +53,25 @@ void mkjiritu(int mode) {
 	chkind1 = Chrtbl[*cnvstart];
 
 	if(chkind1 & DICTOP) {
-		dic_mu(mode);
+		dic_mu(SJ3_CONTEXT_PASS mode);
 	}
 
-	if(mode & DO_CLSTUDY) dic_cl();
+	if(mode & DO_CLSTUDY) dic_cl(SJ3_CONTEXT_PASS2);
 
-	srchnum();
+	srchnum(SJ3_CONTEXT_PASS2);
 
-	if(srchhead() && cnvlen != headlen) {
+	if(srchhead(SJ3_CONTEXT_PASS2) && cnvlen != headlen) {
 		cnvstart += headlen;
 		cnvlen -= headlen;
 
 		chkind2 = Chrtbl[*cnvstart];
 
 		if(chkind2 & DICTOP) {
-			dic_mu(mode);
+			dic_mu(SJ3_CONTEXT_PASS mode);
 		}
 
 		if(headcode == SETTOU_DAI) {
-			srchnum();
+			srchnum(SJ3_CONTEXT_PASS2);
 		}
 
 		cnvstart -= headlen;
@@ -79,13 +79,13 @@ void mkjiritu(int mode) {
 	}
 
 	for(jrec = maxjptr; jrec; jrec = jrec->jsort) {
-		if((stb = getstb(jrec->hinsi)))
-			setubi(jrec, stb);
+		if((stb = getstb(SJ3_CONTEXT_PASS jrec->hinsi)))
+			setubi(SJ3_CONTEXT_PASS jrec, stb);
 	}
 }
 
 static void
-dic_mu(int mode) {
+dic_mu(SJ3_CONTEXT int mode) {
 	u_char* tagp;
 	DICTL*	dp;
 
@@ -95,11 +95,11 @@ dic_mu(int mode) {
 		dicsaml = 0;
 		prevseg = -1;
 
-		while((tagp = srchdict(tagp))) setjrec(tagp, mode);
+		while((tagp = srchdict(SJ3_CONTEXT_PASS tagp))) setjrec(SJ3_CONTEXT_PASS tagp, mode);
 	}
 }
 
-JREC* argjrec(int len, JREC* rec) {
+JREC* argjrec(SJ3_CONTEXT int len, JREC* rec) {
 	JREC* ptr;
 	JREC* jrec;
 	JREC* child;
@@ -156,7 +156,7 @@ JREC* argjrec(int len, JREC* rec) {
 }
 
 static void
-dic_cl() {
+dic_cl(SJ3_CONTEXT2) {
 	u_char* p;
 	u_short pos;
 	int	len;
@@ -172,7 +172,7 @@ dic_cl() {
 
 			if(cmp == MATCH) {
 				if(!isdpnd(*(cnvstart + len))) {
-					setcrec(p);
+					setcrec(SJ3_CONTEXT_PASS p);
 				}
 			}
 

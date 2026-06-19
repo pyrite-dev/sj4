@@ -46,10 +46,10 @@
 
 #include "sj_kanakan.h"
 
-Global* global_work_base;
-
+#ifdef SJ3_GLOBAL
 Global* work_base;
 
 STDY* stdy_base;
+#endif
 
 int serv_errno;

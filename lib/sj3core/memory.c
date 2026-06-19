@@ -67,7 +67,7 @@ JREC* free_jlst(JREC* p) {
 }
 
 CLREC*
-free_clst(CLREC* p, int l) {
+free_clst(SJ3_CONTEXT CLREC* p, int l) {
 	CLREC* cpk;
 	CLREC* cp;
 	CLREC* cn;
@@ -127,7 +127,7 @@ void free_jall(JREC* p) {
 	}
 }
 
-void freework() {
+void freework(SJ3_CONTEXT2) {
 	free_clall(maxclptr);
 	clt1st = maxclptr = NULL;
 

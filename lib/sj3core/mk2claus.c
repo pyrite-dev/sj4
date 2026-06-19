@@ -39,28 +39,28 @@
 #include "sj_kanakan.h"
 
 static int
-set2nd(CLREC* clrec) {
+set2nd(SJ3_CONTEXT CLREC* clrec) {
 
 	CLREC* rec2;
 
-	mkjiritu(DO_IKKATU | DO_CLSTUDY);
+	mkjiritu(SJ3_CONTEXT_PASS DO_IKKATU | DO_CLSTUDY);
 
-	mkbunsetu();
+	mkbunsetu(SJ3_CONTEXT_PASS2);
 
 	if(!maxclptr) {
-		wakachi();
+		wakachi(SJ3_CONTEXT_PASS2);
 		return clrec->cllen;
 	}
 
 	for(rec2 = maxclptr; rec2; rec2 = rec2->clsort) {
-		if(terminate(rec2->right, cnvstart + rec2->cllen) != SHU)
+		if(terminate(SJ3_CONTEXT_PASS rec2->right, cnvstart + rec2->cllen) != SHU)
 			break;
 	}
 
 	return rec2 ? (clrec->cllen + rec2->cllen) : (clrec->cllen);
 }
 
-void mk2claus() {
+void mk2claus(SJ3_CONTEXT2) {
 	u_char* keepptr;
 	int	keeplen;
 	CLREC*	clrec;
@@ -79,12 +79,12 @@ void mk2claus() {
 	selcl = clt1st;
 
 	if(selcl->right == R_FZKKGU) {
-		pritiny();
+		pritiny(SJ3_CONTEXT_PASS2);
 		return;
 	}
 
 	if(cnvlen == selcl->cllen) {
-		pritiny();
+		pritiny(SJ3_CONTEXT_PASS2);
 		return;
 	}
 
@@ -103,7 +103,7 @@ void mk2claus() {
 				free_jall(maxjptr);
 			}
 
-			save2ln = set2nd(clrec);
+			save2ln = set2nd(SJ3_CONTEXT_PASS clrec);
 
 			count++;
 			len   = clrec->cllen;
@@ -117,7 +117,7 @@ void mk2claus() {
 
 		if(selcl->cl2len > clrec->cl2len) continue;
 
-		prty = priority(clrec) - prty2;
+		prty = priority(SJ3_CONTEXT_PASS clrec) - prty2;
 
 		prty2++;
 

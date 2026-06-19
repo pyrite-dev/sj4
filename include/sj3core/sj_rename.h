@@ -118,8 +118,13 @@
 #define setnspr Jsetnspr
 #define regetrank Jregetrank
 
+#ifdef SJ3_GLOBAL
 #define work_base Jwork_base
 #define stdy_base Jstdy_base
+#else
+#define work_base (ctx->work)
+#define stdy_base (ctx->stdy)
+#endif
 
 #define maxjptr (work_base->Jmaxjptr)
 #define maxclptr (work_base->Jmaxclptr)

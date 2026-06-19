@@ -37,7 +37,7 @@
 
 #include "sj_kanakan.h"
 
-void cvtphknj() {
+void cvtphknj(SJ3_CONTEXT2) {
 	int    i, j;
 	CLREC* clrec;
 	CLREC* clkp;
@@ -50,23 +50,23 @@ void cvtphknj() {
 
 	clrec = clt1st;
 	while(clrec) {
-		if(ph_khtbl(clrec)) clkp = clrec;
+		if(ph_khtbl(SJ3_CONTEXT_PASS clrec)) clkp = clrec;
 		clrec = clrec->clsort;
 	}
 
 	if(clkp && stdytop) {
 
 		if(stdytop->nmflg)
-			ph_setkouho(clkp, (TypeDicOfs)0, (STDYIN*)0);
+			ph_setkouho(SJ3_CONTEXT_PASS clkp, (TypeDicOfs)0, (STDYIN*)0);
 	}
 
 	kouhotbl[0].rank = 1;
 
 	kanjitmp = kanjibuf + 1;
 
-	setstyrec(kouhotbl);
+	setstyrec(SJ3_CONTEXT_PASS kouhotbl);
 
-	cvtkouho(kouhotbl);
+	cvtkouho(SJ3_CONTEXT_PASS kouhotbl);
 
 	i = kanjitmp - kanjibuf;
 	if(i < kanjilen) {
@@ -91,14 +91,14 @@ not_enough_memory:
 	free_jall(jrt1st);
 }
 
-void cvtkouho(KHREC* krec) {
+void cvtkouho(SJ3_CONTEXT KHREC* krec) {
 	CLREC* clrec;
 
 	clrec = krec->clrec;
 
 	switch(clrec->jnode->class) {
 	case C_DICT:
-		cvtdict(krec, clrec, FALSE);
+		cvtdict(SJ3_CONTEXT_PASS krec, clrec, FALSE);
 		break;
 
 	case C_N_ARABIA:
@@ -111,23 +111,23 @@ void cvtkouho(KHREC* krec) {
 	case C_N_KAZULONG:
 	case C_N_KAZULCMA:
 	case C_N_SUUJILONG:
-		cvtdict(krec, clrec, TRUE);
+		cvtdict(SJ3_CONTEXT_PASS krec, clrec, TRUE);
 		break;
 
 	case C_BUNSETU:
 	case C_MINASI:
-		cvtminasi((int)clrec->cllen);
+		cvtminasi(SJ3_CONTEXT_PASS(int) clrec->cllen);
 		break;
 
 	case C_WAKACHI:
-		cvtwakachi(clrec);
+		cvtwakachi(SJ3_CONTEXT_PASS clrec);
 		break;
 	}
 
 	*kanjitmp++ = 0;
 }
 
-void setstyrec(KHREC* krec) {
+void setstyrec(SJ3_CONTEXT KHREC* krec) {
 	JREC*	jrec;
 	KHREC*	kptr;
 	int	ii;
@@ -162,7 +162,7 @@ void setstyrec(KHREC* krec) {
 	stdy.sttfg	 = krec->sttfg;
 	stdy.ka_fg	 = krec->ka_fg;
 
-	if(jrec->stbofs && (fptr = getstb(jrec->hinsi)))
+	if(jrec->stbofs && (fptr = getstb(SJ3_CONTEXT_PASS jrec->hinsi)))
 		stdy.len -= StbYomiLen(fptr + jrec->stbofs - 1);
 
 	if((fptr = Settou_ptr(jrec->sttofs)))

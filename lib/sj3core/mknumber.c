@@ -40,7 +40,7 @@
 #include "sj_kanakan.h"
 
 static int
-word2char(u_short wd, u_char* tbl, int keta, int flg) {
+word2char(SJ3_CONTEXT u_short wd, u_char* tbl, int keta, int flg) {
 	int	mask;
 	int	num;
 	u_char* src;
@@ -72,7 +72,7 @@ word2char(u_short wd, u_char* tbl, int keta, int flg) {
 }
 
 static void
-words2num(u_short* wd, u_char* tbl, int flgc) {
+words2num(SJ3_CONTEXT u_short* wd, u_char* tbl, int flgc) {
 	int	i;
 	int	keta;
 	int	flg;
@@ -87,7 +87,7 @@ words2num(u_short* wd, u_char* tbl, int flgc) {
 	}
 
 	for(i = NUMWORDBUF; i-- > 0;) {
-		flg = word2char(*(wd + i), tbl, keta, flg);
+		flg = word2char(SJ3_CONTEXT_PASS * (wd + i), tbl, keta, flg);
 		if(keta) keta -= 4;
 	}
 
@@ -97,72 +97,72 @@ words2num(u_short* wd, u_char* tbl, int flgc) {
 	}
 }
 
-void num_type00(u_char* s1, u_char* s2, JREC* jrec) {
+void num_type00(SJ3_CONTEXT u_char* s1, u_char* s2, JREC* jrec) {
 	u_short num[NUMWORDBUF];
 
-	setwdnum(s1, (int)jrec->numlen, num);
+	setwdnum(SJ3_CONTEXT_PASS s1, (int)jrec->numlen, num);
 
-	words2num(num, Num1tbl, FALSE);
+	words2num(SJ3_CONTEXT_PASS num, Num1tbl, FALSE);
 }
 
-void num_type01(u_char* s1, u_char* s2, JREC* jrec) {
+void num_type01(SJ3_CONTEXT u_char* s1, u_char* s2, JREC* jrec) {
 	u_short num[NUMWORDBUF];
 
-	setwdnum(s1, (int)jrec->numlen, num);
+	setwdnum(SJ3_CONTEXT_PASS s1, (int)jrec->numlen, num);
 
-	words2num(num, Num1tbl, FALSE);
+	words2num(SJ3_CONTEXT_PASS num, Num1tbl, FALSE);
 }
 
-void num_type02(u_char* s1, u_char* s2, JREC* jrec) {
+void num_type02(SJ3_CONTEXT u_char* s1, u_char* s2, JREC* jrec) {
 	u_short num[NUMWORDBUF];
 
-	setwdnum(s1, (int)jrec->numlen, num);
+	setwdnum(SJ3_CONTEXT_PASS s1, (int)jrec->numlen, num);
 
-	words2num(num, Num1tbl, TRUE);
+	words2num(SJ3_CONTEXT_PASS num, Num1tbl, TRUE);
 }
 
-void num_type03(u_char* s1, u_char* s2, JREC* jrec) {
+void num_type03(SJ3_CONTEXT u_char* s1, u_char* s2, JREC* jrec) {
 	u_short num[NUMWORDBUF];
 
-	setwdnum(s1, (int)jrec->numlen, num);
+	setwdnum(SJ3_CONTEXT_PASS s1, (int)jrec->numlen, num);
 
-	words2num(num, Num2tbl, FALSE);
+	words2num(SJ3_CONTEXT_PASS num, Num2tbl, FALSE);
 }
 
-void num_type04(u_char* s1, u_char* s2, JREC* jrec) {
+void num_type04(SJ3_CONTEXT u_char* s1, u_char* s2, JREC* jrec) {
 	u_short num[NUMWORDBUF];
 
-	setwdnum(s1, (int)jrec->numlen, num);
+	setwdnum(SJ3_CONTEXT_PASS s1, (int)jrec->numlen, num);
 
-	words2num(num, Num2tbl, FALSE);
+	words2num(SJ3_CONTEXT_PASS num, Num2tbl, FALSE);
 }
 
-void num_type05(u_char* s1, u_char* s2, JREC* jrec) {
+void num_type05(SJ3_CONTEXT u_char* s1, u_char* s2, JREC* jrec) {
 	u_short num[NUMWORDBUF];
 
-	setwdnum(s1, (int)jrec->numlen, num);
+	setwdnum(SJ3_CONTEXT_PASS s1, (int)jrec->numlen, num);
 
-	words2num(num, Num2tbl, TRUE);
+	words2num(SJ3_CONTEXT_PASS num, Num2tbl, TRUE);
 }
 
-void num_type06(u_char* s1, u_char* s2, JREC* jrec) {
+void num_type06(SJ3_CONTEXT u_char* s1, u_char* s2, JREC* jrec) {
 	u_short num[NUMWORDBUF];
 
-	setwdnum(s1, (int)jrec->numlen, num);
+	setwdnum(SJ3_CONTEXT_PASS s1, (int)jrec->numlen, num);
 
-	words2num(num, Num3tbl, FALSE);
+	words2num(SJ3_CONTEXT_PASS num, Num3tbl, FALSE);
 }
 
-void num_type07(u_char* s1, u_char* s2, JREC* jrec) {
+void num_type07(SJ3_CONTEXT u_char* s1, u_char* s2, JREC* jrec) {
 	u_short num[NUMWORDBUF];
 
-	setwdnum(s1, (int)jrec->numlen, num);
+	setwdnum(SJ3_CONTEXT_PASS s1, (int)jrec->numlen, num);
 
-	words2num(num, Num3tbl, FALSE);
+	words2num(SJ3_CONTEXT_PASS num, Num3tbl, FALSE);
 }
 
 static void
-kan_num(u_short* wd, u_char* tbl1, u_char* tbl2) {
+kan_num(SJ3_CONTEXT u_short* wd, u_char* tbl1, u_char* tbl2) {
 	int	ii;
 	u_short tmp;
 	int	mask;
@@ -217,23 +217,23 @@ kan_num(u_short* wd, u_char* tbl1, u_char* tbl2) {
 	}
 }
 
-void num_type08(u_char* s1, u_char* s2, JREC* jrec) {
+void num_type08(SJ3_CONTEXT u_char* s1, u_char* s2, JREC* jrec) {
 	u_short num[NUMWORDBUF];
 
-	setwdnum(s1, (int)jrec->numlen, num);
+	setwdnum(SJ3_CONTEXT_PASS s1, (int)jrec->numlen, num);
 
-	kan_num(num, Num2tbl, Num4tbl);
+	kan_num(SJ3_CONTEXT_PASS num, Num2tbl, Num4tbl);
 }
 
-void num_type09(u_char* s1, u_char* s2, JREC* jrec) {
+void num_type09(SJ3_CONTEXT u_char* s1, u_char* s2, JREC* jrec) {
 	u_short num[NUMWORDBUF];
 
-	setwdnum(s1, (int)jrec->numlen, num);
+	setwdnum(SJ3_CONTEXT_PASS s1, (int)jrec->numlen, num);
 
-	kan_num(num, Num3tbl, Num5tbl);
+	kan_num(SJ3_CONTEXT_PASS num, Num3tbl, Num5tbl);
 }
 
-void num_type10(u_char* s1, u_char* s2, JREC* jrec) {
+void num_type10(SJ3_CONTEXT u_char* s1, u_char* s2, JREC* jrec) {
 	int i;
 
 	for(i = jrec->numlen; i > 0; i--) {
@@ -245,7 +245,7 @@ void num_type10(u_char* s1, u_char* s2, JREC* jrec) {
 	}
 }
 
-void num_type11(u_char* s1, u_char* s2, JREC* jrec) {
+void num_type11(SJ3_CONTEXT u_char* s1, u_char* s2, JREC* jrec) {
 	int i;
 	int j;
 
@@ -267,7 +267,7 @@ void num_type11(u_char* s1, u_char* s2, JREC* jrec) {
 	}
 }
 
-void num_type12(u_char* s1, u_char* s2, JREC* jrec) {
+void num_type12(SJ3_CONTEXT u_char* s1, u_char* s2, JREC* jrec) {
 	int i;
 	int j;
 
@@ -281,7 +281,7 @@ void num_type12(u_char* s1, u_char* s2, JREC* jrec) {
 }
 
 static void
-num_kurai(u_char* p, int len, u_char* tbl) {
+num_kurai(SJ3_CONTEXT u_char* p, int len, u_char* tbl) {
 	int    i;
 	int    j;
 	u_char tmp;
@@ -302,20 +302,20 @@ num_kurai(u_char* p, int len, u_char* tbl) {
 	}
 }
 
-void num_type13(u_char* s1, u_char* s2, JREC* jrec) {
+void num_type13(SJ3_CONTEXT u_char* s1, u_char* s2, JREC* jrec) {
 	u_char num[NUMKETALENGTH];
 	int    len;
 
-	len = setucnum(s1, (int)jrec->numlen, num);
+	len = setucnum(SJ3_CONTEXT_PASS s1, (int)jrec->numlen, num);
 
-	num_kurai(num, len, Num1tbl);
+	num_kurai(SJ3_CONTEXT_PASS num, len, Num1tbl);
 }
 
-void num_type14(u_char* s1, u_char* s2, JREC* jrec) {
+void num_type14(SJ3_CONTEXT u_char* s1, u_char* s2, JREC* jrec) {
 	u_char num[NUMKETALENGTH];
 	int    len;
 
-	len = setucnum(s1, (int)jrec->numlen, num);
+	len = setucnum(SJ3_CONTEXT_PASS s1, (int)jrec->numlen, num);
 
-	num_kurai(num, len, Num2tbl);
+	num_kurai(SJ3_CONTEXT_PASS num, len, Num2tbl);
 }

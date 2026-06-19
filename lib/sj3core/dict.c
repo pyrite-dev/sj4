@@ -38,7 +38,7 @@
 
 #include "sj_kanakan.h"
 
-void get_askknj() {
+void get_askknj(SJ3_CONTEXT2) {
 	u_char* p;
 	u_char* q;
 	u_char* r;
@@ -68,7 +68,7 @@ void get_askknj() {
 	}
 }
 
-int seldict(TypeDicID id) {
+int seldict(SJ3_CONTEXT TypeDicID id) {
 	DICTL* dp;
 
 	for(dp = dictlist; dp; dp = dp->next) {
@@ -81,7 +81,7 @@ int seldict(TypeDicID id) {
 }
 
 u_char*
-get_idxptr(TypeDicSeg seg) {
+get_idxptr(SJ3_CONTEXT TypeDicSeg seg) {
 	(*curdict->getofs)(curdict);
 	(*curdict->getidx)(curdict);
 

@@ -45,13 +45,13 @@ static void set_idxyomi();
 
 static void cd2sjh_chr(u_char ch, u_char* dst);
 
-int getusr(u_char* buf) {
+int getusr(SJ3_CONTEXT u_char* buf) {
 	int nlen;
 
 	peepyomi[0] = peepknj[0] = peepgrm = 0;
 
 	(*curdict->getdic)(curdict, peepidx = DICSEGBASE);
-	get_askknj();
+	get_askknj(SJ3_CONTEXT_PASS2);
 
 	peepdptr = segtop();
 
@@ -73,9 +73,9 @@ int getusr(u_char* buf) {
 	return -1;
 }
 
-int nextusr(u_char* buf) {
+int nextusr(SJ3_CONTEXT u_char* buf) {
 	(*curdict->getdic)(curdict, peepidx);
-	get_askknj();
+	get_askknj(SJ3_CONTEXT_PASS2);
 
 	if(next_kanji()) {
 		set_kanji();
@@ -88,9 +88,9 @@ int nextusr(u_char* buf) {
 	return 0;
 }
 
-int prevusr(u_char* buf) {
+int prevusr(SJ3_CONTEXT u_char* buf) {
 	(*curdict->getdic)(curdict, peepidx);
-	get_askknj();
+	get_askknj(SJ3_CONTEXT_PASS2);
 
 	if(prev_kanji()) {
 		set_kanji();
@@ -104,10 +104,10 @@ int prevusr(u_char* buf) {
 }
 
 static void
-set_kanji() {
+set_kanji(SJ3_CONTEXT2) {
 	int len;
 
-	len		 = getkanji(peepyomi, getnlen(peepdptr) + getplen(peepdptr),
+	len		 = getkanji(SJ3_CONTEXT_PASS peepyomi, getnlen(peepdptr) + getplen(peepdptr),
 				    peepkptr, peepknj);
 	*(peepknj + len) = 0;
 }

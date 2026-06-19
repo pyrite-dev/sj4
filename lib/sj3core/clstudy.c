@@ -37,10 +37,10 @@
 
 #include "sj_kanakan.h"
 
-static u_char *delcldata(u_char*), *srchclpos(u_char*);
-static int     delclold();
+static u_char *delcldata(SJ3_CONTEXT u_char*), *srchclpos(SJ3_CONTEXT u_char*);
+static int     delclold(SJ3_CONTEXT2);
 
-int clstudy(u_char* yomi1, u_char* yomi2, STDYOUT* stdy) {
+int clstudy(SJ3_CONTEXT u_char* yomi1, u_char* yomi2, STDYOUT* stdy) {
 	u_char	ytmp[CLSTDY_TMPLEN];
 	u_char *dst, *ptr;
 	int	ret;
@@ -56,7 +56,7 @@ int clstudy(u_char* yomi1, u_char* yomi2, STDYOUT* stdy) {
 		if(!sj2cd_str(yomi1, ytmp, CLSTDY_TMPLEN))
 			return CLSTUDYYOMIERR;
 
-		(void)delcldata(ytmp);
+		(void)delcldata(SJ3_CONTEXT_PASS ytmp);
 
 		ret = CLSTUDYNORMEND;
 	} else if(!stdy)
@@ -77,15 +77,15 @@ int clstudy(u_char* yomi1, u_char* yomi2, STDYOUT* stdy) {
 
 		if(alen + 1 >= CLSTUDYLEN) return CLSTUDYNOAREA;
 
-		blen = CLSTUDYTAIL - delcldata(ytmp) - 1;
+		blen = CLSTUDYTAIL - delcldata(SJ3_CONTEXT_PASS ytmp) - 1;
 
 		while(blen < alen) {
-			if(!(i = delclold())) break;
+			if(!(i = delclold(SJ3_CONTEXT_PASS2))) break;
 			blen += i;
 		}
 
 		if(blen >= alen) {
-			dst = srchclpos(ytmp);
+			dst = srchclpos(SJ3_CONTEXT_PASS ytmp);
 
 			ptr = CLSTUDYTAIL - alen;
 			mvmemd(ptr, CLSTUDYTAIL, (ptr - dst));
@@ -99,14 +99,14 @@ int clstudy(u_char* yomi1, u_char* yomi2, STDYOUT* stdy) {
 		} else
 			ret = CLSTUDYNOAREA;
 	}
-	mkclidx();
-	putcldic();
+	mkclidx(SJ3_CONTEXT_PASS2);
+	putcldic(SJ3_CONTEXT_PASS2);
 
 	return ret;
 }
 
 static u_char*
-delcldata(u_char* ycode) {
+delcldata(SJ3_CONTEXT u_char* ycode) {
 	u_char* tagptr;
 	u_char* ptr1;
 	u_char* ptr2;
@@ -125,7 +125,7 @@ delcldata(u_char* ycode) {
 			len1--;
 		}
 		if(!*ptr1 || !len1) {
-			delclsub(tagptr);
+			delclsub(SJ3_CONTEXT_PASS tagptr);
 		} else {
 			tagptr = ClNextTag(tagptr);
 		}
@@ -134,7 +134,7 @@ delcldata(u_char* ycode) {
 	return tagptr;
 }
 
-void delclsub(u_char* target) {
+void delclsub(SJ3_CONTEXT u_char* target) {
 	u_char* src;
 	int	num;
 	int	tmp;
@@ -164,7 +164,7 @@ void delclsub(u_char* target) {
 }
 
 static int
-delclold() {
+delclold(SJ3_CONTEXT2) {
 	u_char* tagptr;
 	u_char* target;
 	int	num;
@@ -187,14 +187,14 @@ delclold() {
 
 	if(target) {
 		num = ClBlkLen(tagptr);
-		delclsub(target);
+		delclsub(SJ3_CONTEXT_PASS target);
 	}
 
 	return num;
 }
 
 static u_char*
-srchclpos(u_char* ycode) {
+srchclpos(SJ3_CONTEXT u_char* ycode) {
 	u_char* tagptr;
 	u_char* target;
 	u_char* ptr1;
@@ -234,7 +234,7 @@ srchclpos(u_char* ycode) {
 	return target ? target : tagptr;
 }
 
-void mkclidx() {
+void mkclidx(SJ3_CONTEXT2) {
 	u_char* ptr;
 	int	num;
 	int	st, ed;

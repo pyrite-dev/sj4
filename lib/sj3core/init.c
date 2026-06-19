@@ -37,7 +37,7 @@
 
 #include "sj_kanakan.h"
 
-void seg_count(DICT* dict) {
+void seg_count(SJ3_CONTEXT DICT* dict) {
 	u_char*	   p;
 	u_char*	   q;
 	TypeDicSeg segcnt = 0;
@@ -56,7 +56,7 @@ void seg_count(DICT* dict) {
 	dict->segunit = (segcnt == 0) ? 1 : segcnt;
 }
 
-void mkidxtbl(DICT* dict) {
+void mkidxtbl(SJ3_CONTEXT DICT* dict) {
 	u_char*	   p;
 	TypeDicSeg seg;
 
@@ -74,7 +74,7 @@ void mkidxtbl(DICT* dict) {
 	}
 }
 
-void initwork() {
+void initwork(SJ3_CONTEXT2) {
 	jrt1st = jrt2nd = maxjptr = (JREC*)0;
 	clt1st = clt2nd = maxclptr = (CLREC*)0;
 }

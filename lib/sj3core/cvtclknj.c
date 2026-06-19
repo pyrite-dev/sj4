@@ -37,7 +37,7 @@
 
 #include "sj_kanakan.h"
 
-void cvtclknj() {
+void cvtclknj(SJ3_CONTEXT2) {
 	KHREC* krec;
 	int    i;
 
@@ -51,7 +51,7 @@ void cvtclknj() {
 		krec++;
 	}
 
-	setstyrec(krec);
+	setstyrec(SJ3_CONTEXT_PASS krec);
 
-	cvtkouho(krec);
+	cvtkouho(SJ3_CONTEXT_PASS krec);
 }

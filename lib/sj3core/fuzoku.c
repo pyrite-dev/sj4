@@ -74,7 +74,7 @@ fzkstrcmp(u_char* yptr, u_char* fzkp, int* saml) {
 	return MATCH;
 }
 
-void setclrec(JREC* jrec, u_char* yptr, TypeCnct right) {
+void setclrec(SJ3_CONTEXT JREC* jrec, u_char* yptr, TypeCnct right) {
 	CLREC* new;
 	TypeGram hinsi;
 	int	 len;
@@ -83,7 +83,7 @@ void setclrec(JREC* jrec, u_char* yptr, TypeCnct right) {
 
 	if(len > MAXCLINPUTLEN) return;
 
-	if(!(new = argclrec(len))) return;
+	if(!(new = argclrec(SJ3_CONTEXT_PASS len))) return;
 
 	new->jnode  = jrec;
 	new->gobiln = gobilen;
@@ -165,7 +165,7 @@ fzkcnct(TypeCnct right, TypeCnct left) {
 }
 
 RECURS
-void srchfzk(JREC* jrec, u_char* yptr, TypeCnct right, int level) {
+void srchfzk(SJ3_CONTEXT JREC* jrec, u_char* yptr, TypeCnct right, int level) {
 	u_char*	 fzk;
 	int	 len = 0;
 	int	 cmp;
@@ -177,11 +177,11 @@ void srchfzk(JREC* jrec, u_char* yptr, TypeCnct right, int level) {
 
 	if((level >= MAXFLVL) && !(Chrtbl[*yptr] & FZK_KGU)) return;
 
-	if(terminate(right, yptr) && Chrtbl[*yptr] & FZK_KGU) {
+	if(terminate(SJ3_CONTEXT_PASS right, yptr) && Chrtbl[*yptr] & FZK_KGU) {
 		if(!level) fzk_ka_flg = 0;
 		yptr++;
 		while(Chrtbl[*yptr] & FZK_KGU) yptr++;
-		setclrec(jrec, yptr, (TypeCnct)R_FZKKGU);
+		setclrec(SJ3_CONTEXT_PASS jrec, yptr, (TypeCnct)R_FZKKGU);
 		return;
 	}
 
@@ -207,11 +207,11 @@ void srchfzk(JREC* jrec, u_char* yptr, TypeCnct right, int level) {
 
 		next = yptr + len;
 
-		if(terminate(rt = FzkRight(fzk), next)) {
-			setclrec(jrec, next, rt);
+		if(terminate(SJ3_CONTEXT_PASS rt = FzkRight(fzk), next)) {
+			setclrec(SJ3_CONTEXT_PASS jrec, next, rt);
 		}
 
-		srchfzk(jrec, next, rt, level + 1);
+		srchfzk(SJ3_CONTEXT_PASS jrec, next, rt, level + 1);
 	}
 
 	if(len) return;
@@ -246,10 +246,10 @@ void srchfzk(JREC* jrec, u_char* yptr, TypeCnct right, int level) {
 
 		next = yptr + len;
 
-		if(terminate(rt = FzkRight(fzk), next)) {
-			setclrec(jrec, next, rt);
+		if(terminate(SJ3_CONTEXT_PASS rt = FzkRight(fzk), next)) {
+			setclrec(SJ3_CONTEXT_PASS jrec, next, rt);
 		}
 
-		srchfzk(jrec, next, rt, level + 1);
+		srchfzk(SJ3_CONTEXT_PASS jrec, next, rt, level + 1);
 	}
 }

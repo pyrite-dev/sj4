@@ -112,7 +112,7 @@ isgrm(TypeGram gram) {
 	return FALSE;
 }
 
-u_int addel_arg(u_char* yp, u_char* kp, TypeGram grm, u_char* nyp, int len) {
+u_int addel_arg(SJ3_CONTEXT u_char* yp, u_char* kp, TypeGram grm, u_char* nyp, int len) {
 	u_short err = 0;
 
 	if(!sj2cd_str(yp, nyp, len)) err |= AD_BADYOMI;
@@ -174,7 +174,7 @@ last_strcmp(u_char* src, u_char* dst) {
 	return (dlen / 2);
 }
 
-int cvtknj(u_char* yomi, u_char* knj, u_char* dst) {
+int cvtknj(SJ3_CONTEXT u_char* yomi, u_char* knj, u_char* dst) {
 	u_char	kana[MAXWDYOMILEN * 2 + 1];
 	int	len;
 	u_char* keep;
@@ -229,7 +229,7 @@ int cvtknj(u_char* yomi, u_char* knj, u_char* dst) {
 	return (dst - keep);
 }
 
-int srchkana(u_char** ptr, int* saml) {
+int srchkana(SJ3_CONTEXT u_char** ptr, int* saml) {
 	u_char* p;
 	int	cmp;
 	int	cnt = 0;
@@ -242,7 +242,7 @@ int srchkana(u_char** ptr, int* saml) {
 
 	while(!segend(p)) {
 		if(flg == 0) {
-			cmp = yomicmp(cnvstart, p, &same);
+			cmp = yomicmp(SJ3_CONTEXT_PASS cnvstart, p, &same);
 
 			if(cmp == OVER) break;
 			if(cmp == MATCH && *(cnvstart + same) == 0) {
@@ -321,20 +321,20 @@ int srchkanji(u_char** dst, u_char* knj, int klen) {
 }
 
 TypeIdxOfs
-count_uidx() {
+count_uidx(SJ3_CONTEXT2) {
 	u_char* p;
 
-	p = get_idxptr(curdict->segunit - 1);
+	p = get_idxptr(SJ3_CONTEXT_PASS curdict->segunit - 1);
 	while(*p++);
 
 	return (curdict->idxlen - (p - idxbuf));
 }
 
-void chg_uidx(TypeDicSeg seg, u_char* yomi, int len) {
+void chg_uidx(SJ3_CONTEXT TypeDicSeg seg, u_char* yomi, int len) {
 	u_char *p, *q;
 	int	olen;
 
-	p = get_idxptr(seg);
+	p = get_idxptr(SJ3_CONTEXT_PASS seg);
 
 	olen = sstrlen(p);
 
@@ -349,5 +349,5 @@ void chg_uidx(TypeDicSeg seg, u_char* yomi, int len) {
 
 	(*curdict->putidx)(curdict, 0);
 
-	mkidxtbl(curdict);
+	mkidxtbl(SJ3_CONTEXT_PASS curdict);
 }

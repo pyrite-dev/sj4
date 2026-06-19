@@ -38,7 +38,7 @@
 
 #include "sj_kanakan.h"
 
-static u_char* code2kanji(u_char* s, u_char* d, u_char* ym, int yl, int flg);
+static u_char* code2kanji(SJ3_CONTEXT u_char* s, u_char* d, u_char* ym, int yl, int flg);
 
 u_char*
 getkan_none(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
@@ -92,13 +92,13 @@ getkan_kata(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 }
 
 u_char*
-getkan_knj(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
-	return code2kanji(askknj[*s & KNJASSYUKUMASK], d, ym, yl, flg);
+getkan_knj(SJ3_CONTEXT u_char* s, u_char* d, u_char* ym, int yl, int flg) {
+	return code2kanji(SJ3_CONTEXT_PASS askknj[*s & KNJASSYUKUMASK], d, ym, yl, flg);
 }
 
 u_char*
-getkan_ofs(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
-	return code2kanji(dicbuf + ((*s & KANJICODEMASK) << 8) + *(s + 1),
+getkan_ofs(SJ3_CONTEXT u_char* s, u_char* d, u_char* ym, int yl, int flg) {
+	return code2kanji(SJ3_CONTEXT_PASS dicbuf + ((*s & KANJICODEMASK) << 8) + *(s + 1),
 			  d, ym, yl, flg);
 }
 
@@ -131,7 +131,7 @@ getkan_ascii(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 }
 
 static u_char*
-code2kanji(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
+code2kanji(SJ3_CONTEXT u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 	int csize;
 
 	for(;;) {
@@ -147,7 +147,7 @@ code2kanji(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 				break;
 
 			case OFFSETASSYUKU:
-				d = getkan_ofs(s, d, ym, yl, flg);
+				d = getkan_ofs(SJ3_CONTEXT_PASS s, d, ym, yl, flg);
 				break;
 
 			case AIATTRIBUTE:
@@ -159,7 +159,7 @@ code2kanji(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 				break;
 
 			case KANJIASSYUKU:
-				d = getkan_knj(s, d, ym, yl, flg);
+				d = getkan_knj(SJ3_CONTEXT_PASS s, d, ym, yl, flg);
 				break;
 
 			default:
@@ -177,7 +177,7 @@ code2kanji(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 				break;
 
 			case OFFSETASSYUKU:
-				d = getkan_ofs(s, d, ym, yl, FALSE);
+				d = getkan_ofs(SJ3_CONTEXT_PASS s, d, ym, yl, FALSE);
 				break;
 
 			case AIATTRIBUTE:
@@ -189,7 +189,7 @@ code2kanji(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 				break;
 
 			case KANJIASSYUKU:
-				d = getkan_knj(s, d, ym, yl, FALSE);
+				d = getkan_knj(SJ3_CONTEXT_PASS s, d, ym, yl, FALSE);
 				break;
 
 			default:
@@ -202,10 +202,10 @@ code2kanji(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 	return d;
 }
 
-int getkanji(u_char* ym, int yl, u_char* ptr, u_char* buf) {
+int getkanji(SJ3_CONTEXT u_char* ym, int yl, u_char* ptr, u_char* buf) {
 	u_char* q;
 
-	q = code2kanji(ptr, buf, ym, yl, TRUE);
+	q = code2kanji(SJ3_CONTEXT_PASS ptr, buf, ym, yl, TRUE);
 
 	return q - buf;
 }

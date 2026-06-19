@@ -36,9 +36,10 @@
 #ifndef SJ_GLOBAL_H
 #define SJ_GLOBAL_H
 
-extern Global* global_work_base;
+#if 0
 extern Global* work_base;
 extern STDY*   stdy_base;
-extern int     serv_errno;
+#endif
+extern int serv_errno;
 
 #endif

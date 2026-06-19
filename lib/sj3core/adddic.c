@@ -41,13 +41,13 @@
 
 #include "sj_kanakan.h"
 
-static void  sprt_seg(TypeDicSeg, TypeDicOfs);
-static void  apnd_uidx(TypeDicSeg, u_char*, int);
-static int   cal_nextym(u_char*);
-static int   usr_freelen();
-static u_int checkdict(u_char*, TypeGram);
+static void  sprt_seg(SJ3_CONTEXT TypeDicSeg, TypeDicOfs);
+static void  apnd_uidx(SJ3_CONTEXT TypeDicSeg, u_char*, int);
+static int   cal_nextym(SJ3_CONTEXT u_char*);
+static int   usr_freelen(SJ3_CONTEXT2);
+static u_int checkdict(SJ3_CONTEXT u_char*, TypeGram);
 
-u_int adddic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
+u_int adddic(SJ3_CONTEXT u_char* yomi, u_char* kanji, TypeGram hinsi) {
 	u_int	   err;
 	u_char	   yptr[MAXWDYOMILEN + 1];
 	u_char	   kptr[MAXWDKANJILEN + 1];
@@ -73,20 +73,20 @@ u_int adddic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
 	STDYIN*	   stdy;
 	STDYOUT	   stdydat;
 
-	if((err = addel_arg(yomi, kanji, hinsi, yptr, sizeof(yptr))))
+	if((err = addel_arg(SJ3_CONTEXT_PASS yomi, kanji, hinsi, yptr, sizeof(yptr))))
 		return err;
 
 	inputyomi = yomi;
 	cnvstart = ystart = yptr;
 	cnvlen		  = sstrlen(yptr);
 
-	if((err = checkdict(kanji, hinsi)))
+	if((err = checkdict(SJ3_CONTEXT_PASS kanji, hinsi)))
 		return err;
 
 	if(!curdict->maxunit)
 		return AD_NOTUSERDICT;
 
-	klen = cvtknj(yomi, kanji, kptr);
+	klen = cvtknj(SJ3_CONTEXT_PASS yomi, kanji, kptr);
 
 	newsiz = DOUONBLKSIZENUMBER + cnvlen + (klen != 0 ? klen + 1 : 0) + 2;
 
@@ -95,11 +95,11 @@ u_int adddic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
 	if(newsiz > curdict->seglen)
 		return AD_OVFLWDOUBLK;
 
-	segnum = srchidx((TypeDicSeg)DICSEGBASE, cnvlen);
+	segnum = srchidx(SJ3_CONTEXT_PASS(TypeDicSeg) DICSEGBASE, cnvlen);
 
 	for(;;) {
 		(*curdict->getdic)(curdict, segnum);
-		i      = srchkana(&p1, &saml);
+		i      = srchkana(SJ3_CONTEXT_PASS & p1, &saml);
 		dstofs = douofs = p1 - dicbuf;
 		hnsofs = knjofs = 0;
 		if(i) {
@@ -120,7 +120,7 @@ u_int adddic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
 			nlen   = cnvlen - saml;
 			newsiz = DOUONBLKSIZENUMBER + nlen;
 
-			nxtask = cal_nextym(p1);
+			nxtask = cal_nextym(SJ3_CONTEXT_PASS p1);
 		} else {
 			oldsiz = newsiz = getsize(p1);
 			nxtask		= 0;
@@ -129,7 +129,7 @@ u_int adddic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
 
 		newsiz += (klen != 0 ? klen + 1 : 0);
 
-		fresiz = usr_freelen();
+		fresiz = usr_freelen(SJ3_CONTEXT_PASS2);
 
 		if((unsigned int)(newsiz - oldsiz - nxtask) <=
 		   (unsigned int)fresiz) break;
@@ -142,7 +142,7 @@ u_int adddic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
 		if(curdict->segunit >= curdict->maxunit)
 			return AD_OVFLWUSRDIC;
 
-		freidx = count_uidx();
+		freidx = count_uidx(SJ3_CONTEXT_PASS2);
 
 		if((unsigned int)(douofs + newsiz) <= curdict->seglen) {
 			if(hnsofs)
@@ -156,7 +156,7 @@ u_int adddic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
 			if((*curdict->putdic)(curdict, curdict->segunit))
 				return AD_OVFLWUSRDIC;
 
-			sprt_seg(segnum, pos);
+			sprt_seg(SJ3_CONTEXT_PASS segnum, pos);
 
 			nxtask = 0;
 			break;
@@ -175,7 +175,7 @@ u_int adddic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
 			dicbuf[0] = 0;
 			(*curdict->putdic)(curdict, curdict->segunit - 1);
 			(*curdict->rszdic)(curdict, curdict->segunit);
-			mkidxtbl(curdict);
+			mkidxtbl(SJ3_CONTEXT_PASS curdict);
 
 			segnum++;
 		} else {
@@ -186,7 +186,7 @@ u_int adddic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
 			if((*curdict->putdic)(curdict, curdict->segunit))
 				return AD_OVFLWUSRDIC;
 
-			sprt_seg(segnum, douofs);
+			sprt_seg(SJ3_CONTEXT_PASS segnum, douofs);
 
 			segnum++;
 		}
@@ -220,7 +220,7 @@ u_int adddic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
 
 	if(!hnsofs) {
 		if(douofs == segtop() - dicbuf) {
-			chg_uidx(segnum, yptr, cnvlen);
+			chg_uidx(SJ3_CONTEXT_PASS segnum, yptr, cnvlen);
 		}
 
 		*dstptr = 0;
@@ -275,9 +275,9 @@ u_int adddic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
 			err = sstrncmp(yptr, (u_char*)ClYomiPos(p1),
 				       (int)ClYomiLen(p1));
 			if(err == MATCH) {
-				delclsub(p1);
-				mkclidx();
-				putcldic();
+				delclsub(SJ3_CONTEXT_PASS p1);
+				mkclidx(SJ3_CONTEXT_PASS2);
+				putcldic(SJ3_CONTEXT_PASS2);
 				break;
 			} else if(err == OVER)
 				break;
@@ -295,13 +295,13 @@ u_int adddic(u_char* yomi, u_char* kanji, TypeGram hinsi) {
 	stdydat.sttlen	    = 0;
 	stdydat.sttfg	    = 0;
 	stdydat.ka_fg	    = 0;
-	(void)study(&stdydat);
+	(void)study(SJ3_CONTEXT_PASS & stdydat);
 
 	return AD_DONE;
 }
 
 static int
-checksub(u_char* kanji, TypeGram grm) {
+checksub(SJ3_CONTEXT u_char* kanji, TypeGram grm) {
 	u_char* tagp;
 	u_char* ptr;
 	u_char* endp;
@@ -313,7 +313,7 @@ checksub(u_char* kanji, TypeGram grm) {
 	dicsaml = 0;
 	prevseg = (TypeDicSeg)-1;
 	for(;;) {
-		if(!(tagp = srchdict(tagp)))
+		if(!(tagp = srchdict(SJ3_CONTEXT_PASS tagp)))
 			return 0;
 		if(cnvlen == getnlen(tagp) + getplen(tagp))
 			break;
@@ -330,12 +330,12 @@ checksub(u_char* kanji, TypeGram grm) {
 		flg = (grm == *ptr++);
 		while(*ptr != HINSIBLKTERM) {
 			if(flg) {
-				buf[getkanji(inputyomi, cnvlen, ptr, buf)] = 0;
+				buf[getkanji(SJ3_CONTEXT_PASS inputyomi, cnvlen, ptr, buf)] = 0;
 				if(cmpstr(kanji, buf))
 					return -1;
 			}
 			dounum++;
-			ptr = skipkstr(ptr);
+			ptr = skipkstr(SJ3_CONTEXT_PASS ptr);
 		}
 
 		ptr++;
@@ -345,7 +345,7 @@ checksub(u_char* kanji, TypeGram grm) {
 }
 
 static u_int
-checkdict(u_char* kanji, TypeGram grm) {
+checkdict(SJ3_CONTEXT u_char* kanji, TypeGram grm) {
 	DICTL* dp;
 	int    dounum = 0;
 	int    tmp;
@@ -356,7 +356,7 @@ checkdict(u_char* kanji, TypeGram grm) {
 
 		curdict = dp->dict;
 
-		if((tmp = checksub(kanji, grm)) < 0) {
+		if((tmp = checksub(SJ3_CONTEXT_PASS kanji, grm)) < 0) {
 			curdict = tmpdict;
 			return AD_AREXIST;
 		}
@@ -372,7 +372,7 @@ checkdict(u_char* kanji, TypeGram grm) {
 }
 
 static int
-cal_nextym(u_char* ptr) {
+cal_nextym(SJ3_CONTEXT u_char* ptr) {
 	int	count = 0;
 	u_char* src;
 	int	len;
@@ -394,7 +394,7 @@ cal_nextym(u_char* ptr) {
 }
 
 static int
-usr_freelen() {
+usr_freelen(SJ3_CONTEXT2) {
 	u_char* ptr;
 
 	ptr = segtop();
@@ -405,7 +405,7 @@ usr_freelen() {
 }
 
 static void
-sprt_seg(TypeDicSeg seg, TypeDicOfs ofs) {
+sprt_seg(SJ3_CONTEXT TypeDicSeg seg, TypeDicOfs ofs) {
 	TypeDicSeg s;
 	u_char*	   pos;
 	u_char*	   p;
@@ -441,7 +441,7 @@ sprt_seg(TypeDicSeg seg, TypeDicOfs ofs) {
 	nlen = getnlen(pos);
 	ylen = (i = getplen(pos)) + (j = nlen);
 
-	apnd_uidx(seg, yomi, ylen);
+	apnd_uidx(SJ3_CONTEXT_PASS seg, yomi, ylen);
 
 	set_size(segtop(), getsize(pos) + i, 0, ylen);
 
@@ -479,11 +479,11 @@ sprt_seg(TypeDicSeg seg, TypeDicOfs ofs) {
 }
 
 static void
-apnd_uidx(TypeDicSeg seg, u_char* yomi, int len) {
+apnd_uidx(SJ3_CONTEXT TypeDicSeg seg, u_char* yomi, int len) {
 	u_char* p;
 	u_char* q;
 
-	p = get_idxptr(seg);
+	p = get_idxptr(SJ3_CONTEXT_PASS seg);
 	while(*p++);
 
 	q = idxbuf + curdict->idxlen;
@@ -495,5 +495,5 @@ apnd_uidx(TypeDicSeg seg, u_char* yomi, int len) {
 
 	(*curdict->putidx)(curdict, 0);
 
-	mkidxtbl(curdict);
+	mkidxtbl(SJ3_CONTEXT_PASS curdict);
 }
