@@ -118,8 +118,8 @@ void free_context(Sj3Context* ctx) {
 
 	freework(ctx);
 
-	free(ctx->jrec_pool);
-	free(ctx->clrec_pool);
+	if(ctx->jrec_pool != NULL) free(ctx->jrec_pool);
+	if(ctx->clrec_pool != NULL) free(ctx->clrec_pool);
 
 	free(ctx->stdy);
 	free(ctx->work);
