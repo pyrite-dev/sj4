@@ -430,7 +430,7 @@ void makehead(u_char* dict_name) {
 	put4byte(header + VERSIONPOS, DICTVERSION);
 	time(&i);
 	p = header + COMMENTPOS;
-	snprintf((char*)p, sizeof(header) - COMMENTPOS, "%s : %s", dict_name, ctime(&i));
+	sj4_snprintf((char*)p, sizeof(header) - COMMENTPOS, "%s : %s", dict_name, ctime(&i));
 	while(*p) {
 		if(*p == '\n') {
 			*p = 0;

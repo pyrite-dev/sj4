@@ -732,7 +732,7 @@ int set_stdypass(SJ4_CONTEXT char* pass) {
 
 static void
 set_comment(u_char* buf, char* comment) {
-	strlcpy((char*)buf + HEADERLENGTH, comment, COMMENTLENGTH);
+	sj4_strlcpy((char*)buf + HEADERLENGTH, comment, COMMENTLENGTH);
 }
 
 int set_dictcmnt(DictFile* dp, char* cmnt) {

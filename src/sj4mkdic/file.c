@@ -66,7 +66,7 @@ FILE* Fopen(char* filename, char* type) {
 	fl	  = (FileList*)Malloc(sizeof(*fl));
 	len	  = strlen(filename) + 1;
 	fl->fname = Malloc(len);
-	strlcpy(fl->fname, filename, len);
+	sj4_strlcpy(fl->fname, filename, len);
 	fl->fp	 = fp;
 	fl->next = flist;
 

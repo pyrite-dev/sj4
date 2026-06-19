@@ -59,7 +59,7 @@ char* make_idxlist(char* name) {
 
 	i = strlen(name);
 	p = Zalloc(i + 2);
-	strlcpy(p, name, i + 2);
+	sj4_strlcpy(p, name, i + 2);
 	return p;
 }
 char* get_idxlist(char* name) {
@@ -180,7 +180,7 @@ void mark_file(FILE* out) {
 		fputc('\n', out);
 		Fclose(fp);
 	} else {
-		strlcpy(pathname, idxtop, sizeof(pathname));
+		sj4_strlcpy(pathname, idxtop, sizeof(pathname));
 		pos = infp ? Ftell(infp) : 0;
 	}
 }

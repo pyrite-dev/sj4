@@ -32,6 +32,7 @@
 * Tested compilers
 	GCC/Clang			Debian GNU/Linux 13
 	Open Watcom 2.0			Windows 11
+	Visual C++ 6.0			Windows 11
 
 * Differences
 	 - Multiple contexts can be created in SJ4. SJ3's behavior of using
