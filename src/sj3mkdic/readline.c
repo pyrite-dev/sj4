@@ -65,12 +65,28 @@ static const char utf8_bytes[256] = {
     0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
+static int code = 0;
+
 static int
 readchar() {
 #ifdef UTF8
 	int c[4];
 	int i = 0, j;
-	int n = 0;
+	int n = 0, cod;
+
+	if(code == -1) {
+		code = 0;
+
+		return ']';
+	} else if(code != 0) {
+		int   h	  = code & 0xf;
+		char* hex = "0123456789ABCDEF";
+		code	  = code >> 4;
+
+		if(code == 0) code = -1;
+
+		return hex[h];
+	}
 
 	do {
 		if((c[i++] = getch()) == EOF) return EOF;
@@ -79,7 +95,13 @@ readchar() {
 	if(i == 1) {
 		n = c[0];
 	} else {
-		n |= c[0] & (0xff >> (8 - i - 1));
+		int f = 0xff;
+
+		if(i == 2) f = f >> 3;
+		if(i == 3) f = f >> 4;
+		if(i == 4) f = f >> 5;
+
+		n |= c[0] & f;
 
 		for(j = 1; j < i; j++) {
 			n = n << 6;
@@ -87,7 +109,13 @@ readchar() {
 		}
 	}
 
-	return unicode_to_eucjp(n);
+	if((cod = unicode_to_eucjp(n)) == -1) {
+		code = n;
+
+		return '[';
+	}
+
+	return cod;
 #else
 	int c1;
 	int c2;
