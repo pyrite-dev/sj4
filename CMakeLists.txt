@@ -1,25 +1,25 @@
 cmake_minimum_required(VERSION 3.11)
 
-project(sj3)
+project(sj4)
 
-file(GLOB_RECURSE SJ3CORE_SRCS lib/sj3core/**.c)
-add_library(sj3core STATIC ${SJ3CORE_SRCS})
-target_include_directories(sj3core PUBLIC include/sj3common include/sj3core)
-target_include_directories(sj3core PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+file(GLOB_RECURSE SJ4CORE_SRCS lib/sj4core/**.c)
+add_library(sj4core STATIC ${SJ4CORE_SRCS})
+target_include_directories(sj4core PUBLIC include/sj4common include/sj4core)
+target_include_directories(sj4core PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
-#file(GLOB_RECURSE SJ3RKCV_SRCS lib/sj3rkcv/**.c)
-#add_library(sj3rkcv STATIC ${SJ3RKCV_SRCS})
-#target_include_directories(sj3rkcv PUBLIC include/sj3common include/sj3rkcv)
-#target_include_directories(sj3rkcv PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+#file(GLOB_RECURSE SJ4RKCV_SRCS lib/sj4rkcv/**.c)
+#add_library(sj4rkcv STATIC ${SJ4RKCV_SRCS})
+#target_include_directories(sj4rkcv PUBLIC include/sj4common include/sj4rkcv)
+#target_include_directories(sj4rkcv PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
-file(GLOB_RECURSE SJ3MKDIC_SRCS src/sj3mkdic/**.c)
-add_executable(sj3mkdic ${SJ3MKDIC_SRCS})
-target_include_directories(sj3mkdic PRIVATE include/sj3common include/sj3core)
+file(GLOB_RECURSE SJ4MKDIC_SRCS src/sj4mkdic/**.c)
+add_executable(sj4mkdic ${SJ4MKDIC_SRCS})
+target_include_directories(sj4mkdic PRIVATE include/sj4common include/sj4core)
 
-file(GLOB_RECURSE SJ3TEST_SRCS src/sj3test/**.c)
-add_executable(sj3test ${SJ3TEST_SRCS})
-target_link_libraries(sj3test PRIVATE sj3core)
+file(GLOB_RECURSE SJ4TEST_SRCS src/sj4test/**.c)
+add_executable(sj4test ${SJ4TEST_SRCS})
+target_link_libraries(sj4test PRIVATE sj4core)
 
-#target_compile_definitions(sj3core PUBLIC SJ3_GLOBAL)
+#target_compile_definitions(sj4core PUBLIC SJ4_GLOBAL)
 
-target_compile_definitions(sj3mkdic PRIVATE UTF8 ENGLISH)
+target_compile_definitions(sj4mkdic PRIVATE UTF8 ENGLISH)
