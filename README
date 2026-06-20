@@ -11,16 +11,16 @@
 * Source tree
 	include		Header files
 
-	lib/sj3core	Kana-Kanji conversion library
+	lib/sj4core	Kana-Kanji conversion library
 
-	lib/sj3rkcv	Roma-Kana conversion library
+	lib/sj4rkcv	Roma-Kana conversion library
 
 	dict		Main dictionary(text file)
 
-	src/sj3mkdic	Tool for converting main dictionary from text file
+	src/sj4mkdic	Tool for converting main dictionary from text file
 			to binary file
 
-	src/sj3test	Demonstration program for Kana-Kanji conversion
+	src/sj4test	Demonstration program for Kana-Kanji conversion
 
 	doc/man		Online manual(Japanese)
 	doc/doc		Operation guide for SJ3 and other documents(Japanese)
