@@ -280,7 +280,11 @@ diff_ylen(DouonRec* drec) {
 			output_yomi(stderr, dprev->yptr);
 			fputc('\n', stderr);
 			exit(1);
-		} else if(*p1 > *p2) {
+		}
+
+		/* XXX: this does not always work... */
+#if 0
+		else if(*p1 > *p2) {
 			fprintf(stderr, WRONGREADORDER);
 			output_yomi(stderr, dprev->yptr);
 			fputc('\n', stderr);
@@ -288,6 +292,7 @@ diff_ylen(DouonRec* drec) {
 			fputc('\n', stderr);
 			exit(1);
 		}
+#endif
 		while(*p2++)
 			ylen++;
 	}
@@ -348,8 +353,12 @@ start:
 
 	hnum = drec->hrec_num;
 
+#if 1
+	i = 0x100 + /* knjask can go up to 255 */
+#else
 	i = 1 +
 	    MAXKNJASKNUMBER +
+#endif
 	    douon_num * DOUONBLKSIZENUMBER + DOUONBLKSIZENUMBER +
 	    yomi_len + ylen +
 	    hinsi_num + hnum +

@@ -38,7 +38,7 @@
 
 #include "sj4mkdic.h"
 
-static u_char mindex[MAINSEGMENTLENGTH];
+static u_char mindex[MAININDEXLENGTH];
 static int    idxpos = 0;
 static int    idxnum = 0;
 
