@@ -369,7 +369,7 @@ int sj4_mbstowcs16(wchar16_t* ws, unsigned char* mb, int n) {
 		return sj4_sjiss2wcs16(ws, mb, n);
 }
 
-int sj4_wcstombs16(unsigned char* mb, unsigned char* ws, int n) {
+int sj4_wcstombs16(unsigned char* mb, wchar16_t* ws, int n) {
 	if(current_locale == LC_CTYPE_EUC)
 		return sj4_wcs2eucs16(mb, ws, n);
 	else

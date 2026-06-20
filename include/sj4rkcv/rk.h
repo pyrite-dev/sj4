@@ -38,6 +38,7 @@
 
 #include <sys/types.h>
 #include "wchar16.h"
+#include "sj_string.h"
 
 #define SPACE 0x20
 #define TAB 0x09

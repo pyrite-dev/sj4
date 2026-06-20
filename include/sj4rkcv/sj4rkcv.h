@@ -118,7 +118,7 @@ int	     sj4_wcs2sjiss16(unsigned char*, wchar16_t*, int);
 int	     sj4_eucs2wcs16(wchar16_t*, unsigned char*, int);
 int	     sj4_sjiss2wcs16(wchar16_t*, unsigned char*, int);
 int	     sj4_mbstowcs16(wchar16_t*, unsigned char*, int);
-int	     sj4_wcstombs16(unsigned char*, unsigned char*, int);
+int	     sj4_wcstombs16(unsigned char*, wchar16_t*, int);
 
 /* XXX */
 extern int current_locale;
