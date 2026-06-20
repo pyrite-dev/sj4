@@ -61,7 +61,7 @@ make_divrec() {
 
 	p = (DivList*)Malloc(sizeof(DivList));
 	if(!p) {
-		fprintf(stderr, "\245\341\245\342\245\352\244\254\302\255\244\352\244\336\244\273\244\363\n");
+		fprintf(stderr, MEMNOTENOUGH);
 		exit(1);
 	}
 	p->child = NULL;
@@ -160,7 +160,7 @@ knjofscvt(u_char* ptr, int len, int* ret) {
 
 	p = (u_char*)Malloc(i);
 	if(!p) {
-		fprintf(stderr, "\245\341\245\342\245\352\244\254\311\324\302\255\244\267\244\336\244\267\244\277");
+		fprintf(stderr, MEMINSUFFICIENT);
 		exit(1);
 	}
 	for(q = p, dl = parent.child; dl; dl = dl->child) {
@@ -190,7 +190,7 @@ knjcvt(u_char* ptr, int len, int* ret) {
 
 	p = (u_char*)Malloc(i);
 	if(!p) {
-		fprintf(stderr, "\245\341\245\342\245\352\244\254\311\324\302\255\244\267\244\336\244\267\244\277");
+		fprintf(stderr, MEMINSUFFICIENT);
 		exit(1);
 	}
 	for(q = p, dl = parent.child; dl; dl = dl->child) {
@@ -206,7 +206,7 @@ knjcvt(u_char* ptr, int len, int* ret) {
 	free_divlist(parent.child);
 
 	if(i != q - p) {
-		printf("\244\263\244\263\n");
+		printf(CVTHERE);
 		exit(1);
 	}
 

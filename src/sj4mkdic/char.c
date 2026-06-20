@@ -133,21 +133,21 @@ void output_knj(FILE* fp, u_char* p, int l) {
 	while(l > 0) {
 		switch(*p & KANJIMODEMASK) {
 		case ZENHIRAASSYUKU:
-			fprintf(fp, "\244\322%d", (*p++ & 0x0f) + 1);
+			fprintf(fp, COMPHIRAGANA, (*p++ & 0x0f) + 1);
 			l--;
 			break;
 		case ZENKATAASSYUKU:
-			fprintf(fp, "\245\253%d", (*p++ & 0x0f) + 1);
+			fprintf(fp, COMPKATAKANA, (*p++ & 0x0f) + 1);
 			l--;
 			break;
 		case KANJIASSYUKU:
-			fprintf(fp, "\260\265%1x", (*p++ & 0x0f));
+			fprintf(fp, COMPKANJI, (*p++ & 0x0f));
 			l--;
 			break;
 		case LEADINGHANKAKU:
 #ifndef USEHANKAKUINDICT
 			l = 0;
-			fprintf(stderr, "\244\252\244\253\244\267\244\244");
+			fprintf(stderr, COMPWRONG);
 #else
 			fputc(*p++, fp);
 			l--;
@@ -162,7 +162,7 @@ void output_knj(FILE* fp, u_char* p, int l) {
 			l--;
 			break;
 		case AIATTRIBUTE:
-			fprintf(fp, "\302\260%1x", (*p++ & 0x0f));
+			fprintf(fp, COMPATTR, (*p++ & 0x0f));
 			l--;
 			fprintf(fp, "%02x", *p++);
 			l--;

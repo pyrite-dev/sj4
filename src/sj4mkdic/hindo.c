@@ -33,6 +33,7 @@
  * $SonyDate: 1994/08/17 01:50:26 $
  */
 
+#include "sj4_dict_const.h"
 #include "sj4_dict_struct.h"
 
 #include "sj4mkdic.h"
@@ -65,7 +66,7 @@ makeassyuku(int num) {
 
 	arec = (AssyukuRec*)Malloc(sizeof(AssyukuRec));
 	if(!arec) {
-		fprintf(stderr, "\245\341\245\342\245\352\244\254\302\255\244\352\244\336\244\273\244\363\n");
+		fprintf(stderr, MEMNOTENOUGH);
 		exit(1);
 	}
 
@@ -199,12 +200,12 @@ makehindo(u_char* ptr, int len, int alen) {
 
 	hrec = (HindoRec*)Malloc(sizeof(HindoRec));
 	if(!hrec) {
-		fprintf(stderr, "\245\341\245\342\245\352\244\254\302\255\244\352\244\336\244\273\244\363\n");
+		fprintf(stderr, MEMNOTENOUGH);
 		exit(1);
 	}
 	p = (u_char*)Malloc(len);
 	if(!p) {
-		fprintf(stderr, "\245\341\245\342\245\352\244\254\302\255\244\352\244\336\244\273\244\363\n");
+		fprintf(stderr, MEMNOTENOUGH);
 		exit(1);
 	}
 	hrec->klen = len;
@@ -256,7 +257,7 @@ set_hindo(u_char* ptr, int len, int alen) {
 
 	if(i) {
 		if(hindo_num >= MAXHINDONUMBER) {
-			fprintf(stderr, "\311\321\305\331\245\306\241\274\245\326\245\353\244\254\244\242\244\325\244\354\244\336\244\267\244\277\n");
+			fprintf(stderr, TABLEOVERFLOW);
 			exit(1);
 		}
 
@@ -456,7 +457,7 @@ end:
 		if(len <= 2) continue;
 		while(len > 0) {
 			if((*p & KANJIMODEMASK) == OFFSETASSYUKU) {
-				printf("\245\252\245\325\245\273\245\303\245\310\260\265\275\314\244\362\264\336\244\340 %d\n", i);
+				printf(CONTAINOFFSETCOMP, i);
 			}
 			j = codesize(*p);
 			len -= j;

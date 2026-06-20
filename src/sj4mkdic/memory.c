@@ -33,6 +33,7 @@
  * $SonyDate: 1994/06/03 08:00:42 $
  */
 
+#include "sj4_dict_const.h"
 #include "sj4mkdic.h"
 
 void* Malloc(unsigned size) {
@@ -40,7 +41,7 @@ void* Malloc(unsigned size) {
 
 	p = malloc(size);
 	if(p == NULL) {
-		fprintf(stderr, "\245\341\245\342\245\352\244\254\263\316\312\335\244\307\244\255\244\336\244\273\244\363\244\307\244\267\244\277\241\243\n");
+		fprintf(stderr, MEMALLOCFAILED);
 		exit(1);
 	}
 	return p;

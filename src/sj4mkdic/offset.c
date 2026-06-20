@@ -33,6 +33,7 @@
  * $SonyDate: 1994/08/17 01:50:26 $
  */
 
+#include "sj4_dict_const.h"
 #include "sj4_dict_struct.h"
 
 #include "sj4mkdic.h"
@@ -85,7 +86,7 @@ void set_ofsrec(u_char* ptr, int len, int ofs) {
 
 	if(i) {
 		if(ofsrec_num >= MAXOFFSETNUMBER) {
-			fprintf(stderr, "\245\252\245\325\245\273\245\303\245\310\241\246\245\306\241\274\245\326\245\353\244\254\244\242\244\325\244\354\244\336\244\267\244\277\n");
+			fprintf(stderr, OFFSETTABLEOVERFLOW);
 			exit(1);
 		}
 
@@ -144,6 +145,6 @@ real_ofsrec(u_char* ptr) {
 		if((*p)->offset == ofs)
 			return *p;
 
-	fprintf(stderr, "real_ofsrec() \244\307\260\333\276\357\244\312\276\365\302\326 %x\n", ofs);
+	fprintf(stderr, OFFSETILLEGALSTATE, ofs);
 	exit(1);
 }

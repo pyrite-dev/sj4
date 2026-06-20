@@ -33,6 +33,7 @@
  * $SonyDate: 1994/06/03 08:00:39 $
  */
 
+#include "sj4_dict_const.h"
 #include "sj4_dict_struct.h"
 
 #include "sj4mkdic.h"
@@ -153,7 +154,7 @@ makekanji(int* yomi, int* kanji, int* atr, int* len) {
 
 	q = (u_char*)Malloc(pos);
 	if(!q) {
-		fprintf(stderr, "\245\341\245\342\245\352\244\254\311\324\302\255\244\267\244\336\244\267\244\277");
+		fprintf(stderr, MEMINSUFFICIENT);
 		exit(1);
 	}
 	memcpy(q, ktmp, pos);
@@ -189,7 +190,7 @@ makeyomi(int* yomi) {
 
 	p = (u_char*)Malloc(i);
 	if(!p) {
-		fprintf(stderr, "\245\341\245\342\245\352\244\254\311\324\302\255\244\267\244\336\244\267\244\277");
+		fprintf(stderr, MEMINSUFFICIENT);
 		exit(1);
 	}
 	memcpy(p, tmp, i);
@@ -203,7 +204,7 @@ make_krec(u_char* kcode, int klen) {
 
 	krec = (KanjiRec*)Malloc(sizeof(KanjiRec));
 	if(!krec) {
-		fprintf(stderr, "\245\341\245\342\245\352\244\254\311\324\302\255\244\267\244\336\244\267\244\277");
+		fprintf(stderr, MEMINSUFFICIENT);
 		exit(1);
 	}
 
@@ -222,7 +223,7 @@ make_hrec(int hinsi) {
 
 	hrec = (HinsiRec*)Malloc(sizeof(HinsiRec));
 	if(!hrec) {
-		fprintf(stderr, "\245\341\245\342\245\352\244\254\311\324\302\255\244\267\244\336\244\267\244\277");
+		fprintf(stderr, MEMINSUFFICIENT);
 		exit(1);
 	}
 
@@ -239,7 +240,7 @@ make_drec(u_char* ycode) {
 
 	drec = (DouonRec*)Malloc(sizeof(DouonRec));
 	if(!drec) {
-		fprintf(stderr, "\245\341\245\342\245\352\244\254\311\324\302\255\244\267\244\336\244\267\244\277");
+		fprintf(stderr, MEMINSUFFICIENT);
 		exit(1);
 	}
 
@@ -275,12 +276,12 @@ diff_ylen(DouonRec* drec) {
 		}
 
 		if(*p1 == *p2) {
-			fprintf(stderr, "\305\371\244\267\244\244\306\311\244\337\244\316\306\261\262\273\270\354\245\326\245\355\245\303\245\257\244\254\244\242\244\353\n");
+			fprintf(stderr, HOMOPHONEBLOCK);
 			output_yomi(stderr, dprev->yptr);
 			fputc('\n', stderr);
 			exit(1);
 		} else if(*p1 > *p2) {
-			fprintf(stderr, "\306\311\244\337\244\316\275\347\275\370\244\254\244\252\244\253\244\267\244\244\n");
+			fprintf(stderr, WRONGREADORDER);
 			output_yomi(stderr, dprev->yptr);
 			fputc('\n', stderr);
 			output_yomi(stderr, drec->yptr);
@@ -384,7 +385,7 @@ start:
 
 		return;
 	} else if(douon_ptr == NULL) {
-		fprintf(stderr, "\243\261\306\261\262\273\270\354\245\326\245\355\245\303\245\257\244\254\302\347\244\255\244\271\244\256\244\336\244\271\n");
+		fprintf(stderr, TOOLARGEBLOCK);
 		exit(1);
 	}
 
@@ -476,11 +477,11 @@ void makelist(int* yomi, int* kanji, int hinsi, int* atr) {
 		for(krec = hrec->krec; krec; krec = krec->knext) {
 			if((krec->klen == klen) &&
 			   !memcmp(krec->kptr, kcode, klen)) {
-				fprintf(stderr, "\306\261\260\354\244\316\275\317\270\354\244\254\302\270\272\337\244\267\244\277\n");
-				fprintf(stderr, "\t\306\311\244\337:");
+				fprintf(stderr, DUPECOMBINEDWORD);
+				fprintf(stderr, DUPECOMBINEDWORDREAD);
 				output_int(stderr, yomi);
 				fprintf(stderr, "\n");
-				fprintf(stderr, "\t\264\301\273\372:");
+				fprintf(stderr, DUPECOMBINEDWORDKANJI);
 				output_int(stderr, kanji);
 				fprintf(stderr, "\n");
 
