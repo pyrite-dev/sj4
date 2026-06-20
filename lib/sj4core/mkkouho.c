@@ -193,6 +193,7 @@ makekan(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
 				break;
 
 			case AIATTRIBUTE:
+			case KANAKANCOST:
 				d = makekan_none(SJ4_CONTEXT_PASS s, d, flg);
 				break;
 
@@ -223,6 +224,7 @@ makekan(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
 				break;
 
 			case AIATTRIBUTE:
+			case KANAKANCOST:
 				d = makekan_none(SJ4_CONTEXT_PASS s, d, FALSE);
 				break;
 

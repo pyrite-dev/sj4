@@ -60,6 +60,16 @@ set2nd(SJ4_CONTEXT CLREC* clrec) {
 	return rec2 ? (clrec->cllen + rec2->cllen) : (clrec->cllen);
 }
 
+static int cost_penalty(CLREC* clrec) {
+	int c = clrec->jnode->cost;
+
+	if(c < 0xfff / 5 * 1) return 8;
+	if(c < 0xfff / 5 * 2) return 4;
+	if(c < 0xfff / 5 * 3) return 2;
+	if(c < 0xfff / 5 * 4) return 1;
+	return 0;
+};
+
 void mk2claus(SJ4_CONTEXT2) {
 	u_char* keepptr;
 	int	keeplen;
@@ -117,7 +127,7 @@ void mk2claus(SJ4_CONTEXT2) {
 
 		if(selcl->cl2len > clrec->cl2len) continue;
 
-		prty = priority(SJ4_CONTEXT_PASS clrec) - prty2;
+		prty = priority(SJ4_CONTEXT_PASS clrec) - prty2 + cost_penalty(clrec);
 
 		prty2++;
 

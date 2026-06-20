@@ -215,7 +215,8 @@ retry:
 
 	if(hinsi[0] == '[' && hinsi[i - 1] == ']') {
 		hinsi[i - 1] = 0;
-		i	     = cnvhinsi(hinsi + 1);
+
+		i = cnvhinsi(hinsi + 1);
 		if(i > 0) {
 			fprintf(stderr,
 #ifdef ENGLISH

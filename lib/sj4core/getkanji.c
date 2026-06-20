@@ -151,6 +151,7 @@ code2kanji(SJ4_CONTEXT u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 				break;
 
 			case AIATTRIBUTE:
+			case KANAKANCOST:
 				d = getkan_none(s, d, ym, yl, flg);
 				break;
 
@@ -181,6 +182,7 @@ code2kanji(SJ4_CONTEXT u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 				break;
 
 			case AIATTRIBUTE:
+			case KANAKANCOST:
 				d = getkan_none(s, d, ym, yl, FALSE);
 				break;
 

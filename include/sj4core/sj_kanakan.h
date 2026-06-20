@@ -118,10 +118,7 @@ int	seldict(SJ4_CONTEXT TypeDicID);
 u_char* get_idxptr(SJ4_CONTEXT TypeDicSeg);
 
 /* functbl.c */
-extern VFunc   cvtnum_func[];
-extern UCPFunc getkan_func[];
-extern IFunc   setjrec_func[];
-extern IFunc   hiraknj_func[];
+extern VFunc cvtnum_func[];
 
 /* fuzoku.c */
 void	    setclrec(SJ4_CONTEXT JREC*, u_char*, TypeCnct);

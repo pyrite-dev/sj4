@@ -69,6 +69,7 @@
 #define AIATTRIBUTE 0xb0
 #define KANJIASSYUKU 0xc0
 #define LEADINGHANKAKU 0xd0
+#define KANAKANCOST 0xe0
 #define KANJISTREND 0x00
 #define ISASSYUKU 0x80
 #define ASSUKUUSE2BYTE 0x90
@@ -167,5 +168,7 @@
 #define KANJIREC 6
 #define HINSIREC 7
 #define DOUONREC 8
+
+#define KANAKANCOST_BIT (1 << 24)
 
 #endif

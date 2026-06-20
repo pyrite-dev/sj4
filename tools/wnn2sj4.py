@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
+# THIS IS FOR SYSTEM DICTIONARY GENERATION!!!!!
+
 import sys
+import re
+from math import *
 from collections import defaultdict
 
 HINSHI = {
@@ -118,6 +122,9 @@ for lineno, line in enumerate(fp, 1):
 	if h in SKIP:
 		continue
 
+	if re.findall(r'[^あ-んー]', y):
+		continue
+
 	sj = HINSHI[h]
 
 	if sj is None:
@@ -136,8 +143,13 @@ fp.close()
 
 grouped = defaultdict(list)
 
+maxf = 0
+
 for (y, k, sj), freq in entries.items():
-	grouped[y].append((freq, k, sj))
+	if maxf < freq:
+		maxf = freq
+
+	grouped[y].append((freq, k, sj, freq))
 
 fp = open(outp, "w", encoding="utf-8")
 for y in sorted(grouped.keys()):
@@ -147,7 +159,8 @@ for y in sorted(grouped.keys()):
 
 	t = "\t" * (4 - (len(y) // 4))
 
-	for freq, k, sj in lst:
+	for freq, k, sj, freq in lst:
 		t2 = "\t" * (4 - (len(k) // 4))
-		fp.write(f"{y}{t}{k}{t2}{sj}:\n")
+		freq = floor(freq / maxf * 0xffff)
+		fp.write(f"{y}{t}{k}{t2}{sj}:[C{freq}]:\n")
 fp.close()

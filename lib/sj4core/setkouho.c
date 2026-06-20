@@ -186,6 +186,11 @@ hiraknj(SJ4_CONTEXT u_char* p) {
 			result = hiraknj_knj(SJ4_CONTEXT_PASS p, &i);
 			break;
 
+		case KANAKANCOST:
+			result = 0;
+			i      = 2;
+			break;
+
 		default:
 			result = hiraknj_hira(SJ4_CONTEXT_PASS p, &i);
 		}

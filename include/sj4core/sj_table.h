@@ -79,12 +79,9 @@
 #define Connadr connadr
 #define Cvtnum_func cvtnum_func
 #define Fzkadr(i) fzkadr[i]
-#define Getkan_func getkan_func
-#define Hiraknj_func hiraknj_func
 #define Kigou kigou
 #define Kurai1_tbl kurai1_tbl
 #define Kurai2_tbl kurai2_tbl
-#define Makekan_func makekan_func
 #define Num1tbl num1tbl
 #define Num2tbl num2tbl
 #define Num3tbl num3tbl
@@ -94,9 +91,7 @@
 #define Rigtadr(i) rigtadr[i]
 #define Scncttbl(i, j) scncttbl[i][j]
 #define Selsjadrs(i) selsjadrs[i]
-#define Setjrec_func setjrec_func
 #define Settou_ptr(i) settou_ptr[i]
-#define Srchg_func srchg_func
 #define Stbadr(i) stbadr[i]
 #define Sttpri(i, j) sttpri[i][j]
 #define Suuji_tbl suuji_tbl

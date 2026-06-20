@@ -79,6 +79,10 @@ int setj_ofs(SJ4_CONTEXT u_char* p) {
 			contf = FALSE;
 			break;
 
+		case KANAKANCOST:
+			p += 2;
+			break;
+
 		default:
 			p += setj_norm2(SJ4_CONTEXT_PASS p);
 		}
@@ -121,6 +125,10 @@ int setj_knj(SJ4_CONTEXT u_char* p) {
 
 		case KANJISTREND:
 			contf = FALSE;
+			break;
+
+		case KANAKANCOST:
+			p += 2;
 			break;
 
 		default:
@@ -171,6 +179,7 @@ void setjrec(SJ4_CONTEXT u_char* tagp, int mode) {
 	int	 plen;
 	int	 nlen;
 	int	 len;
+	int	 cost = 0;
 
 	plen = getplen(tagp);
 	nlen = getnlen(tagp);
@@ -214,6 +223,11 @@ void setjrec(SJ4_CONTEXT u_char* tagp, int mode) {
 				tmp++;
 				break;
 
+			case KANAKANCOST:
+				cost = ((*tmp & 0xf) << 8) | *(tmp + 1);
+				tmp += 2;
+				break;
+
 			default:
 				tmp += setj_norm2(SJ4_CONTEXT_PASS tmp);
 			}
@@ -232,6 +246,7 @@ void setjrec(SJ4_CONTEXT u_char* tagp, int mode) {
 		rec->dicid  = curdict->dicid;
 		rec->hinsi  = gram;
 		rec->sttofs = headcode;
+		rec->cost   = cost;
 	}
 }
 
@@ -280,6 +295,10 @@ void setnumrec(SJ4_CONTEXT u_char* tagp, JREC* rec, TypeGram gram) {
 
 			case KANJISTREND:
 				tmp++;
+				break;
+
+			case KANAKANCOST:
+				tmp += 2;
 				break;
 
 			default:

@@ -51,6 +51,7 @@ typedef struct jiritu {
 	u_char	  stbofs;
 	u_char	  count;
 	u_char	  numlen;
+	u_short	  cost; /* new in SJ4 */
 } JREC;
 
 typedef struct bunsetu {

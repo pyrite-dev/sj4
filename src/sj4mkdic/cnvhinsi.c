@@ -62,6 +62,18 @@ int u_strcmp(u_char* a, u_char* b) {
 
 int cnvhinsi(u_char* buf) {
 	int i;
+
+	if(buf[0] == 'C') {
+		int n = atoi(buf + 1);
+
+		if(n < 0) n = 0;
+		if(n > 0xffff) n = 0xffff;
+
+		n = n * 0xfff / 0xffff;
+
+		return -(KANAKANCOST_BIT | n);
+	}
+
 #if 1
 	for(i = 0; i <= GramMax; i++) {
 		if(u_strcmp(buf, (u_char*)gramtbl[i].name) == 0) return gramtbl[i].code;

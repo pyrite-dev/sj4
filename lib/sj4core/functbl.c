@@ -43,27 +43,3 @@ VFunc cvtnum_func[] = {
     (VFunc)num_type04, (VFunc)num_type05, (VFunc)num_type06, (VFunc)num_type07,
     (VFunc)num_type08, (VFunc)num_type09, (VFunc)num_type10, (VFunc)num_type11,
     (VFunc)num_type12, (VFunc)num_type13, (VFunc)num_type14};
-
-UCPFunc getkan_func[] = {
-    (UCPFunc)getkan_norm, (UCPFunc)getkan_norm, (UCPFunc)getkan_hira, (UCPFunc)getkan_kata,
-    (UCPFunc)getkan_knj, (UCPFunc)getkan_ofs, (UCPFunc)getkan_norm, (UCPFunc)getkan_none,
-    (UCPFunc)getkan_norm, (UCPFunc)getkan_norm, (UCPFunc)getkan_hira, (UCPFunc)getkan_kata,
-    (UCPFunc)getkan_knj, (UCPFunc)getkan_ofs, (UCPFunc)getkan_norm, (UCPFunc)getkan_none};
-
-IFunc setjrec_func[] = {
-    (IFunc)setj_norm2, (IFunc)setj_norm2, (IFunc)setj_norm1, (IFunc)setj_norm1,
-    (IFunc)setj_knj, (IFunc)setj_ofs, (IFunc)setj_norm2, (IFunc)setj_atrb,
-    (IFunc)setj_norm2, (IFunc)setj_norm2, (IFunc)setj_norm1, (IFunc)setj_norm1,
-    (IFunc)setj_knj, (IFunc)setj_ofs, (IFunc)setj_norm2, (IFunc)setj_atrb};
-
-IFunc hiraknj_func[] = {
-    (IFunc)hiraknj_hira, (IFunc)hiraknj_norm, (IFunc)hiraknj_hask, (IFunc)hiraknj_kask,
-    (IFunc)hiraknj_knj, (IFunc)hiraknj_ofs, (IFunc)hiraknj_norm, (IFunc)hiraknj_atrb,
-    (IFunc)hiraknj_hira, (IFunc)hiraknj_norm, (IFunc)hiraknj_hask, (IFunc)hiraknj_kask,
-    (IFunc)hiraknj_knj, (IFunc)hiraknj_ofs, (IFunc)hiraknj_norm, (IFunc)hiraknj_atrb};
-
-UCPFunc makekan_func[] = {
-    (UCPFunc)makekan_norm, (UCPFunc)makekan_norm, (UCPFunc)makekan_1byte, (UCPFunc)makekan_1byte,
-    (UCPFunc)makekan_knj, (UCPFunc)makekan_ofs, (UCPFunc)makekan_norm, (UCPFunc)makekan_none,
-    (UCPFunc)makekan_norm, (UCPFunc)makekan_norm, (UCPFunc)makekan_1byte, (UCPFunc)makekan_1byte,
-    (UCPFunc)makekan_knj, (UCPFunc)makekan_ofs, (UCPFunc)makekan_norm, (UCPFunc)makekan_none};

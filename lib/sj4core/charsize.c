@@ -50,6 +50,7 @@ int codesize(u_char code) {
 	case LEADINGHANKAKU:
 	case OFFSETASSYUKU:
 	case AIATTRIBUTE:
+	case KANAKANCOST:
 		return 2;
 	default:
 		return 2;

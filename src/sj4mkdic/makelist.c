@@ -107,10 +107,17 @@ makekanji(int* yomi, int* kanji, int* atr, int* len) {
 	while(*atr) {
 		i = *atr;
 		atr++;
+
+		if(i & KANAKANCOST_BIT) {
+			i &= ~KANAKANCOST_BIT;
+			ktmp[pos++] = (KANAKANCOST | ((i >> 8) & 0xff));
+			ktmp[pos++] = (i & 0xff);
+		} else {
 #ifndef NO_ATR
-		ktmp[pos++] = (AIATTRIBUTE | ((i >> 8) & 0xff));
-		ktmp[pos++] = (i & 0xff);
+			ktmp[pos++] = (AIATTRIBUTE | ((i >> 8) & 0xff));
+			ktmp[pos++] = (i & 0xff);
 #endif
+		}
 	}
 
 	if((i = top_strcmp(yomi, kanji))) {

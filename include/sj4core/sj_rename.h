@@ -405,10 +405,6 @@
 #define rigtadr Jrigtadr
 
 #define cvtnum_func Jcvtnum_func
-#define getkan_func Jgetkan_func
-#define setjrec_func Jsetjrec_func
-#define srchg_func Jsrchg_func
-#define hiraknj_func Jhiraknj_func
 
 #define fzkadr Jfzkadr
 
