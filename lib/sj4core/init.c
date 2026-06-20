@@ -95,7 +95,7 @@ Sj4Context* alloccontext(const char* dic) {
 
 	dict = opendict(ctx, (char*)dic, "");
 
-	if(dict == NULL){
+	if(dict == NULL) {
 		free_context(ctx);
 		return NULL;
 	}

@@ -8,8 +8,8 @@
 #if defined(_MSC_VER)
 
 #if defined(_MSC_VER) && _MSC_VER < 1900
-static int __inline sj4_snprintf(char* buffer, size_t count, const char* fmt, ...){
-	int st;
+static int __inline sj4_snprintf(char* buffer, size_t count, const char* fmt, ...) {
+	int	st;
 	va_list va;
 
 	va_start(va, fmt);

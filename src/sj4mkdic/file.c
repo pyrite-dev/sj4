@@ -69,6 +69,7 @@ FILE* Fopen(char* filename, char* type) {
 	sj4_strlcpy(fl->fname, filename, len);
 	fl->fp	 = fp;
 	fl->next = flist;
+	flist	 = fl;
 
 	return fp;
 }

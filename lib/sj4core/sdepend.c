@@ -60,8 +60,13 @@
 #define ftruncate chsize
 #endif
 
+#ifdef SJ3_GLOBAL
 DictFile* dictlink = NULL;
 StdyFile* stdylink = NULL;
+#else
+#define dictlink ctx->dictlink
+#define stdylink ctx->stdylink
+#endif
 
 static long
 get4byte(u_char* p) {
@@ -150,7 +155,7 @@ check_dictfile(u_char* buf) {
 }
 
 static DictFile*
-search_same_dict(ino_t ino) {
+search_same_dict(SJ4_CONTEXT ino_t ino) {
 	DictFile* p;
 
 	for(p = dictlink; p != NULL; p = p->link)
@@ -251,7 +256,7 @@ opendict(SJ4_CONTEXT char* name, char* passwd) {
 		return NULL;
 	}
 
-	if((dfp = search_same_dict(sbuf.st_ino)) != NULL) {
+	if((dfp = search_same_dict(SJ4_CONTEXT_PASS sbuf.st_ino)) != NULL) {
 		dfp->refcnt++;
 		return dfp;
 	}
@@ -386,7 +391,7 @@ check_stdyfile(u_char* buf) {
 }
 
 static StdyFile*
-search_same_stdy(ino_t ino) {
+search_same_stdy(SJ4_CONTEXT ino_t ino) {
 	StdyFile* p;
 
 	for(p = stdylink; p != NULL; p = p->link)
@@ -396,7 +401,7 @@ search_same_stdy(ino_t ino) {
 }
 
 StdyFile*
-openstdy(char* name, char* passwd) {
+openstdy(SJ4_CONTEXT char* name, char* passwd) {
 	FILE*	    fp;
 	struct stat sbuf;
 	StdyFile*   sfp;
@@ -417,7 +422,7 @@ openstdy(char* name, char* passwd) {
 		return NULL;
 	}
 
-	if((sfp = search_same_stdy(sbuf.st_ino)) != NULL) {
+	if((sfp = search_same_stdy(SJ4_CONTEXT_PASS sbuf.st_ino)) != NULL) {
 		sfp->refcnt++;
 		return sfp;
 	}
@@ -512,7 +517,7 @@ error0:
 	return NULL;
 }
 
-int closestdy(StdyFile* sfp) {
+int closestdy(SJ4_CONTEXT StdyFile* sfp) {
 	StdyFile* sf;
 
 	if(--sfp->refcnt > 0) return 0;
@@ -714,7 +719,7 @@ error:
 
 void sj_closeall(SJ4_CONTEXT2) {
 	while(dictlink) closedict(SJ4_CONTEXT_PASS dictlink);
-	while(stdylink) closestdy(stdylink);
+	while(stdylink) closestdy(SJ4_CONTEXT_PASS stdylink);
 }
 
 int set_dictpass(DictFile* dp, char* pass) {

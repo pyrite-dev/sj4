@@ -132,7 +132,7 @@ void setstyrec(SJ4_CONTEXT KHREC* krec) {
 	KHREC*	kptr;
 	int	ii;
 	u_char* fptr;
-	STDYOUT stdy;
+	STDYOUT stdy = {0};
 
 	jrec = krec->clrec->jnode;
 

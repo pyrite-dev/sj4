@@ -162,6 +162,9 @@ typedef struct sj4context {
 	JREC*  jrec_pool;
 	CLREC* clrec_free;
 	CLREC* clrec_pool;
+
+	DictFile* dictlink;
+	StdyFile* stdylink;
 } Sj4Context;
 
 #endif

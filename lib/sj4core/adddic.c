@@ -71,7 +71,7 @@ u_int adddic(SJ4_CONTEXT u_char* yomi, u_char* kanji, TypeGram hinsi) {
 	int	   nlen, plen;
 	int	   size;
 	STDYIN*	   stdy;
-	STDYOUT	   stdydat;
+	STDYOUT	   stdydat = {0};
 
 	if((err = addel_arg(SJ4_CONTEXT_PASS yomi, kanji, hinsi, yptr, sizeof(yptr))))
 		return err;

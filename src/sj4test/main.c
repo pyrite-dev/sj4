@@ -7,7 +7,7 @@ int main(int argc, char** argv) {
 	char	    b;
 	Sj4Context* ctx = alloccontext("dic.bin");
 
-	if(ctx == NULL){
+	if(ctx == NULL) {
 		fprintf(stderr, "Failed to create context\n");
 		return 1;
 	}
