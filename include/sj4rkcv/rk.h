@@ -40,6 +40,8 @@
 #include "wchar16.h"
 #include "sj_string.h"
 
+#include <sj_types.h>
+
 #define SPACE 0x20
 #define TAB 0x09
 #define EOL 0x0a

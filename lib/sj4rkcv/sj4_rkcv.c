@@ -776,6 +776,8 @@ int sj_htok(wchar16_t* s1, wchar16_t* s2) {
 			*s1++ = c;
 	}
 	*s1 = (wchar16_t)'\0';
+
+	return 0;
 }
 
 int sj_ktoh(wchar16_t* s1, wchar16_t* s2) {
@@ -790,4 +792,6 @@ int sj_ktoh(wchar16_t* s1, wchar16_t* s2) {
 			*s1++ = c;
 	}
 	*s1 = (wchar16_t)'\0';
+
+	return 0;
 }

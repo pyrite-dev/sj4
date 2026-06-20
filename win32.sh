@@ -26,7 +26,7 @@ library() {
 		echo $i
 
 		if [ "$cmp" = "watcom" ]; then
-			owcc -Iinclude/sj4common /Iinclude/sj4compat -Iinclude/$N -bnt -c -o $i.obj $i || exit 1
+			owcc -Iinclude/sj4common -Iinclude/sj4compat -Iinclude/$N -bnt -c -o $i.obj $i || exit 1
 		elif [ "$cmp" = "msvc" ]; then
 			cl.exe /nologo /Iinclude/sj4common /Iinclude/sj4compat /Iinclude/$N /c /Fo$i.obj $i || exit 1
 		fi
@@ -63,7 +63,9 @@ executable() {
 	fi
 }
 
+library sj4common
 library sj4core
+library sj4rkcv
 
 executable sj4mkdic
-executable sj4test sj4core.lib
+executable sj4test "sj4common.lib sj4core.lib"
