@@ -1,11 +1,12 @@
-#include <sj_kanakan.h>
+#include <sj4lib.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int main(int argc, char** argv) {
-	char	    out[64 * 1024];
-	int	    i = 0;
-	char	    c[64 * 1024];
-	char	    b;
-	Sj4Context* ctx = alloccontext("sj4main.dic");
+	char	c[8 * 1024];
+	Sj4Lib* ctx = sj4_open(SJ4UTF8, "sj4main.dic");
+	char	b;
 
 	if(ctx == NULL) {
 		fprintf(stderr, "Failed to create context\n");
@@ -15,7 +16,8 @@ int main(int argc, char** argv) {
 	c[0] = 0;
 
 	while(fread(&b, 1, 1, stdin) == 1) {
-		int n;
+		int	 n, i;
+		Sj4Kouho kouho;
 
 		if(b == '\n') {
 		} else if(b != '\r') {
@@ -28,22 +30,15 @@ int main(int argc, char** argv) {
 		}
 
 		i = 0;
-		while((strlen(c) - i) > 0 && (i += (n = cl2knj(ctx, (u_char*)c + i, strlen(c) - i, (u_char*)out)))) {
-			STDYOUT* s   = (STDYOUT*)out;
-			char*	 str = malloc(n + 1);
+		while((strlen(c) - i) > 0 && (n = sj4_getkan(ctx, c + i, strlen(c + i), &kouho))) {
+			printf("> %s\n", kouho.buffer);
 
-			memcpy(str, c + i - n, n);
-			str[i] = 0;
-
-			printf("> %s -> %s\n", str, out + sizeof(STDYOUT));
-
-			free(str);
+			i += n;
 		}
-
 		c[0] = 0;
 	}
 
-	free_context(ctx);
+	sj4_close(ctx);
 
 	return 0;
 }
