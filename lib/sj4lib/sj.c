@@ -24,7 +24,7 @@ struct sj4lib {
 
 #ifdef UCS
 static u_int ucs_to_euc(u_int in) {
-	if(0 <= in && in <= 0xffff) {
+	if(in <= 0xffff) {
 		const T_U2E_BITMAP_INDEX* b = &utf16_to_euc_jp_table[(in >> 8) & 0xff];
 
 		if(b->byType == 2) {
