@@ -76,7 +76,7 @@ int codesize(u_char);
 extern u_char chrtbl[256];
 
 /* cl2knj.c */
-int cl2knj(SJ4_CONTEXT u_char*, int, u_char*, int);
+int cl2knj(SJ4_CONTEXT u_char*, int, u_char*);
 int nextcl(SJ4_CONTEXT u_char*, int);
 int prevcl(SJ4_CONTEXT u_char*, int);
 int selectnum(SJ4_CONTEXT2);
