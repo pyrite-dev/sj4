@@ -56,10 +56,6 @@
 #define L_END SEEK_END
 #endif
 
-#ifdef _WIN32
-#define ftruncate chsize
-#endif
-
 #ifdef SJ4_GLOBAL
 DictFile* dictlink = NULL;
 StdyFile* stdylink = NULL;
@@ -129,30 +125,6 @@ fputfile(FILE* fp, long pos, int len, u_char* p) {
 	}
 	return SJ4_NormalEnd;
 }
-static int
-getfile(int fd, int pos, int len, u_char* p) {
-	if(lseek(fd, pos, L_SET) == ERROR) {
-		serv_errno = SJ4_FileSeekError;
-		return ERROR;
-	}
-	if(read(fd, p, len) != len) {
-		serv_errno = SJ4_FileReadError;
-		return ERROR;
-	}
-	return SJ4_NormalEnd;
-}
-static int
-putfile(int fd, int pos, int len, u_char* p) {
-	if(lseek(fd, pos, L_SET) == ERROR) {
-		serv_errno = SJ4_FileSeekError;
-		return ERROR;
-	}
-	if(write(fd, p, len) != len) {
-		serv_errno = SJ4_FileWriteError;
-		return ERROR;
-	}
-	return SJ4_NormalEnd;
-}
 
 static int
 check_passwd(u_char* buf, char* passwd) {
@@ -197,7 +169,7 @@ getdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
 }
 static int
 putidx(SJ4_CONTEXT DictFile* dp, short dummy) {
-	return putfile(dp->fd, dp->idxstrt, dp->dict.idxlen, idxbuf);
+	return fputfile(dp->fp, dp->idxstrt, dp->dict.idxlen, idxbuf);
 }
 static int
 putdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
@@ -224,7 +196,7 @@ putdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
 	i = dp->segstrt + dp->dict.seglen * seg;
 	if((p = dp->buffer + i) != dicbuf) memcpy(p, dicbuf, dp->dict.seglen);
 
-	return putfile(dp->fd, i, dp->dict.seglen, p);
+	return fputfile(dp->fp, i, dp->dict.seglen, p);
 }
 static int
 rszdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
@@ -245,10 +217,10 @@ rszdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
 		free((char*)(dp->buffer));
 		dp->buffer = p;
 		dp->bufsiz = i;
-		if(ftruncate(dp->fd, i) == -1) return -1;
+		if(sj4_ftruncate(dp->fp, i) == -1) return -1;
 	}
 	put4byte(dp->buffer + DICTSEGNUM, seg);
-	return putfile(dp->fd, 0, HEADERLENGTH, dp->buffer);
+	return fputfile(dp->fp, 0, HEADERLENGTH, dp->buffer);
 }
 
 DictFile*
@@ -335,7 +307,6 @@ opendict(SJ4_CONTEXT char* name, char* passwd) {
 	dfp->refcnt	  = 1;
 	dfp->fp		  = fp;
 	dfp->vf		  = vf;
-	dfp->fd		  = vf.buffer == NULL ? fileno(fp) : -1;
 	dfp->buffer	  = dp;
 	dfp->bufsiz	  = sbuf.st_size;
 	dfp->idxstrt	  = get4byte(dp + DICTIDXPOS);
@@ -387,30 +358,6 @@ int closedict(SJ4_CONTEXT DictFile* dfp) {
 	free((char*)dfp);
 
 	return 0;
-}
-
-#ifdef SJ4_LOCK
-static fd_set zero_fd_set; /* XXX */
-#endif
-
-void lock_dict(DictFile* p, int fd) {
-#ifdef SJ4_LOCK
-	FD_SET(fd, &(p->lock));
-#endif
-}
-
-void unlock_dict(DictFile* p, int fd) {
-#ifdef SJ4_LOCK
-	FD_CLR(fd, &(p->lock));
-#endif
-}
-
-int is_dict_locked(DictFile* p) {
-#ifdef SJ4_LOCK
-	return memcmp(&(p->lock), &zero_fd_set, sizeof(zero_fd_set));
-#else
-	return 0;
-#endif
 }
 
 static int
@@ -521,7 +468,6 @@ openstdy(SJ4_CONTEXT char* name, char* passwd) {
 	sfp->refcnt	     = 1;
 	sfp->inode	     = sbuf.st_ino;
 	sfp->fp		     = fp;
-	sfp->fd		     = fileno(fp);
 	sfp->header	     = hd;
 
 	sfp->link = stdylink;
@@ -572,13 +518,13 @@ int closestdy(SJ4_CONTEXT StdyFile* sfp) {
 }
 
 int putstydic(SJ4_CONTEXT2) {
-	int	  fd;
+	FILE*	  fp;
 	u_char*	  hd;
 	StdyFile* sf;
 	long	  len;
 
 	sf = (StdyFile*)stdy_base;
-	fd = sf->fd;
+	fp = sf->fp;
 	hd = sf->header;
 
 	put4byte(hd + STDYNORMCNT, sf->stdy.stdycnt);
@@ -586,25 +532,25 @@ int putstydic(SJ4_CONTEXT2) {
 	len = sizeof(STDYIN) * sf->stdy.stdymax;
 	put4byte(hd + STDYNORMLEN, len);
 
-	if(putfile(fd, 0, HEADERLENGTH + COMMENTLENGTH, hd)) return ERROR;
+	if(fputfile(fp, 0, HEADERLENGTH + COMMENTLENGTH, hd)) return ERROR;
 
-	return putfile(fd, get4byte(hd + STDYNORMPOS), len, (u_char*)sf->stdy.stdydic);
+	return fputfile(fp, get4byte(hd + STDYNORMPOS), len, (u_char*)sf->stdy.stdydic);
 }
 
 int putcldic(SJ4_CONTEXT2) {
-	int	  fd;
+	FILE*	  fp;
 	u_char*	  hd;
 	StdyFile* sf;
 
 	sf = (StdyFile*)stdy_base;
-	fd = sf->fd;
+	fp = sf->fp;
 	hd = sf->header;
 
-	if(putfile(fd, get4byte(hd + STDYCLIDXPOS),
-		   get4byte(hd + STDYCLIDXLEN), (u_char*)sf->stdy.clstdyidx)) /* XXX */
+	if(fputfile(fp, get4byte(hd + STDYCLIDXPOS),
+		    get4byte(hd + STDYCLIDXLEN), (u_char*)sf->stdy.clstdyidx)) /* XXX */
 		return ERROR;
-	return putfile(fd, get4byte(hd + STDYCLSEGPOS),
-		       get4byte(hd + STDYCLSEGLEN), sf->stdy.clstdydic);
+	return fputfile(fp, get4byte(hd + STDYCLSEGPOS),
+			get4byte(hd + STDYCLSEGLEN), sf->stdy.clstdydic);
 }
 
 int makedict(char* path, int idxlen, int seglen, int segnum) {
@@ -661,7 +607,7 @@ int makedict(char* path, int idxlen, int seglen, int segnum) {
 		ret = SJ4_NormalEnd;
 error:
 	fclose(fp);
-	if(ret != SJ4_NormalEnd) unlink(path);
+	if(ret != SJ4_NormalEnd) sj4_unlink(path);
 	return ret;
 }
 
@@ -741,7 +687,7 @@ int makestdy(char* path, int stynum, int clstep, int cllen) {
 		ret = SJ4_NormalEnd;
 error:
 	fclose(fp);
-	if(ret != SJ4_NormalEnd) unlink(path);
+	if(ret != SJ4_NormalEnd) sj4_unlink(path);
 	return ret;
 }
 
@@ -752,7 +698,7 @@ void sj_closeall(SJ4_CONTEXT2) {
 
 int set_dictpass(DictFile* dp, char* pass) {
 	set_passwd(dp->buffer, pass);
-	return putfile(dp->fd, 0, HEADERLENGTH + COMMENTLENGTH, dp->buffer);
+	return fputfile(dp->fp, 0, HEADERLENGTH + COMMENTLENGTH, dp->buffer);
 }
 
 int set_stdypass(SJ4_CONTEXT char* pass) {
@@ -760,7 +706,7 @@ int set_stdypass(SJ4_CONTEXT char* pass) {
 
 	sp = (StdyFile*)stdy_base;
 	set_passwd(sp->header, pass);
-	return putfile(sp->fd, 0, HEADERLENGTH + COMMENTLENGTH, sp->header);
+	return fputfile(sp->fp, 0, HEADERLENGTH + COMMENTLENGTH, sp->header);
 }
 
 static void
@@ -770,7 +716,7 @@ set_comment(u_char* buf, char* comment) {
 
 int set_dictcmnt(DictFile* dp, char* cmnt) {
 	set_comment(dp->buffer, cmnt);
-	return putfile(dp->fd, 0, HEADERLENGTH + COMMENTLENGTH, dp->buffer);
+	return fputfile(dp->fp, 0, HEADERLENGTH + COMMENTLENGTH, dp->buffer);
 }
 
 int set_stdycmnt(SJ4_CONTEXT char* cmnt) {
@@ -778,7 +724,7 @@ int set_stdycmnt(SJ4_CONTEXT char* cmnt) {
 
 	sp = (StdyFile*)stdy_base;
 	set_comment(sp->header, cmnt);
-	return putfile(sp->fd, 0, HEADERLENGTH + COMMENTLENGTH, sp->header);
+	return fputfile(sp->fp, 0, HEADERLENGTH + COMMENTLENGTH, sp->header);
 }
 
 int get_stdysize(SJ4_CONTEXT int* stynum, int* clstep, int* cllen) {

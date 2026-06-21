@@ -6,6 +6,10 @@
 /* increase this as needed... */
 #define SJ4BUFSZ (4 * 1024)
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef union sj4kouhobuffer {
 	char	sjis[SJ4BUFSZ];
 	char	eucjp[SJ4BUFSZ];
@@ -33,5 +37,9 @@ Sj4Lib* sj4_open(int, const char*);
 int	sj4_getkan(Sj4Lib*, const void*, int len, Sj4Kouho*);
 int	sj4_nextkan(Sj4Lib*);
 void	sj4_close(Sj4Lib*);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

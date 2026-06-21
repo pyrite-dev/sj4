@@ -126,7 +126,6 @@ typedef struct dictfile {
 #endif
 	FILE* fp;
 	VFile vf;
-	int   fd;
 
 	u_char* buffer;
 	long	bufsiz;
@@ -144,7 +143,6 @@ typedef struct stdyfile {
 	int   refcnt;
 	ino_t inode;
 	FILE* fp;
-	int   fd;
 
 	u_char* header;
 

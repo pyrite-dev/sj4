@@ -22,11 +22,6 @@
 #include <errno.h>
 #include <errno.h>
 #include <sys/stat.h>
-#ifdef _WIN32
-#include <io.h>
-#else
-#include <unistd.h>
-#endif
 
 #include "sj_kcnv.h"
 #include "sj_struct.h"
@@ -235,9 +230,6 @@ extern u_char kigou[];
 /* sdepend.c */
 DictFile* opendict(SJ4_CONTEXT char*, char*);
 int	  closedict(SJ4_CONTEXT DictFile*);
-void	  lock_dict(DictFile*, int);
-void	  unlock_dict(DictFile*, int);
-int	  is_dict_locked(DictFile*);
 StdyFile* openstdy(SJ4_CONTEXT char*, char*);
 int	  closestdy(SJ4_CONTEXT StdyFile*);
 int	  putstydic(SJ4_CONTEXT2);
