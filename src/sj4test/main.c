@@ -33,8 +33,12 @@ int main(int argc, char** argv) {
 		}
 
 		i = 0;
-		while((strlen(c) - i) > 0 && (n = sj4_getkan(ctx, c + i, strlen(c + i), &kouho))) {
-			printf("> %s\n", kouho.buffer.sjis);
+		while((strlen(c) - i) > 0 && (n = sj4_getkan(ctx, c + i, strlen(c + i), &kouho)) != 0) {
+			printf(">");
+			do {
+				printf(" %s", kouho.buffer.utf8);
+			} while(sj4_nextkan(ctx) != 0);
+			printf("\n");
 
 			i += n;
 		}
