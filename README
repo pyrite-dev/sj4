@@ -23,7 +23,7 @@
 	src/sj4test	Demonstration program for Kana-Kanji conversion
 
 	doc/man		Online manual(Japanese)
-	doc/doc		Operation guide for SJ3 and other documents(Japanese)
+	doc/doc		Operation guide for SJ4 and other documents(Japanese)
 
 * Tested machine
 	PC				Debian GNU/Linux 13
