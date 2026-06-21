@@ -4,8 +4,10 @@
 
 #include <stdlib.h>
 
+#ifdef UCS
 #include <sj_euc2ucs.h>
 #include <sj_ucs2euc.h>
+#endif
 
 struct sj4lib {
 	Sj4Context* ctx;
@@ -17,6 +19,7 @@ struct sj4lib {
 	u_char wrkbuf[SJ4BUFSZ];
 };
 
+#ifdef UCS
 static u_int ucs_to_euc(u_int in) {
 	if(0 <= in && in <= 0xffff) {
 		const T_U2E_BITMAP_INDEX* b = &utf16_to_euc_jp_table[(in >> 8) & 0xff];
@@ -85,6 +88,7 @@ static int eucjp_write(u_char* out, u_int n) {
 		return 3;
 	}
 }
+#endif
 
 static int from_sjis(u_char* out, const u_char* in, int len) {
 	unsigned char d[] = {0, 0};
@@ -93,6 +97,7 @@ static int from_sjis(u_char* out, const u_char* in, int len) {
 	return sj4_str_sjistoeuc(out, SJ4BUFSZ, (u_char*)in, len, d, &uf);
 }
 
+#ifdef UCS
 static int utf8_later(unsigned char c) {
 	return 0x80 <= c && c < 0xc0;
 }
@@ -225,6 +230,7 @@ static int eucjp_codesize(u_int n) {
 		return 3;
 	}
 }
+#endif
 
 static int to_sjis(u_char* out, const u_char* in, int len) {
 	unsigned char d[] = {0, 0};
@@ -233,6 +239,7 @@ static int to_sjis(u_char* out, const u_char* in, int len) {
 	return sj4_str_euctosjis(out, SJ4BUFSZ, (u_char*)in, len, d, &uf);
 }
 
+#ifdef UCS
 static int to_utf8(u_char* out, const u_char* in, int len) {
 	const u_char* o_in  = in;
 	u_char*	      o_out = out;
@@ -292,9 +299,14 @@ static int to_utf16(u_char* out, const u_char* in, int len) {
 
 	return w_out - o_out;
 }
+#endif
 
 Sj4Lib* sj4_open(int charset, const char* dic) {
 	Sj4Lib* ctx;
+
+#ifndef UCS
+	if(charset == SJ4UTF8 || charset == SJ4UTF16) return NULL;
+#endif
 
 	if((ctx = calloc(1, sizeof(*ctx))) == NULL) return NULL;
 
@@ -309,6 +321,7 @@ Sj4Lib* sj4_open(int charset, const char* dic) {
 	return ctx;
 }
 
+#ifdef UCS
 #define ICONV(to, from, len, mode) \
 	if(ctx->charset == SJ4EUCJP) { \
 		memcpy(to, from, len); \
@@ -319,6 +332,14 @@ Sj4Lib* sj4_open(int charset, const char* dic) {
 	} else if(ctx->charset == SJ4UTF16) { \
 		len = mode##_utf16(to, from, len); \
 	}
+#else
+#define ICONV(to, from, len, mode) \
+	if(ctx->charset == SJ4EUCJP) { \
+		memcpy(to, from, len); \
+	} else if(ctx->charset == SJ4SJIS) { \
+		len = mode##_sjis(to, from, len); \
+	}
+#endif
 
 int sj4_getkan(Sj4Lib* ctx, const void* input, int len, Sj4Kouho* kouho) {
 	int len2;
