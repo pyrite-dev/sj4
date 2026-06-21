@@ -177,7 +177,7 @@ int string_cmp(u_char* p1, int l1, u_char* p2, int l2) {
 }
 
 void utf8_print(char* out, int c) {
-	int i = 0, j, k;
+	int i = 0, j = 0, k;
 
 	if(c >= 0x10000) {
 		out[i++] = ((c >> (6 * 3)) & 7) | 0xf0;

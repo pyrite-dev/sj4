@@ -261,7 +261,7 @@ opendict(SJ4_CONTEXT char* name, char* passwd) {
 	u_char*	    dp;
 	VFile	    vf;
 
-#ifdef EMBED
+#if defined(EMBED) || defined(EMBED_PLUS)
 	memset(&vf, 0, sizeof(vf));
 
 	if(strcmp(name, "sj4main.dic") == 0) {

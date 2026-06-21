@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
 
 int main(int argc, char** argv) {
 	char	c[8 * 1024];
@@ -15,7 +16,9 @@ int main(int argc, char** argv) {
 
 	c[0] = 0;
 
-	while(fread(&b, 1, 1, stdin) == 1) {
+	setlocale(LC_ALL, "");
+
+	while(fread(&b, 1, sizeof(b), stdin)) {
 		int	 n, i;
 		Sj4Kouho kouho;
 
@@ -31,7 +34,7 @@ int main(int argc, char** argv) {
 
 		i = 0;
 		while((strlen(c) - i) > 0 && (n = sj4_getkan(ctx, c + i, strlen(c + i), &kouho))) {
-			printf("> %s\n", kouho.buffer);
+			printf("> %s\n", kouho.buffer.sjis);
 
 			i += n;
 		}

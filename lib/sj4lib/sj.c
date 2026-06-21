@@ -1,10 +1,21 @@
 #include <sj4lib.h>
 #include <sj_kanakan.h>
+#include <sj_string.h>
 
 #include <stdlib.h>
 
 #include <sj_euc2ucs.h>
 #include <sj_ucs2euc.h>
+
+struct sj4lib {
+	Sj4Context* ctx;
+
+	int charset;
+
+	u_char inbuf[SJ4BUFSZ];
+	u_char outbuf[SJ4BUFSZ];
+	u_char wrkbuf[SJ4BUFSZ];
+};
 
 static u_int ucs_to_euc(u_int in) {
 	if(0 <= in && in <= 0xffff) {
@@ -56,7 +67,30 @@ static u_int euc_to_ucs(u_int in) {
 	return 0;
 }
 
+static int eucjp_write(u_char* out, u_int n) {
+	if(n <= 0xff) {
+		*out++ = n;
+
+		return 1;
+	} else if(n <= 0xffff) {
+		*out++ = (n >> 8) & 0xff;
+		*out++ = (n >> 0) & 0xff;
+
+		return 2;
+	} else {
+		*out++ = (n >> 16) & 0xff;
+		*out++ = (n >> 8) & 0xff;
+		*out++ = (n >> 0) & 0xff;
+
+		return 3;
+	}
+}
+
 static int from_sjis(u_char* out, const u_char* in, int len) {
+	unsigned char d[] = {0, 0};
+	int	      uf  = 0;
+
+	return sj4_str_sjistoeuc(out, SJ4BUFSZ, (u_char*)in, len, d, &uf);
 }
 
 static int utf8_later(unsigned char c) {
@@ -108,25 +142,95 @@ static int from_utf8(u_char* out, const u_char* in, int len) {
 
 		n = ucs_to_euc(n);
 
-		if(n <= 0xff) {
-			*out++ = n;
-		} else if(n <= 0xffff) {
-			*out++ = (n >> 8) & 0xff;
-			*out++ = (n >> 0) & 0xff;
-		} else {
-			*out++ = (n >> 16) & 0xff;
-			*out++ = (n >> 8) & 0xff;
-			*out++ = (n >> 0) & 0xff;
-		}
+		out += eucjp_write(out, n);
 	}
 
 	return out - o_out;
 }
 
+int is_high_surr(wchar_t ch) {
+	return 0xD800 <= ch && ch < 0xDC00;
+}
+
+int is_low_urr(wchar_t ch) {
+	return 0xDC00 <= ch && ch < 0xE000;
+}
+
 static int from_utf16(u_char* out, const u_char* in, int len) {
+	const wchar_t* w_in  = (const wchar_t*)in;
+	const wchar_t* o_in  = w_in;
+	u_char*	       o_out = out;
+
+	while((w_in - o_in) < len) {
+		u_int n = 0;
+
+		if(is_high_surr(w_in[0])) {
+			if(is_low_urr(w_in[1])) {
+				n = 0x10000 + CAST_I32(w_in[0] - 0xd800) * 0x400 + CAST_I32(w_in[1] - 0xdc00);
+
+				w_in += 2;
+			} else if(w_in[1] == 0) {
+				n = w_in[0];
+
+				w_in += 2;
+			} else {
+				return 0;
+			}
+		} else if(is_low_urr(w_in[0])) {
+			if(w_in[1] == 0) {
+				n = w_in[0];
+
+				w_in += 2;
+			} else {
+				return 0;
+			}
+		} else {
+			n = w_in[0];
+
+			w_in += 1;
+		}
+
+		n = ucs_to_euc(n);
+
+		out += eucjp_write(out, n);
+	}
+
+	return out - o_out;
+}
+
+static u_int eucjp_read(const u_char* in) {
+	u_char c = *in;
+	u_int  n = 0;
+
+	if(c <= 0x7f) {
+		n = c;
+	} else if(c != 0x8f) {
+		n = CAST_I32(in[0]) << 8;
+		n |= CAST_I32(in[1]);
+	} else {
+		n = CAST_I32(in[0]) << 16;
+		n |= CAST_I32(in[1]) << 8;
+		n |= CAST_I32(in[2]);
+	}
+
+	return n;
+}
+
+static int eucjp_codesize(u_int n) {
+	if(n <= 0xff) {
+		return 1;
+	} else if(n <= 0xffff) {
+		return 2;
+	} else {
+		return 3;
+	}
 }
 
 static int to_sjis(u_char* out, const u_char* in, int len) {
+	unsigned char d[] = {0, 0};
+	int	      uf  = 0;
+
+	return sj4_str_euctosjis(out, SJ4BUFSZ, (u_char*)in, len, d, &uf);
 }
 
 static int to_utf8(u_char* out, const u_char* in, int len) {
@@ -134,24 +238,31 @@ static int to_utf8(u_char* out, const u_char* in, int len) {
 	u_char*	      o_out = out;
 
 	while((in - o_in) < len) {
-		u_char c = *in;
-		u_int  n = 0;
+		int   i, j = 0;
+		u_int n = eucjp_read(in);
 
-		if(c <= 0x7f) {
-			n = c;
+		in += eucjp_codesize(n);
 
-			in += 1;
-		} else if(c != 0x8f) {
-			n = CAST_I32(in[0]) << 8;
-			n |= CAST_I32(in[1]);
+		n = euc_to_ucs(n);
 
-			in += 2;
+		if(n >= 0x10000) {
+			*out++ = ((n >> (6 * 3)) & 7) | 0xf0;
+
+			j = 3;
+		} else if(n >= 0x800) {
+			*out++ = ((n >> (6 * 2)) & 15) | 0xe0;
+
+			j = 2;
+		} else if(n >= 0x80) {
+			*out++ = ((n >> (6 * 1)) & 31) | 0xc0;
+
+			j = 1;
 		} else {
-			n = CAST_I32(in[0]) << 16;
-			n |= CAST_I32(in[1]) << 8;
-			n |= CAST_I32(in[2]);
+			*out++ = n;
+		}
 
-			in += 3;
+		for(i = 0; i < j; i++) {
+			*out++ = ((n >> (6 * (j - i - 1))) & 63) | 0x80;
 		}
 	}
 
@@ -159,16 +270,28 @@ static int to_utf8(u_char* out, const u_char* in, int len) {
 }
 
 static int to_utf16(u_char* out, const u_char* in, int len) {
+	wchar_t*      w_out = (wchar_t*)out;
+	const u_char* o_in  = in;
+	wchar_t*      o_out = w_out;
+
+	while((in - o_in) < len) {
+		int   i, j = 0;
+		u_int n = eucjp_read(in);
+
+		in += eucjp_codesize(n);
+
+		n = euc_to_ucs(n);
+
+		if(n < 0x10000) {
+			*w_out++ = n;
+		} else {
+			*w_out++ = (n - 0x10000) / 0x400 + 0xd800;
+			*w_out++ = (n - 0x10000) % 0x400 + 0xdc00;
+		}
+	}
+
+	return w_out - o_out;
 }
-
-struct sj4lib {
-	Sj4Context* ctx;
-
-	int charset;
-
-	u_char inbuf[SJ4BUFSZ];
-	u_char outbuf[SJ4BUFSZ];
-};
 
 Sj4Lib* sj4_open(int charset, const char* dic) {
 	Sj4Lib* ctx;
@@ -198,17 +321,36 @@ Sj4Lib* sj4_open(int charset, const char* dic) {
 	}
 
 int sj4_getkan(Sj4Lib* ctx, const void* input, int len, Sj4Kouho* kouho) {
+	int len2;
+
 	memset(kouho, 0, sizeof(*kouho));
 
 	ICONV(ctx->inbuf, input, len, from);
 
 	len = cl2knj(ctx->ctx, ctx->inbuf, len, ctx->outbuf);
 
-	ICONV(kouho->buffer.raw, ctx->outbuf, len, to);
+	len2 = strlen(ctx->outbuf + sizeof(STDYOUT));
+	ICONV(kouho->buffer.raw, ctx->outbuf + sizeof(STDYOUT), len2, to);
 
-	return len;
+	memcpy(ctx->wrkbuf, ctx->inbuf, len);
+	ICONV(ctx->outbuf, ctx->wrkbuf, len, to);
+	if(ctx->charset == SJ4UTF16) {
+		int i;
+		for(i = 0; i < sizeof(wchar_t); i++) ctx->outbuf[len * sizeof(wchar_t) + i] = 0;
+	} else {
+		ctx->outbuf[len] = 0;
+	}
+
+	if(ctx->charset == SJ4UTF16) {
+		kouho->buffer.utf16[len2] = 0;
+	} else {
+		kouho->buffer.raw[len2] = 0;
+	}
+
+	return ctx->charset == SJ4UTF16 ? wcslen((wchar_t*)ctx->outbuf) : strlen(ctx->outbuf);
 }
 
 void sj4_close(Sj4Lib* ctx) {
+	free_context(ctx->ctx);
 	free(ctx);
 }

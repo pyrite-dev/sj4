@@ -7,12 +7,13 @@
 #define SJ4BUFSZ (16 * 1024)
 
 typedef union sj4kouhobuffer {
-	unsigned char sjis[SJ4BUFSZ];
-	unsigned char eucjp[SJ4BUFSZ];
-	char	      utf8[SJ4BUFSZ];
-	wchar_t	      utf16[SJ4BUFSZ / sizeof(wchar_t)];
+	char	sjis[SJ4BUFSZ];
+	char	eucjp[SJ4BUFSZ];
+	char	utf8[SJ4BUFSZ];
+	wchar_t utf16[SJ4BUFSZ / sizeof(wchar_t)];
 
 	unsigned char raw[SJ4BUFSZ];
+	wchar_t	      wraw[SJ4BUFSZ / sizeof(wchar_t)];
 } Sj4KouhoBuffer;
 
 typedef struct sj4kouho {
