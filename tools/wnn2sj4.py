@@ -161,6 +161,6 @@ for y in sorted(grouped.keys()):
 
 	for freq, k, sj, freq in lst:
 		t2 = "\t" * (4 - (len(k) // 4))
-		freq = floor(freq / maxf * 0xffff)
+		freq = 0xffff - floor(freq / maxf * 0xffff)
 		fp.write(f"{y}{t}{k}{t2}{sj}:[C{freq}]:\n")
 fp.close()

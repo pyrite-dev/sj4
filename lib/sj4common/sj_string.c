@@ -54,7 +54,7 @@
 #define iseuc(c) ((0xa1 <= (c)) && ((c) <= 0xfe))
 #define iskana(c) ((0xa1 <= (c)) && ((c) <= 0xdf))
 
-int sj4_str_sjistoeuc(unsigned char* out, int outlen, unsigned char* in, unsigned char* sjis_default, int* useflag) {
+int sj4_str_sjistoeuc(unsigned char* out, int outlen, unsigned char* in, int inlen, unsigned char* sjis_default, int* useflag) {
 	unsigned char *sjis = in, *euc = out;
 	int	       n = 0;
 	unsigned short code, default_code;
@@ -65,7 +65,7 @@ int sj4_str_sjistoeuc(unsigned char* out, int outlen, unsigned char* in, unsigne
 	if(!sjis)
 		return 0;
 
-	while(*sjis && n < outlen) {
+	while((sjis - in) < inlen && *sjis && n < (outlen - 1)) {
 		if(issjis1(*sjis)) {
 			code = sjis2euc((*sjis << 8) | *(sjis + 1));
 			if(n + 2 > outlen)
@@ -90,14 +90,14 @@ int sj4_str_sjistoeuc(unsigned char* out, int outlen, unsigned char* in, unsigne
 			sjis++;
 		}
 	}
-	if(n > outlen)
+	if(n > (outlen - 1))
 		return -1;
 
 	euc[n] = '\0';
 	return n;
 }
 
-int sj4_str_euctosjis(unsigned char* out, int outlen, unsigned char* in, unsigned char* sjis_default, int* useflag) {
+int sj4_str_euctosjis(unsigned char* out, int outlen, unsigned char* in, int inlen, unsigned char* sjis_default, int* useflag) {
 	unsigned char *euc = in, *sjis = out;
 	int	       n = 0;
 	unsigned short code, default_code;
@@ -108,7 +108,7 @@ int sj4_str_euctosjis(unsigned char* out, int outlen, unsigned char* in, unsigne
 	if(!euc)
 		return 0;
 
-	while(*euc && n < outlen) {
+	while((euc - in) < inlen && *euc && n < outlen) {
 		if(iseuc(*euc)) {
 			code = euc2sjis((*euc << 8) | *(euc + 1));
 			if(n + 2 > outlen)
@@ -175,13 +175,13 @@ static unsigned char def_char[] = {0x81, 0x40};
 int sj4_sjistoeuc(unsigned char* e, int elen, unsigned char* s, int slen) {
 	int dummy;
 
-	return sj4_str_sjistoeuc(e, elen, s, def_char, &dummy);
+	return sj4_str_sjistoeuc(e, elen, s, slen, def_char, &dummy);
 }
 
 int sj4_euctosjis(unsigned char* s, int slen, unsigned char* e, int elen) {
 	int dummy;
 
-	return sj4_str_euctosjis(s, slen, e, def_char, &dummy);
+	return sj4_str_euctosjis(s, slen, e, elen, def_char, &dummy);
 }
 void sj_euc2sjis(unsigned char* s) {
 	s[0] &= MASK;

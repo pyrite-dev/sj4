@@ -432,6 +432,6 @@
 
 #define termtbl Jtermtbl
 
-#include <sj_compat.h>
+#include <sj4compat.h>
 
 #endif

@@ -302,7 +302,7 @@ u_int adddic(SJ4_CONTEXT u_char* yomi, u_char* kanji, TypeGram hinsi) {
 
 static int
 checksub(SJ4_CONTEXT u_char* kanji, TypeGram grm) {
-	u_char* tagp;
+	u_char* tagp = NULL;
 	u_char* ptr;
 	u_char* endp;
 	int	flg, nlen;

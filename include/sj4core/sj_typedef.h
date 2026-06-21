@@ -49,16 +49,11 @@ typedef void (*VFunc)(
     void*,
 #endif
     void*, void*, void*);
-typedef u_char* (*UCPFunc)(
-#ifndef SJ4_GLOBAL
-    void*,
-#endif
-    u_char*, u_char*, int);
 typedef int (*IFunc)(
 #ifndef SJ4_GLOBAL
     void*,
 #endif
-    void*, int);
+    void*, short);
 
 typedef int (*IFuncDict)(
 #ifndef SJ4_GLOBAL

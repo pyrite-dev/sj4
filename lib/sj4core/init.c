@@ -85,10 +85,26 @@ Sj4Context* alloccontext(const char* dic) {
 	DictFile*   dict;
 	DICTL*	    node;
 
-	ctx->work = calloc(1, sizeof(*ctx->work));
-	ctx->stdy = calloc(1, sizeof(*ctx->stdy));
+	if((ctx->work = calloc(1, sizeof(*ctx->work))) == NULL) {
+		free(ctx);
 
-	node		     = calloc(1, sizeof(*node));
+		return NULL;
+	}
+	if((ctx->stdy = calloc(1, sizeof(*ctx->stdy))) == NULL) {
+		free(ctx->work);
+		free(ctx);
+
+		return NULL;
+	}
+
+	if((node = calloc(1, sizeof(*node))) == NULL) {
+		free(ctx->stdy);
+		free(ctx->work);
+		free(ctx);
+
+		return NULL;
+	}
+
 	ctx->work->Jdictlist = node;
 
 	initwork(ctx);

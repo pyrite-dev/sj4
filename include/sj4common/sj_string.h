@@ -18,8 +18,8 @@
 #define SJ_STRING_H
 
 /* string.c */
-int sj4_str_sjistoeuc(unsigned char*, int, unsigned char*, unsigned char*, int*);
-int sj4_str_euctosjis(unsigned char*, int, unsigned char*, unsigned char*, int*);
+int sj4_str_sjistoeuc(unsigned char*, int, unsigned char*, int, unsigned char*, int*);
+int sj4_str_euctosjis(unsigned char*, int, unsigned char*, int, unsigned char*, int*);
 int sj4_sjistoeuclen(unsigned char*, int);
 
 int	       sj4_sjistoeuc(unsigned char* s, int, unsigned char*, int);

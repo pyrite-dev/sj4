@@ -60,7 +60,7 @@
 #define ftruncate chsize
 #endif
 
-#ifdef SJ3_GLOBAL
+#ifdef SJ4_GLOBAL
 DictFile* dictlink = NULL;
 StdyFile* stdylink = NULL;
 #else
@@ -174,7 +174,6 @@ getidx(SJ4_CONTEXT DictFile* dp) {
 	idxbuf = dp->buffer + dp->idxstrt;
 	return 0;
 }
-/* XXX: not IFunc */
 static int
 getdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
 	if(seg >= dp->dict.segunit) return -1;
@@ -182,10 +181,9 @@ getdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
 	return 0;
 }
 static int
-putidx(SJ4_CONTEXT DictFile* dp) {
+putidx(SJ4_CONTEXT DictFile* dp, short dummy) {
 	return putfile(dp->fd, dp->idxstrt, dp->dict.idxlen, idxbuf);
 }
-/* XXX: not IFunc */
 static int
 putdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
 	u_char* p;
@@ -213,7 +211,6 @@ putdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
 
 	return putfile(dp->fd, i, dp->dict.seglen, p);
 }
-/* XXX: not IFunc */
 static int
 rszdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
 	long	i;

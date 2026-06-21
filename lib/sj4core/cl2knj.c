@@ -41,7 +41,7 @@ static CLREC *nextrecblk(SJ4_CONTEXT2), *prevrecblk(SJ4_CONTEXT2);
 
 static void initkbuf(SJ4_CONTEXT u_char*);
 
-int cl2knj(SJ4_CONTEXT u_char* yomi, int len, u_char* kouho) {
+int cl2knj(SJ4_CONTEXT u_char* yomi, int len, u_char* kouho, int klen) {
 	u_char* ptr1;
 	u_char* ptr2;
 	int	i;

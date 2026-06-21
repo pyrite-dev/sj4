@@ -26,7 +26,7 @@
 #include <sys/stat.h>
 
 #include "sj4_dict_struct.h"
-#include "sj_compat.h"
+#include "sj4compat.h"
 
 /* char.c */
 int  cnvyomi(int);

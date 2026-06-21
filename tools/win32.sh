@@ -67,5 +67,5 @@ library sj4common
 library sj4core
 library sj4rkcv
 
-executable sj4mkdic
+executable sj4mkdic sj4common.lib
 executable sj4test "sj4common.lib sj4core.lib"
