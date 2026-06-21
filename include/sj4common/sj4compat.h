@@ -14,6 +14,5 @@
 int    sj4_snprintf(char*, size_t, const char*, ...);
 size_t sj4_strlcpy(char*, const char*, size_t);
 int    sj4_ftruncate(FILE*, size_t);
-int    sj4_unlink(const char*);
 
 #endif

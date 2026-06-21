@@ -607,7 +607,7 @@ int makedict(char* path, int idxlen, int seglen, int segnum) {
 		ret = SJ4_NormalEnd;
 error:
 	fclose(fp);
-	if(ret != SJ4_NormalEnd) sj4_unlink(path);
+	if(ret != SJ4_NormalEnd) remove(path);
 	return ret;
 }
 
@@ -687,7 +687,7 @@ int makestdy(char* path, int stynum, int clstep, int cllen) {
 		ret = SJ4_NormalEnd;
 error:
 	fclose(fp);
-	if(ret != SJ4_NormalEnd) sj4_unlink(path);
+	if(ret != SJ4_NormalEnd) remove(path);
 	return ret;
 }
 
