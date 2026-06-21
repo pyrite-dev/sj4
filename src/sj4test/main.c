@@ -5,7 +5,7 @@ int main(int argc, char** argv) {
 	int	    i = 0;
 	char	    c[64 * 1024];
 	char	    b;
-	Sj4Context* ctx = alloccontext("dic.bin");
+	Sj4Context* ctx = alloccontext("sj4main.dic");
 
 	if(ctx == NULL) {
 		fprintf(stderr, "Failed to create context\n");

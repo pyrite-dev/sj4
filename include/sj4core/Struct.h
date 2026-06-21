@@ -113,6 +113,11 @@ typedef struct global {
 	TypeDicSeg Jpeepidx;
 } Global;
 
+typedef struct vfile {
+	u_char* buffer;
+	u_int	size;
+} VFile;
+
 typedef struct dictfile {
 	DICT dict;
 	int  refcnt;
@@ -120,6 +125,7 @@ typedef struct dictfile {
 	fd_set lock;
 #endif
 	FILE* fp;
+	VFile vf;
 	int   fd;
 
 	u_char* buffer;

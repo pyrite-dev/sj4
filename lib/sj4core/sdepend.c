@@ -91,7 +91,22 @@ Put4byte(u_char* p, long n) {
 #define put4byte(p, n) Put4byte((p), (long)(n))
 
 static int
-fgetfile(FILE* fp, long pos, long len, u_char* p) {
+fgetfile(VFile* vfp, FILE* fp, long pos, long len, u_char* p) {
+	if(vfp != NULL && vfp->buffer != NULL) {
+		if(pos >= vfp->size) {
+			serv_errno = SJ4_FileSeekError;
+			return ERROR;
+		}
+		if((pos + len) > vfp->size) {
+			serv_errno = SJ4_FileSeekError;
+			return ERROR;
+		}
+
+		memcpy(p, vfp->buffer + pos, len);
+
+		return SJ4_NormalEnd;
+	}
+
 	if(fseek(fp, pos, 0) == ERROR) {
 		serv_errno = SJ4_FileSeekError;
 		return ERROR;
@@ -238,14 +253,28 @@ rszdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
 
 DictFile*
 opendict(SJ4_CONTEXT char* name, char* passwd) {
-	FILE*	    fp;
+	FILE*	    fp = NULL;
 	struct stat sbuf;
 	DictFile*   dfp;
 	u_char	    tmp[HEADERLENGTH];
 	int	    i;
 	u_char*	    dp;
+	VFile	    vf;
 
-	if(stat(name, &sbuf) == ERROR) {
+#ifdef EMBED
+	memset(&vf, 0, sizeof(vf));
+
+	if(strcmp(name, "sj4main.dic") == 0) {
+		extern u_char sj4main_dic[];
+		extern u_int  sj4main_dic_len;
+
+		vf.buffer    = sj4main_dic;
+		vf.size	     = sj4main_dic_len;
+		sbuf.st_size = vf.size;
+		sbuf.st_ino  = -1;
+	} else
+#endif
+	    if(stat(name, &sbuf) == ERROR) {
 		if(errno == ENOENT)
 			serv_errno = SJ4_FileNotExist;
 		else
@@ -258,7 +287,8 @@ opendict(SJ4_CONTEXT char* name, char* passwd) {
 		return dfp;
 	}
 
-	if((fp = fopen(name, "r+b")) == NULL) {
+	if(vf.buffer != NULL) {
+	} else if((fp = fopen(name, "r+b")) == NULL) {
 		if((fp = fopen(name, "rb")) == NULL) {
 			serv_errno = SJ4_CannotOpenFile;
 			return NULL;
@@ -267,7 +297,7 @@ opendict(SJ4_CONTEXT char* name, char* passwd) {
 	} else
 		i = TRUE;
 
-	if(fgetfile(fp, 0L, sizeof(tmp), tmp) == ERROR) goto error1;
+	if(fgetfile(&vf, fp, 0L, sizeof(tmp), tmp) == ERROR) goto error1;
 
 	if(!check_dictfile(tmp)) {
 		serv_errno = SJ4_IllegalDictFile;
@@ -289,7 +319,7 @@ opendict(SJ4_CONTEXT char* name, char* passwd) {
 	}
 	memset(dfp, '\0', sizeof(*dfp));
 
-	if(fgetfile(fp, 0L, (long)sbuf.st_size, dp) == ERROR) goto error3;
+	if(fgetfile(&vf, fp, 0L, (long)sbuf.st_size, dp) == ERROR) goto error3;
 
 	dfp->dict.dicid	  = sbuf.st_ino;
 	dfp->dict.idxlen  = get4byte(dp + DICTIDXLEN);
@@ -304,7 +334,8 @@ opendict(SJ4_CONTEXT char* name, char* passwd) {
 	dfp->dict.rszdic  = (IFunc)rszdic;
 	dfp->refcnt	  = 1;
 	dfp->fp		  = fp;
-	dfp->fd		  = fileno(fp);
+	dfp->vf		  = vf;
+	dfp->fd		  = vf.buffer == NULL ? fileno(fp) : -1;
 	dfp->buffer	  = dp;
 	dfp->bufsiz	  = sbuf.st_size;
 	dfp->idxstrt	  = get4byte(dp + DICTIDXPOS);
@@ -329,7 +360,7 @@ error3:
 error2:
 	free((char*)dp);
 error1:
-	fclose(fp);
+	if(fp != NULL) fclose(fp);
 
 	return NULL;
 }
@@ -434,7 +465,7 @@ openstdy(SJ4_CONTEXT char* name, char* passwd) {
 		goto error0;
 	}
 
-	if(fgetfile(fp, 0L, HEADERLENGTH + COMMENTLENGTH, hd) == ERROR)
+	if(fgetfile(NULL, fp, 0L, HEADERLENGTH + COMMENTLENGTH, hd) == ERROR)
 		goto error1;
 
 	if(!check_stdyfile(hd)) {
@@ -476,9 +507,9 @@ openstdy(SJ4_CONTEXT char* name, char* passwd) {
 		goto error4;
 	}
 
-	if(fgetfile(fp, clidxpos, clidxlen, (u_char*)cip) == ERROR) goto error5;   /* XXX */
-	if(fgetfile(fp, clstdypos, clstdylen, (u_char*)clp) == ERROR) goto error5; /* XXX */
-	if(fgetfile(fp, stdypos, len, (u_char*)sp) == ERROR) stdycnt = 0;	   /* XXX */
+	if(fgetfile(NULL, fp, clidxpos, clidxlen, (u_char*)cip) == ERROR) goto error5;	 /* XXX */
+	if(fgetfile(NULL, fp, clstdypos, clstdylen, (u_char*)clp) == ERROR) goto error5; /* XXX */
+	if(fgetfile(NULL, fp, stdypos, len, (u_char*)sp) == ERROR) stdycnt = 0;		 /* XXX */
 
 	sfp->stdy.stdycnt    = stdycnt;
 	sfp->stdy.stdymax    = stdymax;
