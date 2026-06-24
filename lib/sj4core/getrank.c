@@ -138,20 +138,18 @@ regetrank(SJ4_CONTEXT2) {
 		nkhcount = tmp = 0;
 	}
 
-#if 0
 	for(count = khcount, kptr = kouhotbl; count--; kptr++) {
 
 		if(!(kptr->rank)) {
 			if(tmp && kptr->mode && !(kptr->offs)) {
 				kptr->rank = (u_char)tmp++;
-			} else
-				kptr->rank = (u_char)trank++;
+			}
 		}
 
 		else if((short)kptr->rank >= nrank)
 			kptr->rank += (u_char)nkhcount;
 	}
-#else
+
 	while(1) {
 		KHREC* best = NULL;
 
@@ -165,7 +163,6 @@ regetrank(SJ4_CONTEXT2) {
 
 		if(best == NULL) break;
 
-		best->rank = trank++;
+		best->rank = (u_char)trank++;
 	}
-#endif
 }
