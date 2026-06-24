@@ -68,7 +68,7 @@ void wakachi(SJ4_CONTEXT2) {
 
 		if(!(jrec = argjrec(SJ4_CONTEXT_PASS i, (JREC*)NULL))) return;
 
-		jrec->class = C_WAKACHI;
+		jrec->jclass = C_WAKACHI;
 		jrec->hinsi = D_MEISI_1;
 
 		if(Chrtbl[*(next - 1)] & TAI_KGU)
@@ -78,7 +78,7 @@ void wakachi(SJ4_CONTEXT2) {
 	else {
 
 		if(!(jrec = argjrec(SJ4_CONTEXT_PASS 0, (JREC*)NULL))) return;
-		jrec->class = C_WAKACHI;
+		jrec->jclass = C_WAKACHI;
 		jrec->hinsi = MEISI_6;
 
 		while((int)jrec->jlen < maxlen) {

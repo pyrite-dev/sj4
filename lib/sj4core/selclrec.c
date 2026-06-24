@@ -51,7 +51,7 @@ void selclrec(SJ4_CONTEXT2) {
 
 	while(rec) {
 		if(len > (unsigned int)rec->cllen) return;
-		if(rec->jnode->class == C_BUNSETU) break;
+		if(rec->jnode->jclass == C_BUNSETU) break;
 		rec = rec->clsort;
 	}
 	if(!rec) return;

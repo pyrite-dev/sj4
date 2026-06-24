@@ -122,6 +122,9 @@ RECURS void srchfzk(SJ4_CONTEXT JREC*, u_char*, TypeCnct, int);
 /* fzkyomi.c */
 extern u_char* fzkadr[];
 
+/* getcost.c */
+int getcost(SJ4_CONTEXT u_char*);
+
 /* getkanji.c */
 u_char* getkan_none(u_char*, u_char*, u_char*, int, int);
 u_char* getkan_hira(u_char*, u_char*, u_char*, int, int);

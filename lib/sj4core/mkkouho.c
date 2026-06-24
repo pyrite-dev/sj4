@@ -68,7 +68,7 @@ getkhtbl(SJ4_CONTEXT CLREC* clrec) {
 
 	jrec = clrec->jnode;
 
-	switch(jrec->class) {
+	switch(jrec->jclass) {
 	case C_DICT:
 		cl_kanji(SJ4_CONTEXT_PASS jrec, clrec);
 		break;
@@ -323,7 +323,7 @@ diffknj(SJ4_CONTEXT JREC* jrec, u_char* ptr, int num) {
 
 		if(jptr->hinsi == TANKANJI) continue;
 
-		if(jptr->class != jrec->class) continue;
+		if(jptr->jclass != jrec->jclass) continue;
 
 		if(jptr->dicid != jrec->dicid) continue;
 
@@ -362,7 +362,7 @@ int sel_sjmode(JREC* jrec) {
 	u_short* p;
 	u_short* q;
 
-	switch(jrec->class) {
+	switch(jrec->jclass) {
 	case C_N_ARABIA:
 	case C_N_ARACMA:
 	case C_N_KAZU:
@@ -373,7 +373,7 @@ int sel_sjmode(JREC* jrec) {
 	case C_N_KAZULONG:
 	case C_N_KAZULCMA:
 	case C_N_SUUJILONG:
-		p = q = Selsjadrs(jrec->class - C_N_ARABIA);
+		p = q = Selsjadrs(jrec->jclass - C_N_ARABIA);
 		break;
 
 	default:
@@ -418,7 +418,7 @@ cl_numcmn(SJ4_CONTEXT JREC* jrec, CLREC* clrec) {
 			setkouho(SJ4_CONTEXT_PASS clrec, (TypeDicOfs)1, i);
 		}
 	} else {
-		tbl = Selsjadrs(jrec->class - C_N_ARABIA);
+		tbl = Selsjadrs(jrec->jclass - C_N_ARABIA);
 		while((j = *tbl++) != SELNUMTERM) {
 			if(!chrck_numtbl(jrec->flags, j)) continue;
 

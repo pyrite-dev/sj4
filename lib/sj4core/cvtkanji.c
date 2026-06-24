@@ -96,7 +96,7 @@ void cvtkouho(SJ4_CONTEXT KHREC* krec) {
 
 	clrec = krec->clrec;
 
-	switch(clrec->jnode->class) {
+	switch(clrec->jnode->jclass) {
 	case C_DICT:
 		cvtdict(SJ4_CONTEXT_PASS krec, clrec, FALSE);
 		break;

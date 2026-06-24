@@ -43,7 +43,7 @@ typedef struct jiritu {
 	TypeDicOfs     jofsst;
 	TypeDicOfs     jofsed;
 	u_short	       flags;
-	TypeClass class;
+	TypeClass jclass;
 	TypeDicID dicid;
 	u_char	  jlen;
 	TypeGram  hinsi;
@@ -75,6 +75,7 @@ typedef struct kouho {
 	TypeDicOfs offs;
 	TypeStyNum styno;
 	u_char	   rank;
+	u_short	   cost; /* new in SJ4 */
 #if __STDC__
 	unsigned sttfg : 1;
 	unsigned sttkj : 1;

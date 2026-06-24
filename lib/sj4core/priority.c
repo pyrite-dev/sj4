@@ -104,7 +104,7 @@ int priority(SJ4_CONTEXT CLREC* clrec) {
 
 	if(clrec->cllen == clrec->cl2len) return 0xff;
 
-	if(clrec->jnode->class == C_BUNSETU) {
+	if(clrec->jnode->jclass == C_BUNSETU) {
 		prty = Termtbl[clrec->right] & GETPRI;
 		return (0xf0 + prty);
 	}
@@ -221,7 +221,7 @@ finish:
 
 	if(cl2rec->jnode->hinsi == SUUSI) prty -= 3;
 
-	if(cl2rec->jnode->class == C_DICT &&
+	if(cl2rec->jnode->jclass == C_DICT &&
 	   cl2rec->jnode->jlen == 1 && (cl2rec->kubun != K_DOUSHI)) {
 		prty -= 2;
 	}

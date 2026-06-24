@@ -59,6 +59,8 @@ void setkouho(SJ4_CONTEXT CLREC* clrec, TypeDicOfs offs, int mode) {
 	kptr->clrec = clrec;
 	kptr->offs  = offs;
 	kptr->rank  = 0;
+	kptr->cost  = getcost(SJ4_CONTEXT_PASS dicbuf + offs);
+
 	kptr->styno = 0;
 	kptr->mode  = (u_char)mode;
 
@@ -97,6 +99,8 @@ void setkouho(SJ4_CONTEXT CLREC* clrec, TypeDicOfs offs, int mode) {
 
 	kptr->clrec = clrec;
 	kptr->offs  = offs;
+	kptr->cost  = getcost(SJ4_CONTEXT_PASS dicbuf + offs);
+
 	kptr->rank  = 0;
 	kptr->styno = 0;
 	kptr->mode  = (u_char)mode;
@@ -134,6 +138,7 @@ void ph_setkouho(SJ4_CONTEXT CLREC* clrec, TypeDicOfs offs, STDYIN* sptr) {
 	kouhotbl[0].clrec = clrec;
 	kouhotbl[0].offs  = offs;
 	kouhotbl[0].rank  = 0;
+	kouhotbl[0].cost  = getcost(SJ4_CONTEXT_PASS dicbuf + offs);
 
 	kouhotbl[0].mode = sel_sjmode(jrec = clrec->jnode);
 

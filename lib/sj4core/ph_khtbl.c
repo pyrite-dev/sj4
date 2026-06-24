@@ -83,7 +83,7 @@ int ph_khtbl(SJ4_CONTEXT CLREC* clrec) {
 	JREC* jrec;
 	int   flg = FALSE;
 
-	switch((jrec = clrec->jnode)->class) {
+	switch((jrec = clrec->jnode)->jclass) {
 	case C_DICT:
 		ph_setsty(SJ4_CONTEXT_PASS clrec);
 		break;

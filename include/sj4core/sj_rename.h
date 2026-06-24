@@ -104,6 +104,8 @@
 #define fzkcnct Jfzkcnct
 #define srchfzk Jsrchfzk
 
+#define getcost Jgetcost
+
 #define getkan_none Jgetkan_none
 #define getkan_hira Jgetkan_hira
 #define getkan_kata Jgetkan_kata
