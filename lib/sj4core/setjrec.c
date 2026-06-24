@@ -242,7 +242,7 @@ void setjrec(SJ4_CONTEXT u_char* tagp, int mode) {
 		rec->jseg   = prevseg;
 		rec->jofsst = ptr - dicbuf;
 		rec->jofsed = tmp - dicbuf;
-		rec->jclass  = C_DICT;
+		rec->jclass = C_DICT;
 		rec->dicid  = curdict->dicid;
 		rec->hinsi  = gram;
 		rec->sttofs = headcode;
@@ -323,6 +323,6 @@ void setcrec(SJ4_CONTEXT u_char* tagp) {
 	if(!(rec = argjrec(SJ4_CONTEXT_PASS(int) ClYomiLen(tagp), (JREC*)NULL))) return;
 
 	rec->jofsst = tagp - CLSTUDYDICT;
-	rec->jclass  = C_BUNSETU;
+	rec->jclass = C_BUNSETU;
 	rec->hinsi  = ClGramCode(tagp);
 }

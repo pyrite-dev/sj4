@@ -43,15 +43,15 @@ typedef struct jiritu {
 	TypeDicOfs     jofsst;
 	TypeDicOfs     jofsed;
 	u_short	       flags;
-	TypeClass jclass;
-	TypeDicID dicid;
-	u_char	  jlen;
-	TypeGram  hinsi;
-	u_char	  sttofs;
-	u_char	  stbofs;
-	u_char	  count;
-	u_char	  numlen;
-	u_short	  cost; /* new in SJ4 */
+	TypeClass      jclass;
+	TypeDicID      dicid;
+	u_char	       jlen;
+	TypeGram       hinsi;
+	u_char	       sttofs;
+	u_char	       stbofs;
+	u_char	       count;
+	u_char	       numlen;
+	u_short	       cost; /* new in SJ4 */
 } JREC;
 
 typedef struct bunsetu {

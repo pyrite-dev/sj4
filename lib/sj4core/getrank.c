@@ -138,6 +138,7 @@ regetrank(SJ4_CONTEXT2) {
 		nkhcount = tmp = 0;
 	}
 
+#if 0
 	for(count = khcount, kptr = kouhotbl; count--; kptr++) {
 
 		if(!(kptr->rank)) {
@@ -150,4 +151,21 @@ regetrank(SJ4_CONTEXT2) {
 		else if((short)kptr->rank >= nrank)
 			kptr->rank += (u_char)nkhcount;
 	}
+#else
+	while(1) {
+		KHREC* best = NULL;
+
+		for(count = khcount, kptr = kouhotbl; count--; kptr++) {
+			if(kptr->rank != 0) continue;
+
+			if(best == NULL || kptr->cost < best->cost) {
+				best = kptr;
+			}
+		}
+
+		if(best == NULL) break;
+
+		best->rank = trank++;
+	}
+#endif
 }

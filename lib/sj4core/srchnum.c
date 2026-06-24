@@ -102,7 +102,7 @@ setnrec_sub(SJ4_CONTEXT u_char* p, u_short flag, int stb) {
 	}
 
 	if((rec = argjrec(SJ4_CONTEXT_PASS len1, (JREC*)NULL))) {
-		rec->jclass  = suuji_class;
+		rec->jclass = suuji_class;
 		rec->hinsi  = SUUSI;
 		rec->sttofs = headcode;
 		rec->stbofs = (u_char)stb;
