@@ -121,16 +121,6 @@ setnspr(SJ4_CONTEXT KHREC* kptr, STDYIN* sptr) {
 	if(sptr->nmflg && (nrank > keepnm)) nrank = keepnm;
 }
 
-static int sort_kouhotbl(const void* a, const void* b){
-	const KHREC* akh = a;
-	const KHREC* bkh = b;
-
-	if(akh->cost < bkh->cost) return -1;
-	if(akh->cost > bkh->cost) return 1;
-
-	return 0;
-}
-
 static void
 regetrank(SJ4_CONTEXT2) {
 	KHREC* kptr;
@@ -147,8 +137,6 @@ regetrank(SJ4_CONTEXT2) {
 	else {
 		nkhcount = tmp = 0;
 	}
-
-	qsort(kouhotbl, khcount, sizeof(*kouhotbl), sort_kouhotbl);
 
 	for(count = khcount, kptr = kouhotbl; count--; kptr++) {
 
