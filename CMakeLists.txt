@@ -36,6 +36,7 @@ elseif(SJ4_EMBED)
 endif()
 
 sj4_library(sj4rkcv)
+sj4_library(sj4ime)
 
 if(NOT SJ4_GLOBAL)
 	sj4_library(sj4lib)

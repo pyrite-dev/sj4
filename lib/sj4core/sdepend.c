@@ -233,9 +233,9 @@ opendict(SJ4_CONTEXT char* name, char* passwd) {
 	u_char*	    dp;
 	VFile	    vf;
 
-#if defined(EMBED) || defined(EMBED_PLUS)
 	memset(&vf, 0, sizeof(vf));
 
+#if defined(EMBED) || defined(EMBED_PLUS)
 	if(strcmp(name, "sj4main.dic") == 0) {
 		extern u_char sj4main_dic[];
 		extern u_int  sj4main_dic_len;

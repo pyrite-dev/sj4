@@ -2,11 +2,16 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <locale.h>
+
+#ifdef _WIN32
+#define CHARSET SJ4SJIS
+#else
+#define CHARSET SJ4UTF8
+#endif
 
 int main(int argc, char** argv) {
 	char	c[8 * 1024];
-	Sj4Lib* ctx = sj4_open(SJ4UTF8, "sj4main.dic");
+	Sj4Lib* ctx = sj4_open(CHARSET, "sj4main.dic");
 	char	b;
 
 	if(ctx == NULL) {
@@ -15,8 +20,6 @@ int main(int argc, char** argv) {
 	}
 
 	c[0] = 0;
-
-	setlocale(LC_ALL, "");
 
 	while(fread(&b, 1, sizeof(b), stdin)) {
 		int	 n, i;

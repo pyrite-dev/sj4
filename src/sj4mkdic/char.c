@@ -142,10 +142,16 @@ int codesize(u_char code) {
 		euc[strlen(euc)]     = (c); \
 	}
 
+#ifdef _WIN32
+#define TO sj4_to_sjis
+#else
+#define TO sj4_to_utf8
+#endif
+
 void output_knj(FILE* fp, u_char* p, int l) {
 	u_char euc[64];
 #ifdef UTF8
-	u_char ucs[64];
+	u_char to[64];
 #endif
 	euc[0] = 0;
 
@@ -203,9 +209,9 @@ void output_knj(FILE* fp, u_char* p, int l) {
 	}
 
 #ifdef UTF8
-	ucs[sj4_to_utf8(ucs, euc, strlen(euc))] = 0;
+	to[TO(to, euc, strlen(euc))] = 0;
 
-	fputs(ucs, fp);
+	fputs(to, fp);
 #else
 	fputs(euc, fp);
 #endif
@@ -289,7 +295,7 @@ void output_yomi(FILE* fp, u_char* p) {
 	char buf[5];
 #ifdef UTF8
 	u_char euc[2];
-	u_char ucs[64];
+	u_char to[64];
 #endif
 
 	while(*p) {
@@ -299,9 +305,9 @@ void output_yomi(FILE* fp, u_char* p) {
 		euc[0] = (i >> 8) & 0xff;
 		euc[1] = i & 0xff;
 
-		ucs[sj4_to_utf8(ucs, euc, 2)] = 0;
+		to[TO(to, euc, 2)] = 0;
 
-		fputs(ucs, fp);
+		fputs(to, fp);
 #else
 		fputc((i >> 8) & 0xff, fp);
 		fputc(i & 0xff, fp);
