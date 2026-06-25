@@ -110,8 +110,6 @@ readchar() {
 	}
 
 	if((cod = unicode_to_eucjp(n)) == -1) {
-		code = n;
-
 		return '[';
 	}
 
@@ -156,6 +154,8 @@ skip_blank() {
 	return c;
 }
 
+#include "sj_charset.h"
+
 static int
 readhinsi() {
 	static int    c = 0;
@@ -175,8 +175,6 @@ retry:
 	}
 
 	for(i = 0; !Isblank(c);) {
-		int j = 0, k;
-
 		if(c == '\n' || c == ':')
 			break;
 		if(Isillegal(c))

@@ -209,12 +209,13 @@ void output_knj(FILE* fp, u_char* p, int l) {
 	}
 
 #ifdef UTF8
-	to[TO(to, euc, strlen(euc))] = 0;
+	if(fp == stdout || fp == stderr) {
+		to[TO(to, euc, strlen(euc))] = 0;
 
-	fputs(to, fp);
-#else
-	fputs(euc, fp);
+		fputs(to, fp);
+	} else
 #endif
+		fputs(euc, fp);
 }
 
 void output_str(FILE* fp, char* p) {
@@ -302,15 +303,18 @@ void output_yomi(FILE* fp, u_char* p) {
 		i = yomi2zen(*p++);
 
 #ifdef UTF8
-		euc[0] = (i >> 8) & 0xff;
-		euc[1] = i & 0xff;
+		if(fp == stdout || fp == stderr) {
+			euc[0] = (i >> 8) & 0xff;
+			euc[1] = i & 0xff;
 
-		to[TO(to, euc, 2)] = 0;
+			to[TO(to, euc, 2)] = 0;
 
-		fputs(to, fp);
-#else
-		fputc((i >> 8) & 0xff, fp);
-		fputc(i & 0xff, fp);
+			fputs(to, fp);
+		} else
 #endif
+		{
+			fputc((i >> 8) & 0xff, fp);
+			fputc(i & 0xff, fp);
+		}
 	}
 }

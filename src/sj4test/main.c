@@ -8,6 +8,7 @@
 #else
 #define CHARSET SJ4UTF8
 #endif
+#define CHARSET SJ4UTF8
 
 int main(int argc, char** argv) {
 	char	c[8 * 1024];
@@ -39,7 +40,11 @@ int main(int argc, char** argv) {
 		while((strlen(c) - i) > 0 && (n = sj4_getkan(ctx, c + i, strlen(c + i), &kouho)) != 0) {
 			printf(">");
 			do {
+#ifdef _WIN32
+				printf(" %s", kouho.buffer.sjis);
+#else
 				printf(" %s", kouho.buffer.utf8);
+#endif
 			} while(sj4_nextkan(ctx) != 0);
 			printf("\n");
 

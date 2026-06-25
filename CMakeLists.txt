@@ -36,7 +36,6 @@ elseif(SJ4_EMBED)
 endif()
 
 sj4_library(sj4rkcv)
-sj4_library(sj4ime)
 
 if(NOT SJ4_GLOBAL)
 	sj4_library(sj4lib)
@@ -44,6 +43,11 @@ if(NOT SJ4_GLOBAL)
 	if(NOT SJ4_NO_UNICODE)
 		target_compile_definitions(sj4lib PRIVATE UCS)
 	endif()
+endif()
+
+if(NOT SJ4_GLOBAL)
+	sj4_library(sj4ime)
+	target_link_libraries(sj4ime PUBLIC sj4lib)
 endif()
 
 if(SJ4_BUILD_TOOLS OR (NOT CMAKE_BINARY_DIR MATCHES CMAKE_CURRENT_SOURCE_DIR AND NOT SJ4_BUILD_ONLY_LIB))
