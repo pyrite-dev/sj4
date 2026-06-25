@@ -202,6 +202,7 @@ void utf8_print(char* out, int c) {
 	out[i++] = 0;
 }
 
+#ifdef UTF8
 int unicode_to_eucjp(int utf) {
 	if(0 <= utf && utf <= 0xffff) {
 		const T_U2E_BITMAP_INDEX* b = &utf16_to_euc_jp_table[(utf >> 8) & 0xff];
@@ -221,3 +222,4 @@ int unicode_to_eucjp(int utf) {
 
 	return -1;
 }
+#endif
