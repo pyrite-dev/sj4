@@ -49,7 +49,9 @@ static void getcost_hira(SJ4_CONTEXT u_char* p, int* len) {
 int getcost(SJ4_CONTEXT u_char* p) {
 	char flg = TRUE;
 	int  i;
-	int  result;
+	int  result = 0;
+
+	if (!p) return result;
 
 	do {
 		if(p[codesize(*p)] == KANJISTREND) flg = FALSE;

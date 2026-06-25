@@ -86,7 +86,7 @@ void mkjiritu(SJ4_CONTEXT int mode) {
 
 static void
 dic_mu(SJ4_CONTEXT int mode) {
-	u_char* tagp;
+	u_char* tagp = NULL;
 	DICTL*	dp;
 
 	for(dp = dictlist; dp; dp = dp->next) {
