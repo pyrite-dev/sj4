@@ -7,7 +7,7 @@ if [ "x$cmp" = "x" ]; then
 	exit 1
 fi
 
-INCS="sj4common sj4core sj4rkcv sj4lib"
+INCS="sj4common sj4charset sj4core sj4rkcv sj4lib"
 DEFS="UTF8 UCS ENGLISH"
 
 CFLAGS=""
@@ -92,9 +92,10 @@ executable() {
 }
 
 library sj4common
+library sj4charset
 library sj4core
 library sj4rkcv
 library sj4lib
 
-executable sj4mkdic sj4common.lib
-executable sj4test "sj4common.lib sj4core.lib sj4lib.lib"
+executable sj4mkdic "sj4common.lib sj4charset.lib"
+executable sj4test "sj4common.lib sj4charset.lib sj4core.lib sj4lib.lib"
