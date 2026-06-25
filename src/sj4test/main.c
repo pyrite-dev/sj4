@@ -8,7 +8,6 @@
 #else
 #define CHARSET SJ4UTF8
 #endif
-#define CHARSET SJ4UTF8
 
 int main(int argc, char** argv) {
 	char	c[8 * 1024];
