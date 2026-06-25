@@ -38,6 +38,8 @@
 
 #include "sj4mkdic.h"
 
+#include "sj_charset.h"
+
 int cnvyomi(int code) {
 	u_short hh;
 	u_char	high;
@@ -129,19 +131,36 @@ int codesize(u_char code) {
 	}
 }
 
+#define Aprintf(fmt, in) \
+	{ \
+		sprintf(euc + strlen(euc), (fmt), (in)); \
+	}
+
+#define Aputc(c) \
+	{ \
+		euc[strlen(euc) + 1] = 0; \
+		euc[strlen(euc)]     = (c); \
+	}
+
 void output_knj(FILE* fp, u_char* p, int l) {
+	u_char euc[64];
+#ifdef UTF8
+	u_char ucs[64];
+#endif
+	euc[0] = 0;
+
 	while(l > 0) {
 		switch(*p & KANJIMODEMASK) {
 		case ZENHIRAASSYUKU:
-			fprintf(fp, COMPHIRAGANA, (*p++ & 0x0f) + 1);
+			Aprintf(COMPHIRAGANA, (*p++ & 0x0f) + 1);
 			l--;
 			break;
 		case ZENKATAASSYUKU:
-			fprintf(fp, COMPKATAKANA, (*p++ & 0x0f) + 1);
+			Aprintf(COMPKATAKANA, (*p++ & 0x0f) + 1);
 			l--;
 			break;
 		case KANJIASSYUKU:
-			fprintf(fp, COMPKANJI, (*p++ & 0x0f));
+			Aprintf(COMPKANJI, (*p++ & 0x0f));
 			l--;
 			break;
 		case LEADINGHANKAKU:
@@ -149,22 +168,22 @@ void output_knj(FILE* fp, u_char* p, int l) {
 			l = 0;
 			fprintf(stderr, COMPWRONG);
 #else
-			fputc(*p++, fp);
+			Aputc(*p++);
 			l--;
-			fputc(*p++, fp);
+			Aputc(*p++);
 			l--;
 #endif
 			break;
 		case OFFSETASSYUKU:
-			fprintf(fp, "ofs%1x", (*p++ & 0x0f));
+			Aprintf("ofs%1x", (*p++ & 0x0f));
 			l--;
-			fprintf(fp, "%02x", *p++);
+			Aprintf("%02x", *p++);
 			l--;
 			break;
 		case AIATTRIBUTE:
-			fprintf(fp, COMPATTR, (*p++ & 0x0f));
+			Aprintf(COMPATTR, (*p++ & 0x0f));
 			l--;
-			fprintf(fp, "%02x", *p++);
+			Aprintf("%02x", *p++);
 			l--;
 			break;
 		case KANJISTREND:
@@ -173,15 +192,23 @@ void output_knj(FILE* fp, u_char* p, int l) {
 			break;
 		default:
 			if(p[1] & 0x80)
-				fputc(SS3, fp);
-			fputc((*p | 0x80), fp);
+				Aputc(SS3);
+			Aputc((*p | 0x80));
 			l--;
 			p++;
-			fputc((*p | 0x80), fp);
+			Aputc((*p | 0x80));
 			l--;
 			p++;
 		}
 	}
+
+#ifdef UTF8
+	ucs[sj4_to_utf8(ucs, euc, strlen(euc))] = 0;
+
+	fputs(ucs, fp);
+#else
+	fputs(euc, fp);
+#endif
 }
 
 void output_str(FILE* fp, char* p) {
@@ -260,11 +287,24 @@ int yomi2zen(int code) {
 void output_yomi(FILE* fp, u_char* p) {
 	int  i;
 	char buf[5];
+#ifdef UTF8
+	u_char euc[2];
+	u_char ucs[64];
+#endif
 
 	while(*p) {
 		i = yomi2zen(*p++);
 
+#ifdef UTF8
+		euc[0] = (i >> 8) & 0xff;
+		euc[1] = i & 0xff;
+
+		ucs[sj4_to_utf8(ucs, euc, 2)] = 0;
+
+		fputs(ucs, fp);
+#else
 		fputc((i >> 8) & 0xff, fp);
 		fputc(i & 0xff, fp);
+#endif
 	}
 }
