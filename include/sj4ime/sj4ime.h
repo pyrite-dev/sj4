@@ -1,8 +1,6 @@
 #ifndef __SJ4IME_H__
 #define __SJ4IME_H__
 
-#include <sj4lib.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif

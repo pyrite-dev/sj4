@@ -39,34 +39,13 @@ Sj4Lib* sj4_open(int charset, const char* dic) {
 	return ctx;
 }
 
-#ifdef UCS
-#define ICONV(to, from, len, mode) \
-	if(ctx->charset == SJ4EUCJP) { \
-		memcpy(to, from, len); \
-	} else if(ctx->charset == SJ4SJIS) { \
-		len = sj4_##mode##_sjis(to, from, len); \
-	} else if(ctx->charset == SJ4UTF8) { \
-		len = sj4_##mode##_utf8(to, from, len); \
-	} else if(ctx->charset == SJ4UTF16) { \
-		len = sj4_##mode##_utf16(to, from, len); \
-	}
-#else
-#define ICONV(to, from, len, mode) \
-	if(ctx->charset == SJ4EUCJP) { \
-		memcpy(to, from, len); \
-	} else if(ctx->charset == SJ4SJIS) { \
-		len = sj4_##mode##_sjis(to, from, len); \
-	}
-#endif
-
 #define RUNME(PROC) \
 	PROC \
 \
-	    len2 = strlen(ctx->outbuf + sizeof(STDYOUT)); \
-	ICONV(ctx->kouho->buffer.raw, ctx->outbuf + sizeof(STDYOUT), len2, to); \
+	    len2 = sj4_charset_to(ctx->charset, ctx->kouho->buffer.raw, ctx->outbuf + sizeof(STDYOUT), strlen(ctx->outbuf + sizeof(STDYOUT))); \
 \
 	memcpy(ctx->wrkbuf, ctx->inbuf, len); \
-	ICONV(ctx->wrk2buf, ctx->wrkbuf, len, to); \
+	len = sj4_charset_to(ctx->charset, ctx->wrk2buf, ctx->wrkbuf, len); \
 	if(ctx->charset == SJ4UTF16) { \
 		int i; \
 		for(i = 0; i < sizeof(wchar_t); i++) ctx->wrk2buf[len * sizeof(wchar_t) + i] = 0; \
@@ -82,18 +61,15 @@ Sj4Lib* sj4_open(int charset, const char* dic) {
 \
 	return ctx->charset == SJ4UTF16 ? wcslen((wchar_t*)ctx->wrk2buf) : strlen(ctx->wrk2buf);
 
-#define RUNME2(PROC) \
-	ICONV(ctx->inbuf, input, len, from); \
-\
-	RUNME(PROC)
-
 int sj4_getkan(Sj4Lib* ctx, const void* input, int len, Sj4Kouho* kouho) {
 	int len2;
 
 	memset(kouho, 0, sizeof(*kouho));
 	ctx->kouho = kouho;
 
-	RUNME2({
+	len = sj4_charset_from(ctx->charset, ctx->inbuf, input, len);
+
+	RUNME({
 		len = cl2knj(ctx->ctx, ctx->inbuf, len, ctx->outbuf);
 	});
 }

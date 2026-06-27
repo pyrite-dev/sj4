@@ -1,6 +1,7 @@
 #ifndef __SJ4LIB_H__
 #define __SJ4LIB_H__
 
+#include <sj_charset.h>
 #include <wchar.h>
 
 /* increase this as needed... */
@@ -25,13 +26,6 @@ typedef struct sj4kouho {
 } Sj4Kouho;
 
 typedef struct sj4lib Sj4Lib;
-
-enum SJ4CHARSET {
-	SJ4EUCJP = 0,
-	SJ4SJIS,
-	SJ4UTF8,
-	SJ4UTF16
-};
 
 Sj4Lib* sj4_open(int, const char*);
 int	sj4_getkan(Sj4Lib*, const void*, int len, Sj4Kouho*);

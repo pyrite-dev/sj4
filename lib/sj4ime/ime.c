@@ -1,5 +1,7 @@
 #include <sj4ime.h>
 
+#include <sj4lib.h>
+
 #include <stdlib.h>
 
 struct sj4ime {

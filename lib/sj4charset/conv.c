@@ -4,6 +4,8 @@
 #include "sj_ucs2euc.h"
 #include "sj_string.h"
 
+#include <string.h>
+
 #ifdef UCS
 static u_int ucs_to_euc(u_int in) {
 	if(in <= 0xffff) {
@@ -285,3 +287,35 @@ int sj4_to_utf16(u_char* out, const u_char* in, int len) {
 	return w_out - o_out;
 }
 #endif
+
+#ifdef UCS
+#define CONV(type, to, from, len, mode) \
+	if(type == SJ4EUCJP) { \
+		memcpy(to, from, len); \
+	} else if(type == SJ4SJIS) { \
+		len = sj4_##mode##_sjis(to, from, len); \
+	} else if(type == SJ4UTF8) { \
+		len = sj4_##mode##_utf8(to, from, len); \
+	} else if(type == SJ4UTF16) { \
+		len = sj4_##mode##_utf16(to, from, len); \
+	}
+#else
+#define CONV(type, to, from, len, mode) \
+	if(type == SJ4EUCJP) { \
+		memcpy(to, from, len); \
+	} else if(type == SJ4SJIS) { \
+		len = sj4_##mode##_sjis(to, from, len); \
+	}
+#endif
+
+int sj4_charset_to(int type, void* output, const void* input, int len) {
+	CONV(type, output, input, len, to);
+
+	return len;
+}
+
+int sj4_charset_from(int type, void* output, const void* input, int len) {
+	CONV(type, output, input, len, from);
+
+	return len;
+}
