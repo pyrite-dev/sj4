@@ -1,4 +1,4 @@
-#include "sj_charset.h"
+#include "sj4charset.h"
 
 #include "sj_euc2ucs.h"
 #include "sj_ucs2euc.h"

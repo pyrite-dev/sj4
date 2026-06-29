@@ -1,5 +1,5 @@
-#ifndef __SJ_CHARSET_H__
-#define __SJ_CHARSET_H__
+#ifndef __SJ4CHARSET_H__
+#define __SJ4CHARSET_H__
 
 #include <sj_types.h>
 

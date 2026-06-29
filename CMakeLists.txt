@@ -61,8 +61,15 @@ if(SJ4_BUILD_TOOLS OR (NOT CMAKE_BINARY_DIR MATCHES CMAKE_CURRENT_SOURCE_DIR AND
 	endif()
 
 	if(NOT SJ4_GLOBAL)
-		file(GLOB_RECURSE SJ4TEST_SRCS src/sj4test/**.c)
-		add_executable(sj4test ${SJ4TEST_SRCS})
+		macro(sj4_test name)
+			file(GLOB_RECURSE ${name}_SRCS src/${name}/**.c)
+			add_executable(${name} ${${name}_SRCS})
+		endmacro()
+
+		sj4_test(sj4test)
 		target_link_libraries(sj4test PRIVATE sj4lib)
+
+		sj4_test(sj4test2)
+		target_link_libraries(sj4test2 PRIVATE sj4ime)
 	endif()
 endif()

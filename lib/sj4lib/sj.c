@@ -2,7 +2,7 @@
 #include <sj_kanakan.h>
 #include <sj_string.h>
 
-#include <sj_charset.h>
+#include <sj4charset.h>
 
 #include <stdlib.h>
 

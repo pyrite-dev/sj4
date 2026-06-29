@@ -154,8 +154,6 @@ skip_blank() {
 	return c;
 }
 
-#include "sj_charset.h"
-
 static int
 readhinsi() {
 	static int    c = 0;

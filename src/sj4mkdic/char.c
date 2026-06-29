@@ -38,7 +38,7 @@
 
 #include "sj4mkdic.h"
 
-#include "sj_charset.h"
+#include "sj4charset.h"
 
 int cnvyomi(int code) {
 	u_short hh;

@@ -1,7 +1,7 @@
 #ifndef __SJ4LIB_H__
 #define __SJ4LIB_H__
 
-#include <sj_charset.h>
+#include <sj4charset.h>
 #include <wchar.h>
 
 /* increase this as needed... */
