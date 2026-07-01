@@ -42,11 +42,7 @@ static char rcsid[] = "$Header: /export/work/contrib/sj4/sj4rkcv/RCS/rk_conv.c,v
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#ifdef SVR4
 #include <string.h>
-#else
-#include <strings.h>
-#endif
 #ifdef __sony_news
 #include <jctype.h>
 #endif
