@@ -8,6 +8,7 @@ option(SJ4_EMBED_PLUS "Embed pubdic+ as main dictionary or not" OFF)
 option(SJ4_NO_UNICODE "Remove Unicode code completely" OFF)
 option(SJ4_BUILD_ONLY_LIB "Always build only library" OFF)
 option(SJ4_BUILD_TOOLS "Always build tools" OFF)
+option(SJ4_NO_TESTS "Build no tests" OFF)
 
 macro(sj4_library name)
 	file(GLOB_RECURSE ${name}_SRCS lib/${name}/**.c)
@@ -60,7 +61,7 @@ if(SJ4_BUILD_TOOLS OR (NOT CMAKE_BINARY_DIR MATCHES CMAKE_CURRENT_SOURCE_DIR AND
 		target_compile_definitions(sj4mkdic PRIVATE UTF8)
 	endif()
 
-	if(NOT SJ4_GLOBAL)
+	if(NOT SJ4_GLOBAL AND NOT SJ4_NO_TESTS)
 		macro(sj4_test name)
 			file(GLOB_RECURSE ${name}_SRCS src/${name}/**.c)
 			add_executable(${name} ${${name}_SRCS})
