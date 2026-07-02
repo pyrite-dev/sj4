@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: sj_kcnv.h,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:01:10 $
- */
 
 #include <stdio.h>
 #include "sj_typedef.h"

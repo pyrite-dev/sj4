@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: readline.c,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:00:44 $
- */
 
 #include "sj_euc.h"
 #include "sj4_dict_const.h"

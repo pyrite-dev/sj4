@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: wakachi.c,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:02:43 $
- */
 
 #include "sj_kcnv.h"
 #include "sj_right.h"

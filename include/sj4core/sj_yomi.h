@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: sj_yomi.h,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:01:24 $
- */
 
 #ifndef _SJ_YOMICODE
 

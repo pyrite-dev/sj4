@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: sj4err.h,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:00:58 $
- */
 
 #define SJ4_InternalError -1
 

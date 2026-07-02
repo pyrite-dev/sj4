@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: Const.h,v $
- * $SonyRevision: 1.4 $
- * $SonyDate: 1997/01/23 11:20:52 $
- */
 
 #ifndef CONST_H
 #define CONST_H

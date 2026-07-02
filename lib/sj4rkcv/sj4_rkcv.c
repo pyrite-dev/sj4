@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: sj4_rkcv.c,v $
- * $SonyRevision: 1.3 $
- * $SonyDate: 1995/02/10 06:02:25 $
- */
 
 #include <stdlib.h>
 #include <string.h>

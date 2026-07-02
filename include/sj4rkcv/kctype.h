@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: kctype.h,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:03:46 $
- */
 
 #if !defined(__sony_news) || (defined(__sony_news) && !defined(SVR4))
 #ifndef __KCTYPE

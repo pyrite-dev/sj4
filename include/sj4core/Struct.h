@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: Struct.h,v $
- * $SonyRevision: 1.3 $
- * $SonyDate: 1994/10/21 05:13:34 $
- */
 
 #ifndef STRUCT_H
 #define STRUCT_H

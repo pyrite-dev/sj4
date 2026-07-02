@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: skipkstr.c,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:02:25 $
- */
 
 #include "sj_euc.h"
 #include "sj_rename.h"

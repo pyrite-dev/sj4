@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: mkbunset.c,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:02:02 $
- */
 
 #include "sj_kcnv.h"
 #include "sj_hinsi.h"

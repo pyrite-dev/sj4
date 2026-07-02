@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: global.c,v $
- * $SonyRevision: 1.2 $
- * $SonyDate: 1994/12/09 11:27:06 $
- */
 
 #include <stdio.h>
 #include <sys/types.h>

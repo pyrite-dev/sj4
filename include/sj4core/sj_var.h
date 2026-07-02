@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: sj_var.h,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:01:23 $
- */
 
 #ifndef _SJ_VAR
 #define _SJ_VAR

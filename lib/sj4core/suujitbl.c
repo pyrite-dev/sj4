@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: suujitbl.c,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:02:39 $
- */
 
 #include "sj_const.h"
 #include "sj_rename.h"

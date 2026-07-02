@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: deldic.c,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:01:42 $
- */
 
 #include <string.h>
 #include "sj_kcnv.h"

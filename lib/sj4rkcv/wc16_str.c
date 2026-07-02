@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: wc16_str.c,v $
- * $SonyRevision: 1.3 $
- * $SonyDate: 1994/11/17 06:49:21 $
- */
 
 #include <stdio.h>
 #include <locale.h>

@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: depend.c,v $
- * $SonyRevision: 1.4 $
- * $SonyDate: 1997/10/07 07:39:45 $
- */
 
 #include "sj_kcnv.h"
 #include "Dict.h"

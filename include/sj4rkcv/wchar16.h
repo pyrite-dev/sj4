@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: wchar16.h,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:03:52 $
- */
 
 #ifndef _WCHARH
 #define _WCHARH

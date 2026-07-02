@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: rk.h,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:03:48 $
- */
 
 #ifndef RK_H
 #define RK_H

@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: sj_const.h,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:01:01 $
- */
 
 #ifndef _SJ_CONST
 

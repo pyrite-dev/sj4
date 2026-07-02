@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: mkjiritu.c,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:02:03 $
- */
 
 #include <string.h>
 #include "sj_kcnv.h"

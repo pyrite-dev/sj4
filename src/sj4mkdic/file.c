@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: file.c,v $
- * $SonyRevision: 1.2 $
- * $SonyDate: 1995/02/03 07:38:32 $
- */
 
 #include "sj4mkdic.h"
 

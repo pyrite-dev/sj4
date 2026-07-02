@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: sj4_dict_struct.h,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:00:26 $
- */
 
 #include "sj4_dict_const.h"
 

@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: cnvhinsi.c,v $
- * $SonyRevision: 1.2 $
- * $SonyDate: 1996/05/27 06:59:47 $
- */
 
 #include "sj4mkdic.h"
 

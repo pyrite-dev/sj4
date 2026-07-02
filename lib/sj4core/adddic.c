@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: adddic.c,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:01:26 $
- */
 
 #include <stdlib.h>
 #include <string.h>

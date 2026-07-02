@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: cl2knj.c,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:01:31 $
- */
 
 #include "sj_kcnv.h"
 

@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: sj4lowlib.h,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:00:59 $
- */
 
 #ifndef SJ4LOWLIB_H
 #define SJ4LOWLIB_H

@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: key.h,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:03:47 $
- */
 
 #define KEY_NORMAL 0
 #define KEY_CONV 1

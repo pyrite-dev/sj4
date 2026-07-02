@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: sj4_dict_const.h,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:00:24 $
- */
 
 #ifndef SJ4_DICT_CONST_H
 #define SJ4_DICT_CONST_H

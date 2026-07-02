@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: string.c,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:03:58 $
- */
 
 #include <stdio.h>
 #include <stdlib.h>

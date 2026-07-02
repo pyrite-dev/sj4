@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: sj_global.h,v $
- * $SonyRevision: 1.2 $
- * $SonyDate: 1994/12/09 11:27:06 $
- */
 
 #ifndef SJ_GLOBAL_H
 #define SJ_GLOBAL_H

@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: srchnum.c,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:02:30 $
- */
 
 #include <string.h>
 #include "sj_kcnv.h"

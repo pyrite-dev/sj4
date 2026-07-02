@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: getkanji.c,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:01:49 $
- */
 
 #include "sj_euc.h"
 #include "sj_kcnv.h"

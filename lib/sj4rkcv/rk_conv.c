@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: rk_conv.c,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:03:59 $
- */
 
 #ifndef lint
 static char rcsid[] = "$Header: /export/work/contrib/sj4/sj4rkcv/RCS/rk_conv.c,v 1.14 1994/06/03 07:42:16 notanaka Exp $";

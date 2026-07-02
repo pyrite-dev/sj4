@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: s2ctbl.c,v $
- * $SonyRevision: 1.2 $
- * $SonyDate: 1995/07/21 05:22:51 $
- */
 
 #include "sj_rename.h"
 #include "sj_typedef.h"

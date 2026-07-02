@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: mkkouho.c,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:02:04 $
- */
 
 #include "sj_euc.h"
 #include "sj_kcnv.h"

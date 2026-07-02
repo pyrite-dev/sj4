@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: makelist.c,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:00:39 $
- */
 
 #include "sj4_dict_const.h"
 #include "sj4_dict_struct.h"

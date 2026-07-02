@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: cmpstr.c,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:01:32 $
- */
 
 #include "sj_rename.h"
 #include "sj_const.h"

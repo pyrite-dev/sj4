@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: sj2code.c,v $
- * $SonyRevision: 1.2 $
- * $SonyDate: 1995/07/21 05:22:51 $
- */
 
 #include "sj_euc.h"
 #include "sj_kcnv.h"

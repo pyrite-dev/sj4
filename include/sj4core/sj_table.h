@@ -27,11 +27,6 @@
  *
  */
 
-/*
- * $SonyRCSfile: sj_table.h,v $
- * $SonyRevision: 1.1 $
- * $SonyDate: 1994/06/03 08:01:21 $
- */
 
 #ifndef _SJ_TABLE
 
