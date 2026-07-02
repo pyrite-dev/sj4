@@ -5,6 +5,10 @@
 
 #include <wchar.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 enum SJ4CHARSET {
 	SJ4EUCJP = 0,
 	SJ4SJIS,
@@ -21,5 +25,9 @@ int sj4_to_utf16(u_char* out, const u_char* in, int len);
 
 int sj4_charset_to(int type, void* output, const void* input, int len);
 int sj4_charset_from(int type, void* output, const void* input, int len);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

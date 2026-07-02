@@ -18,6 +18,7 @@ struct sj4ime {
 
 	u_char romabuf[SJ4BUFSZ];
 	u_char kanabuf[SJ4BUFSZ];
+	u_char convbuf[SJ4BUFSZ];
 };
 
 static struct sj4table {
@@ -78,22 +79,52 @@ static void concat(int charset, u_char* out, u_char* in) {
 #endif
 }
 
-static void comp(Sj4Ime* ime) {
-	ime->kanabuf[0] = 0;
-	ime->last	= 0;
+static void concat_nc(int charset, u_char* out, u_char* in) {
+	int i, j;
+
+#ifdef UCS
+	if(charset == SJ4UTF16) {
+		wchar_t* w_out = (wchar_t*)out;
+
+		i = w_len(w_out);
+		j = w_len((wchar_t*)in);
+
+		memcpy(w_out + i, in, j * sizeof(wchar_t));
+		w_out[i + j] = 0;
+	} else
+#else
+	{
+		i = strlen(out);
+		j = strlen(in);
+
+		memcpy(out + i, in, j);
+		out[i + j] = 0;
+	}
+#endif
 }
 
 #define ZEROBUF memset(&ime->kouho.buffer, 0, sizeof(ime->kouho.buffer))
 
+static void comp(Sj4Ime* ime) {
+	if(ime->last == 0) {
+		concat_nc(ime->charset, ime->convbuf, ime->kanabuf);
+	} else {
+		concat_nc(ime->charset, ime->convbuf, ime->kouho.buffer.raw);
+	}
+	printf("%s\n", ime->convbuf);
+
+	ime->kanabuf[0] = 0;
+	ime->last	= 0;
+	ZEROBUF;
+}
+
 void sj4_ime_key(Sj4Ime* ime, int key) {
 	if(key == '\n') {
 		comp(ime);
-
-		ZEROBUF;
 	} else if(key == ' ') {
 	reconvert:
-		if((ime->last = b_len(ime->charset, &ime->kouho.buffer)) == 0) {
-			sj4_getkan(ime->lib, ime->kanabuf, strlen(ime->kanabuf), &ime->kouho);
+		if(b_len(ime->charset, &ime->kouho.buffer) == 0) {
+			ime->last = sj4_getkan(ime->lib, ime->kanabuf, strlen(ime->kanabuf), &ime->kouho);
 		} else {
 			if((ime->last = sj4_nextkan(ime->lib)) == 0) {
 				ZEROBUF;
@@ -101,8 +132,6 @@ void sj4_ime_key(Sj4Ime* ime, int key) {
 				goto reconvert;
 			}
 		}
-
-		printf("%s\n", ime->kouho.buffer.utf8);
 	} else if('a' <= tolower(key) && tolower(key) <= 'z') {
 		int i;
 
@@ -144,4 +173,8 @@ void sj4_ime_key(Sj4Ime* ime, int key) {
 			}
 		}
 	}
+}
+
+void* sj4_ime_convbuf(Sj4Ime* ime) {
+	return ime->convbuf;
 }
