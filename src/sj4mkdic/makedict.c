@@ -27,7 +27,6 @@
  *
  */
 
-
 #include "sj4_dict_const.h"
 
 #include "sj4mkdic.h"

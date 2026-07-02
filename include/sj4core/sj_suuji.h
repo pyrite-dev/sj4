@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef _SJ_SUUJI
 
 #define _SJ_SUUJI

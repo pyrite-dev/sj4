@@ -27,7 +27,6 @@
  *
  */
 
-
 #include "sj_kcnv.h"
 #include "sj_right.h"
 

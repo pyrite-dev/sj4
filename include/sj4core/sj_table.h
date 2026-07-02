@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef _SJ_TABLE
 
 #define _SJ_TABLE

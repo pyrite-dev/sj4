@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef _SJ_VAR
 #define _SJ_VAR
 

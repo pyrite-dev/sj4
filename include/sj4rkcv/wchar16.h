@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef _WCHARH
 #define _WCHARH
 

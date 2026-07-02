@@ -16,7 +16,7 @@ struct sj4ime {
 	Sj4Kouho     kouho;
 	unsigned int last;
 
-	u_char romabuf[SJ4BUFSZ];
+	u_char romabuf[7];
 	u_char kanabuf[SJ4BUFSZ];
 	u_char convbuf[SJ4BUFSZ];
 };
@@ -139,7 +139,7 @@ void sj4_ime_key(Sj4Ime* ime, int key) {
 
 		key = toupper(key);
 
-		if(ime->romabuf[strlen(ime->romabuf) - 1] == 'N' && !(key == 'A' || key == 'I' || key == 'U' || key == 'E' || key == 'O' || key == 'N')) {
+		if(ime->romabuf[strlen(ime->romabuf) - 1] == 'N' && !(key == 'A' || key == 'I' || key == 'U' || key == 'E' || key == 'O' || key == 'Y' || key == 'N')) {
 			ime->romabuf[strlen(ime->romabuf) + 1] = 0;
 			ime->romabuf[strlen(ime->romabuf)]     = 'N';
 		}
@@ -158,9 +158,9 @@ void sj4_ime_key(Sj4Ime* ime, int key) {
 
 				n = strlen(kanatbl[i].roma) - strlen(kanatbl[i].roma2);
 
-				memmove(ime->romabuf - (n < 0 ? n : 0), ime->romabuf + (n > 0 ? n : 0), SJ4BUFSZ - n);
+				memmove(ime->romabuf - (n < 0 ? n : 0), ime->romabuf + (n > 0 ? n : 0), sizeof(ime->romabuf) - n);
 				if(n > 0) {
-					for(j = SJ4BUFSZ - n; j < SJ4BUFSZ; j++) ime->romabuf[j] = 0;
+					for(j = sizeof(ime->romabuf) - n; j < sizeof(ime->romabuf); j++) ime->romabuf[j] = 0;
 				} else {
 					for(j = 0; j < -n; j++) ime->romabuf[j] = 0;
 				}
@@ -171,6 +171,10 @@ void sj4_ime_key(Sj4Ime* ime, int key) {
 
 				goto reduce;
 			}
+		}
+
+		if(strlen(ime->romabuf) >= 4) {
+			ime->romabuf[0] = 0;
 		}
 	}
 }

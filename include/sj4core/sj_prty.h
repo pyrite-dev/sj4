@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef _SJ_PRIORITY
 
 #define _SJ_PRIORITY

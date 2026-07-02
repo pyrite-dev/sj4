@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef _SJ_CONST
 
 #define _SJ_CONST

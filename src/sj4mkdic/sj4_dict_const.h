@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef SJ4_DICT_CONST_H
 #define SJ4_DICT_CONST_H
 

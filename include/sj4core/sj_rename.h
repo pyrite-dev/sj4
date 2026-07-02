@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef _SJ_RENAME
 
 #define _SJ_RENAME

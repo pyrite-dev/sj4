@@ -27,7 +27,6 @@
  *
  */
 
-
 #include <stdio.h>
 #include <locale.h>
 #include "wchar16.h"

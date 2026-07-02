@@ -27,7 +27,6 @@
  *
  */
 
-
 #include "sj_euc.h"
 #include "sj4_dict_const.h"
 

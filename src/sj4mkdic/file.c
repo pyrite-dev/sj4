@@ -27,7 +27,6 @@
  *
  */
 
-
 #include "sj4mkdic.h"
 
 typedef struct filelist {

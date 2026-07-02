@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef SJ4LOWLIB_H
 #define SJ4LOWLIB_H
 

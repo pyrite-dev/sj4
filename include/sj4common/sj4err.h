@@ -27,7 +27,6 @@
  *
  */
 
-
 #define SJ4_InternalError -1
 
 #define SJ4_NormalEnd 0

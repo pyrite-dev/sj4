@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef _SJ_STUDY
 
 #define _SJ_STUDY

@@ -27,7 +27,6 @@
  *
  */
 
-
 #include "sj4_dict_struct.h"
 #include "Dict.h"
 

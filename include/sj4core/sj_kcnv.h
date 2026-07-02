@@ -27,7 +27,6 @@
  *
  */
 
-
 #include <stdio.h>
 #include "sj_typedef.h"
 #include "sj_rename.h"

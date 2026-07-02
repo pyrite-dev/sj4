@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef _SJ_LEFT
 
 #define _SJ_LEFT

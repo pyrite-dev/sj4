@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef _SJ_EUC
 
 #define _SJ_EUC

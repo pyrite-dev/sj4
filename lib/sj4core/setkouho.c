@@ -27,7 +27,6 @@
  *
  */
 
-
 #include "sj_euc.h"
 #include "sj_kcnv.h"
 #include "sj_hinsi.h"

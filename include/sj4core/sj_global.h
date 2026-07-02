@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef SJ_GLOBAL_H
 #define SJ_GLOBAL_H
 

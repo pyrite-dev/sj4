@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef _SJ_CONNECT
 
 #define _SJ_CONNECT

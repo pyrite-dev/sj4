@@ -27,7 +27,6 @@
  *
  */
 
-
 #define KEY_NORMAL 0
 #define KEY_CONV 1
 #define KEY_HENKAN 2

@@ -27,7 +27,6 @@
  *
  */
 
-
 #include "sj4mkdic.h"
 
 static struct gram_code {

@@ -27,7 +27,6 @@
  *
  */
 
-
 #include "sj4_dict_const.h"
 
 #ifndef SJ4_DICT_STRUCT_H

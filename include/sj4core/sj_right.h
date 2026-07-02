@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef _SJ_RIGHT
 
 #define _SJ_RIGHT

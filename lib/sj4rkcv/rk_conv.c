@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef lint
 static char rcsid[] = "$Header: /export/work/contrib/sj4/sj4rkcv/RCS/rk_conv.c,v 1.14 1994/06/03 07:42:16 notanaka Exp $";
 #endif

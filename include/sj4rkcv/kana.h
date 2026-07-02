@@ -27,7 +27,6 @@
  *
  */
 
-
 #define ZKATA1 0xa5
 #define ZHIRA1 0xa4
 #define ZKATAF2 0xa1

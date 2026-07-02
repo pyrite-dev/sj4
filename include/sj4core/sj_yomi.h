@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef _SJ_YOMICODE
 
 #define _SJ_YOMICODE

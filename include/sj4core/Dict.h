@@ -27,7 +27,6 @@
  *
  */
 
-
 #define VERSIONPOS 0
 
 #define PASSWDPOS 16

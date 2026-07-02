@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef _SJ_DICT
 
 #define _SJ_DICT

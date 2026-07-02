@@ -27,7 +27,6 @@
  *
  */
 
-
 #define SJ4SERV_VERSION_NO 2
 
 #define SJ4_CONNECT 1

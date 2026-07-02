@@ -27,7 +27,6 @@
  *
  */
 
-
 #include "sj_kcnv.h"
 #include "Dict.h"
 #include "sj4err.h"

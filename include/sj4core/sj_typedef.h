@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef _SJ_TYPEDEF
 
 #define _SJ_TYPEDEF

@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef _SJ_STRUCT
 
 #define _SJ_STRUCT

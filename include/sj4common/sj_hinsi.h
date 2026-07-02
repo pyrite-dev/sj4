@@ -27,7 +27,6 @@
  *
  */
 
-
 #ifndef _SJ_HINSHI
 
 #define _SJ_HINSHI

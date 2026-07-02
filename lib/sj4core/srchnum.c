@@ -27,7 +27,6 @@
  *
  */
 
-
 #include <string.h>
 #include "sj_kcnv.h"
 #include "sj_yomi.h"
