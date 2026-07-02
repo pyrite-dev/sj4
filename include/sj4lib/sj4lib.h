@@ -23,6 +23,8 @@ typedef union sj4kouhobuffer {
 
 typedef struct sj4kouho {
 	Sj4KouhoBuffer buffer;
+
+	unsigned char intbuf[SJ4BUFSZ];
 } Sj4Kouho;
 
 typedef struct sj4lib Sj4Lib;

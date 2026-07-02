@@ -12,7 +12,6 @@ struct sj4lib {
 	int charset;
 
 	u_char inbuf[SJ4BUFSZ];
-	u_char outbuf[SJ4BUFSZ];
 	u_char wrkbuf[SJ4BUFSZ];
 	u_char wrk2buf[SJ4BUFSZ];
 
@@ -42,7 +41,7 @@ Sj4Lib* sj4_open(int charset, const char* dic) {
 #define RUNME(PROC) \
 	PROC \
 \
-	    len2 = sj4_charset_to(ctx->charset, ctx->kouho->buffer.raw, ctx->outbuf + sizeof(STDYOUT), strlen(ctx->outbuf + sizeof(STDYOUT))); \
+	    len2 = sj4_charset_to(ctx->charset, ctx->kouho->buffer.raw, ctx->kouho->intbuf + sizeof(STDYOUT), strlen(ctx->kouho->intbuf + sizeof(STDYOUT))); \
 \
 	memcpy(ctx->wrkbuf, ctx->inbuf, len); \
 	len = sj4_charset_to(ctx->charset, ctx->wrk2buf, ctx->wrkbuf, len); \
@@ -70,7 +69,7 @@ int sj4_getkan(Sj4Lib* ctx, const void* input, int len, Sj4Kouho* kouho) {
 	len = sj4_charset_from(ctx->charset, ctx->inbuf, input, len);
 
 	RUNME({
-		len = cl2knj(ctx->ctx, ctx->inbuf, len, ctx->outbuf);
+		len = cl2knj(ctx->ctx, ctx->inbuf, len, ctx->kouho->intbuf);
 	});
 }
 
@@ -78,7 +77,7 @@ int sj4_nextkan(Sj4Lib* ctx) {
 	int len, len2;
 
 	RUNME({
-		len = nextcl(ctx->ctx, ctx->outbuf, 0);
+		len = nextcl(ctx->ctx, ctx->kouho->intbuf, 0);
 	});
 }
 
