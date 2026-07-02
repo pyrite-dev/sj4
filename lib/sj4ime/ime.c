@@ -132,7 +132,7 @@ void sj4_ime_key(Sj4Ime* ime, int key) {
 				goto reconvert;
 			}
 		}
-	} else if('a' <= tolower(key) && tolower(key) <= 'z') {
+	} else if(('a' <= tolower(key) && tolower(key) <= 'z') || key == '~' || key == ',' || key == '.' || key == '[' || key == ']') {
 		int i;
 
 		if(ime->last != 0) comp(ime);
