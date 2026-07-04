@@ -13,10 +13,12 @@ struct sj4ime {
 	Sj4Lib* lib;
 	int	charset;
 
-	Sj4Kouho     kouho;
-	unsigned int last;
+	Sj4ImePacket packet;
 
-	u_char romabuf[7];
+	Sj4Kouho     kouho;
+	unsigned int length;
+
+	char   romabuf[7];
 	u_char kanabuf[SJ4BUFSZ];
 	u_char convbuf[SJ4BUFSZ];
 };
@@ -29,7 +31,12 @@ static struct sj4table {
 #include "KanaTable"
 };
 
-Sj4Ime* sj4_ime(int charset, const char* dict) {
+#define DISPATCH(x, y) \
+	if(ime->packet != NULL) { \
+		ime->packet(ime, (x), (y)); \
+	}
+
+Sj4Ime* sj4_ime(int charset, const char* dict, Sj4ImePacket packet) {
 	Sj4Ime* ime;
 
 	if((ime = calloc(1, sizeof(*ime))) == NULL) return NULL;
@@ -41,6 +48,8 @@ Sj4Ime* sj4_ime(int charset, const char* dict) {
 	}
 
 	ime->charset = charset;
+
+	ime->packet = packet;
 }
 
 static int w_len(wchar_t* wc) {
@@ -51,11 +60,11 @@ static int w_len(wchar_t* wc) {
 	return i;
 }
 
-static int b_len(int charset, Sj4KouhoBuffer* buffer) {
+static int b_len(int charset, u_char* buffer) {
 	if(charset == SJ4UTF16) {
-		return w_len(buffer->utf16);
+		return w_len((wchar_t*)buffer);
 	} else {
-		return strlen(buffer->raw);
+		return strlen(buffer);
 	}
 }
 
@@ -106,27 +115,50 @@ static void concat_nc(int charset, u_char* out, u_char* in) {
 #define ZEROBUF memset(&ime->kouho.buffer, 0, sizeof(ime->kouho.buffer))
 
 static void comp(Sj4Ime* ime) {
-	if(ime->last == 0) {
+#if 0
+	do {
+#endif
+	if(ime->length == 0) {
 		concat_nc(ime->charset, ime->convbuf, ime->kanabuf);
-	} else {
-		concat_nc(ime->charset, ime->convbuf, ime->kouho.buffer.raw);
-	}
-	printf("%s\n", ime->convbuf);
 
-	ime->kanabuf[0] = 0;
-	ime->last	= 0;
+#ifdef UCS
+		memset(ime->kanabuf, 0, sizeof(wchar_t));
+#else
+		ime->kanabuf[0] = 0;
+#endif
+	} else {
+		int sc = ime->charset == SJ4UTF16 ? sizeof(wchar_t) : 1;
+
+		concat_nc(ime->charset, ime->convbuf, ime->kouho.buffer.raw);
+
+		memmove(ime->kanabuf, ime->kanabuf + ime->length * sc, SJ4BUFSZ - ime->length * sc);
+		memset(ime->kanabuf + SJ4BUFSZ - ime->length * sc, 0, ime->length * sc);
+	}
+
+	ime->length = 0;
 	ZEROBUF;
+#if 0
+	} while(b_len(ime->charset, ime->kanabuf) > 0);
+#endif
 }
 
 void sj4_ime_key(Sj4Ime* ime, int key) {
 	if(key == '\n') {
 		comp(ime);
 	} else if(key == ' ') {
-	reconvert:
-		if(b_len(ime->charset, &ime->kouho.buffer) == 0) {
-			ime->last = sj4_getkan(ime->lib, ime->kanabuf, strlen(ime->kanabuf), &ime->kouho);
+	reconvert:;
+		if(b_len(ime->charset, ime->kouho.buffer.raw) == 0) {
+			ime->length = sj4_getkan(ime->lib, ime->kanabuf, strlen(ime->kanabuf), &ime->kouho);
+
+			DISPATCH(Sj4ImeBeginKanList, NULL);
+			do {
+				DISPATCH(Sj4ImeKanEntry, &ime->kouho);
+			} while(sj4_nextkan(ime->lib) != 0);
+			DISPATCH(Sj4ImeEndKanList, NULL);
+
+			ime->length = sj4_getkan(ime->lib, ime->kanabuf, strlen(ime->kanabuf), &ime->kouho);
 		} else {
-			if((ime->last = sj4_nextkan(ime->lib)) == 0) {
+			if((ime->length = sj4_nextkan(ime->lib)) == 0) {
 				ZEROBUF;
 
 				goto reconvert;
@@ -135,7 +167,7 @@ void sj4_ime_key(Sj4Ime* ime, int key) {
 	} else if(('a' <= tolower(key) && tolower(key) <= 'z') || key == '~' || key == ',' || key == '.' || key == '[' || key == ']') {
 		int i;
 
-		if(ime->last != 0) comp(ime);
+		if(ime->length != 0) comp(ime);
 
 		key = toupper(key);
 
@@ -176,7 +208,26 @@ void sj4_ime_key(Sj4Ime* ime, int key) {
 		if(strlen(ime->romabuf) >= 4) {
 			ime->romabuf[0] = 0;
 		}
+	} else {
+		char keys[2];
+
+		keys[0] = key;
+		keys[1] = 0;
+
+		concat(ime->charset, ime->kanabuf, keys);
 	}
+}
+
+int sj4_ime_length(Sj4Ime* ime) {
+	return ime->length;
+}
+
+void* sj4_ime_kouho(Sj4Ime* ime) {
+	return ime->kouho.buffer.raw;
+}
+
+void* sj4_ime_kanabuf(Sj4Ime* ime) {
+	return ime->kanabuf;
 }
 
 void* sj4_ime_convbuf(Sj4Ime* ime) {

@@ -24,6 +24,8 @@ typedef union sj4kouhobuffer {
 typedef struct sj4kouho {
 	Sj4KouhoBuffer buffer;
 
+	int take;
+
 	unsigned char intbuf[SJ4BUFSZ];
 } Sj4Kouho;
 
@@ -32,6 +34,7 @@ typedef struct sj4lib Sj4Lib;
 Sj4Lib* sj4_open(int, const char*);
 int	sj4_getkan(Sj4Lib*, const void*, int len, Sj4Kouho*);
 int	sj4_nextkan(Sj4Lib*);
+int	sj4_prevkan(Sj4Lib*);
 void	sj4_close(Sj4Lib*);
 
 #ifdef __cplusplus

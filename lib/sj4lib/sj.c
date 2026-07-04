@@ -40,8 +40,9 @@ Sj4Lib* sj4_open(int charset, const char* dic) {
 
 #define RUNME(PROC) \
 	PROC \
+	    ctx->kouho->take = len; \
 \
-	    len2 = sj4_charset_to(ctx->charset, ctx->kouho->buffer.raw, ctx->kouho->intbuf + sizeof(STDYOUT), strlen(ctx->kouho->intbuf + sizeof(STDYOUT))); \
+	len2 = sj4_charset_to(ctx->charset, ctx->kouho->buffer.raw, ctx->kouho->intbuf + sizeof(STDYOUT), strlen(ctx->kouho->intbuf + sizeof(STDYOUT))); \
 \
 	memcpy(ctx->wrkbuf, ctx->inbuf, len); \
 	len = sj4_charset_to(ctx->charset, ctx->wrk2buf, ctx->wrkbuf, len); \
@@ -78,6 +79,14 @@ int sj4_nextkan(Sj4Lib* ctx) {
 
 	RUNME({
 		len = nextcl(ctx->ctx, ctx->kouho->intbuf, 0);
+	});
+}
+
+int sj4_prevkan(Sj4Lib* ctx) {
+	int len, len2;
+
+	RUNME({
+		len = prevcl(ctx->ctx, ctx->kouho->intbuf, 0);
 	});
 }
 
