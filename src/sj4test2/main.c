@@ -18,13 +18,16 @@ static void ime_packet(Sj4Ime* ime, int type, void* data) {
 int main() {
 	Sj4Ime* ime = sj4_ime(CHARSET, "sj4main.dic", ime_packet);
 	char	b;
-	char*	conv  = sj4_ime_convbuf(ime);
-	char*	kouho = sj4_ime_kouho(ime);
+	char*	conv;
+	char*	kouho;
 
 	if(ime == NULL) {
 		fprintf(stderr, "Failed to create context\n");
 		return 1;
 	}
+
+	conv = sj4_ime_convbuf(ime);
+	kouho = sj4_ime_kouho(ime);
 
 #ifdef _WIN32
 #else
