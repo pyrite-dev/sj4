@@ -216,7 +216,6 @@ rszdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
 	put4byte(dp->buffer + DICTSEGNUM, seg);
 	return fputfile(dp->fp, 0, HEADERLENGTH, dp->buffer);
 }
-
 static void
 freedicskip(DictFile* dp) {
 	free((char*)dp->skipent);
@@ -224,7 +223,6 @@ freedicskip(DictFile* dp) {
 	dp->skipent = NULL;
 	dp->skipseg = NULL;
 }
-
 static void
 mkdicskip(DictFile* dp) {
 	DictSkipSeg* segs;
