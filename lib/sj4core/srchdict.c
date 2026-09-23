@@ -87,7 +87,7 @@ static __inline int yomicmp_seg(SJ4_CONTEXT u_char* ptr1, u_char* ptr2, u_char* 
 		for(i = same; i; i--)
 			if(*ptr1++ != *ptr2++) return OVER;
 
-		j = segidxlen - same;
+		j    = segidxlen - same;
 		ptr2 = (u_char*)ptr2;
 	}
 
@@ -154,11 +154,11 @@ srchdict(SJ4_CONTEXT u_char* tagp) {
 	TypeDicSeg segno;
 	int	   cmp;
 	int	   maxlen;
-	u_char* segidx = NULL;
-	int segidxlen = 0;
+	u_char*	   segidx    = NULL;
+	int	   segidxlen = 0;
 
-	if(prevseg != (TypeDicSeg)-1){
-		segidx = idxbuf + idxofs[prevseg];
+	if(prevseg != (TypeDicSeg)-1) {
+		segidx	  = idxbuf + idxofs[prevseg];
 		segidxlen = sstrlen(segidx);
 	}
 
@@ -173,8 +173,8 @@ srchdict(SJ4_CONTEXT u_char* tagp) {
 		if(prevseg != segno) {
 			(*curdict->getdic)(SJ4_CONTEXT_PASS curdict, segno);
 
-			prevseg = segno;
-			segidx = idxbuf + idxofs[segno];
+			prevseg	  = segno;
+			segidx	  = idxbuf + idxofs[segno];
 			segidxlen = sstrlen(segidx);
 
 			tagp = dicbuf;
@@ -191,7 +191,7 @@ srchdict(SJ4_CONTEXT u_char* tagp) {
 				if(segno >= curdict->segunit) return NULL;
 
 				(*curdict->getdic)(SJ4_CONTEXT_PASS curdict, segno);
-				segidx = idxbuf + idxofs[segno];
+				segidx	  = idxbuf + idxofs[segno];
 				segidxlen = sstrlen(segidx);
 
 				tagp = dicbuf;
