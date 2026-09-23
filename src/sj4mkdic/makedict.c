@@ -135,7 +135,11 @@ int getch() {
 	if(infp) {
 		int c;
 
-		if((c = Fgetc(infp)) != EOF) return c;
+repeat1:;
+		if((c = Fgetc(infp)) != EOF){
+			if(c == '\r') goto repeat1;
+			return c;
+		}
 
 		Fclose(infp);
 		infp = NULL;
