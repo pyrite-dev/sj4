@@ -6,13 +6,13 @@
 
 number: 1
 date: 1994/08/01
-contents: sjis2euc ¤È euc2sjis ¤¬È¾³Ñ¥«¥¿¥«¥Ê¤âÊÑ´¹¤·¤Æ¤¯¤ì¤ë¤È´ª°ã¤¤¤·¤Æ¤¤¤¿¡£
+contents: sjis2euc ã¨ euc2sjis ãŒåŠè§’ã‚«ã‚¿ã‚«ãƒŠã‚‚å¤‰æ›ã—ã¦ãã‚Œã‚‹ã¨å‹˜é•ã„ã—ã¦ã„ãŸã€‚
 source: sj3rkcv/wc16_str.c
 
 number: 2
 date: 1994/08/17
 from: ASHIDA Isao
-contents: (sj3-bugs 1) Lynux ¤Ç¥³¥ó¥Ñ¥¤¥ë¤¬¤Ç¤­¤Ê¤¤
+contents: (sj3-bugs 1) Lynux ã§ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãŒã§ããªã„
 source: dict/tool/hindo.c
 source: dict/tool/offset.c
 source: kanakan/depend.c
@@ -20,7 +20,7 @@ source: server/comuni.c
 
 number: 3
 date: 1994/10/21
-contents: MaxClient ¤Î¾å¸ÂÃÍ¤ò 512 ¤Ë¤¹¤ë¡£Client ¹½Â¤ÂÎ¤òÆ°Åª¤Ë¼è¤ë¡£
+contents: MaxClient ã®ä¸Šé™å€¤ã‚’ 512 ã«ã™ã‚‹ã€‚Client æ§‹é€ ä½“ã‚’å‹•çš„ã«å–ã‚‹ã€‚
 source: include/Const.h
 source: include/Struct.h
 source: server/comuni.c
@@ -28,7 +28,7 @@ source: server/execute.c
 
 number: 4
 date: 1994/10/21
-contents: ¥æ¡¼¥¶¼­½ñ¤È³Ø½¬¥Õ¥¡¥¤¥ë¤Î¥Ñ¡¼¥ß¥Ã¥·¥ç¥ó¤Î¥Ç¥Õ¥©¥ë¥È¤ò 600 ¤Ë¤¹¤ë¡£
+contents: ãƒ¦ãƒ¼ã‚¶è¾æ›¸ã¨å­¦ç¿’ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ãƒ¼ãƒŸãƒƒã‚·ãƒ§ãƒ³ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚’ 600 ã«ã™ã‚‹ã€‚
 source: include/Struct.h
 source: server/execute.c
 source: server/setup.c
@@ -40,17 +40,17 @@ source: server/comuni.c
 
 number: 6
 date: 1994/11/17
-contents: SJIS ¤Î´Ä¶­¤Ç¡¢sj3 ¤ÎÊÑ´¹·ë²Ì¤ÎÊ¸»úÎó¤¬¤à¤Á¤ã¤¯¤Á¤ã¤Ë¤Ê¤ë¡£
+contents: SJIS ã®ç’°å¢ƒã§ã€sj3 ã®å¤‰æ›çµæœã®æ–‡å­—åˆ—ãŒã‚€ã¡ã‚ƒãã¡ã‚ƒã«ãªã‚‹ã€‚
 source: sj3rkcv/wc16_str.c
 
 number: 7
 date: 1994/11/22
-contents: sj3_zentohan*()¤¬Á´¥«¥¿¤Î¡Ö¥à¡×°Ê¹ß¤ÎÊ¸»ú¤Ç¤ª¤«¤·¤¤(»È¤Ã¤Æ¤Ê¤¤¤±¤É)
+contents: sj3_zentohan*()ãŒå…¨ã‚«ã‚¿ã®ã€Œãƒ ã€ä»¥é™ã®æ–‡å­—ã§ãŠã‹ã—ã„(ä½¿ã£ã¦ãªã„ã‘ã©)
 source: sj3rkcv/sj3_rkcv.c
 
 number: 8
 date: 1994/12/09
-contents: sj3serv¤ÇÊ£¿ô¤Î¼­½ñ¤ò°·¤¨¤ë¤è¤¦¤Ë¤·¤Æ¡¢sj3lib¤Ë¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤òÄÉ²Ã
+contents: sj3servã§è¤‡æ•°ã®è¾æ›¸ã‚’æ‰±ãˆã‚‹ã‚ˆã†ã«ã—ã¦ã€sj3libã«ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã‚’è¿½åŠ 
 source(add): doc/man/sj3mkdic.1
 source: dict/dict/Imakefile
 source: dict/tool/Imakefile
@@ -80,7 +80,7 @@ source: server/version.c
 
 number: 10
 date: 1995/02/03
-contents: FreeBSD ¤Ç sj3 ¤¬Æ°ºî¤¹¤ë¤è¤¦¤Ë¤·¤¿¡£
+contents: FreeBSD ã§ sj3 ãŒå‹•ä½œã™ã‚‹ã‚ˆã†ã«ã—ãŸã€‚
 source: dict/tool/file.c
 source: kanakan/depend.c
 source: server/main.c
@@ -94,7 +94,7 @@ source: sj3lib/level1.c
 number: 11
 date: 1995/02/10
 from: Manabe Takashi
-contents: Linux ¤Ç sj3 ¤òÆ°¤«¤¹¤¿¤á¤Î¥Ñ¥Ã¥Á¤ò¤¢¤Æ¤¿¡£
+contents: Linux ã§ sj3 ã‚’å‹•ã‹ã™ãŸã‚ã®ãƒ‘ãƒƒãƒã‚’ã‚ã¦ãŸã€‚
 source: include/sj_sysvdef.h  
 source: sj3/sj3.c
 source: sj3/sjgetchar.c
@@ -102,7 +102,7 @@ source: sj3/version.c
 
 number: 12
 date: 1995/02/10
-contents: sj3_zentohan()¤Ç´Á»ú¤òÆşÎÏ¤¹¤ë¤È»ú¤¬²½¤±¤ë¡Ê»È¤Ã¤Æ¤Ê¤¤¤±¤É¡Ë
+contents: sj3_zentohan()ã§æ¼¢å­—ã‚’å…¥åŠ›ã™ã‚‹ã¨å­—ãŒåŒ–ã‘ã‚‹ï¼ˆä½¿ã£ã¦ãªã„ã‘ã©ï¼‰
 source: sj3rkcv/sj3_rkcv.c
 
 [After fix-1 release]
@@ -110,24 +110,24 @@ source: sj3rkcv/sj3_rkcv.c
 number: 13
 date: 1995/03/14
 from: Tsuyoshi Tada
-contents: NetBSD/i386 ¤Ç¤Î¥³¥ó¥Ñ¥¤¥ë¤¬¤Ç¤­¤ë¤è¤¦¤Ë¤·¤¿¡£
+contents: NetBSD/i386 ã§ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãŒã§ãã‚‹ã‚ˆã†ã«ã—ãŸã€‚
 source: sj3/sj3.c
 source: sj3/sjgetchar.c
 
 number: 14
 date: 1995/04/05
-contents: put_flush() ¤¬Àµ¾ï½ªÎ»»ş¤Ë return value ¤òÊÖ¤·¤Æ¤¤¤Ê¤¤¡£
+contents: put_flush() ãŒæ­£å¸¸çµ‚äº†æ™‚ã« return value ã‚’è¿”ã—ã¦ã„ãªã„ã€‚
 source: sj3lib/level1.c
 
 number: 15
 date: 1995/04/07
-contents: NetBSD ¤Ç´Ä¶­ÊÑ¿ô LANG ¤¬ÀßÄê¤µ¤ì¤Æ¤¤¤Ê¤¤¤È core dump ¤¹¤ë¡£
+contents: NetBSD ã§ç’°å¢ƒå¤‰æ•° LANG ãŒè¨­å®šã•ã‚Œã¦ã„ãªã„ã¨ core dump ã™ã‚‹ã€‚
 source: sj3/sj3.c
 source: sj3/version.c
 
 number: 16
 date: 1995/04/17
-contents: put_over() ¤Î°ú¿ô¤¬Â¿¤¤¤È¤³¤í¤¬¤¢¤ë¡Ê¤È¤ê¤¢¤¨¤º¼Â³²¤Ï¤Ê¤¤¡Ë¡£
+contents: put_over() ã®å¼•æ•°ãŒå¤šã„ã¨ã“ã‚ãŒã‚ã‚‹ï¼ˆã¨ã‚Šã‚ãˆãšå®Ÿå®³ã¯ãªã„ï¼‰ã€‚
 source: sj3lib/level1.c
 
 number: 17
@@ -146,14 +146,14 @@ source: dict/dict/visual.dic
 
 number: 19
 date: 1995/07/18
-contents: sj3stat ¤Ç client ¤Î¾ğÊó¤¬Àµ¤·¤¯¼è¤ì¤Ê¤¤¡£
+contents: sj3stat ã§ client ã®æƒ…å ±ãŒæ­£ã—ãå–ã‚Œãªã„ã€‚
 source: server/execute.c
 source: server/version.c
 source: server/time_stamp.c
 
 number: 20
 date: 1995/07/21
-contents: Ã±¸ìÅĞÏ¿¤ÎÆÉ¤ßÊ¸»úÎó¤Ç[£á-£ú],[¥ô¥õ¥ö],[¡ô¡÷¢©]¤¬Àµ¤·¤¯»ÈÍÑ¤Ç¤­¤Ê¤¤¡£
+contents: å˜èªç™»éŒ²ã®èª­ã¿æ–‡å­—åˆ—ã§[ï½-ï½š],[ãƒ´ãƒµãƒ¶],[ï¼ƒï¼ ã€’]ãŒæ­£ã—ãä½¿ç”¨ã§ããªã„ã€‚
 source: kanakan/peepdic.c
 source: kanakan/s2ctbl.c
 source: kanakan/sj2code.c
@@ -162,7 +162,7 @@ source: server/time_stamp.c
 
 number: 21
 date: 1996/02/15
-contents: locale ¤¬Àµ¤·¤¯ÀßÄê¤µ¤ì¤Æ¤¤¤Ê¤¤¤È sj3dic ¤¬ core dump ¤¹¤ë¡£
+contents: locale ãŒæ­£ã—ãè¨­å®šã•ã‚Œã¦ã„ãªã„ã¨ sj3dic ãŒ core dump ã™ã‚‹ã€‚
 source: sj3dic/sj3dic.c
 source: sj3dic/sjtool.h
 source: sj3dic/codecnv.c
@@ -170,7 +170,7 @@ source: sj3dic/sjrc.c
 
 number: 22
 date: 1996/02/23
-contents: sj3 ¤ÎÊÑ´¹¸õÊä¤ËÆÉ¤ß¤òÁ´³Ñ²¾Ì¾¤Ë¤·¤¿¸õÊä¤ò¤¯¤ï¤¨¤¿¡£
+contents: sj3 ã®å¤‰æ›å€™è£œã«èª­ã¿ã‚’å…¨è§’ä»®åã«ã—ãŸå€™è£œã‚’ãã‚ãˆãŸã€‚
 source: sj3/douon.c
 source: sj3/libif.c
 source: sj3/version.c
@@ -179,31 +179,31 @@ source: sj3h/sj.h
 
 number: 23
 date: 1996/02/23
-contents: ÆÉ¤ß¤ÎÁ´³Ñ²¾Ì¾¤Î¸õÊä¤òÁªÂò¤·¤¿¤È¤­¡¢¥æ¡¼¥¶¼­½ñ¤ËÅĞÏ¿¤µ¤ì¤ë¤è¤¦¤Ë¤·¤¿¡£
+contents: èª­ã¿ã®å…¨è§’ä»®åã®å€™è£œã‚’é¸æŠã—ãŸã¨ãã€ãƒ¦ãƒ¼ã‚¶è¾æ›¸ã«ç™»éŒ²ã•ã‚Œã‚‹ã‚ˆã†ã«ã—ãŸã€‚
 source: sj3/douon.c
 source: sj3/version.c
 
 number: 24
 date: 1996/05/27
-contents: ¾åµ­¤Î½¤Àµ¤Ë¤Ä¤¤¤Æ¥Ş¥Ë¥å¥¢¥ë¤Ëµ­½Ò¤òÄÉ²Ã¤·¤¿¡£
+contents: ä¸Šè¨˜ã®ä¿®æ­£ã«ã¤ã„ã¦ãƒãƒ‹ãƒ¥ã‚¢ãƒ«ã«è¨˜è¿°ã‚’è¿½åŠ ã—ãŸã€‚
 source: doc/doc/Nihongo.ps.Z
 
 number: 25
 date: 1996/05/27
-contents: ¼­½ñ¤¬Àµ¾ï¤ËºîÀ®¤Ç¤­¤Ê¤¤¤³¤È¤¬¤¢¤ë(SunOS Release 4.1.x)¡£
+contents: è¾æ›¸ãŒæ­£å¸¸ã«ä½œæˆã§ããªã„ã“ã¨ãŒã‚ã‚‹(SunOS Release 4.1.x)ã€‚
 source: dict/tool/cnvhinsi.c
 source: sj3h/sj3libsj3.h
 
 number: 26
 date: 1996/09/05
-contents: sj3serv ¤Ç»ÈÍÑ¤µ¤ì¤Ê¤¤¥°¥ë¡¼¥×»ØÄê¤Ë´Ø¤¹¤ëÊ¸¾Ï¤È¥½¡¼¥¹¤òºï½ü¤·¤¿¡£
+contents: sj3serv ã§ä½¿ç”¨ã•ã‚Œãªã„ã‚°ãƒ«ãƒ¼ãƒ—æŒ‡å®šã«é–¢ã™ã‚‹æ–‡ç« ã¨ã‚½ãƒ¼ã‚¹ã‚’å‰Šé™¤ã—ãŸã€‚
 source: doc/man/sj3mkdic.1
 source(delete): kanakan/srchgrp.c
 
 number: 27
 date: 1997/01/21
 from: Hidekazu Kuroki
-contents: (sj3-bugs 10) FreeBSD port ¤Î¤¿¤á¤Î½¤Àµ
+contents: (sj3-bugs 10) FreeBSD port ã®ãŸã‚ã®ä¿®æ­£
 source(add): server/rc.sj3serv.FreeBSD
 source(add): doc/Imakefile
 source(add): doc/doc/Imakefile
