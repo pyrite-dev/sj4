@@ -135,8 +135,8 @@ int getch() {
 	if(infp) {
 		int c;
 
-repeat1:;
-		if((c = Fgetc(infp)) != EOF){
+	repeat1:;
+		if((c = Fgetc(infp)) != EOF) {
 			if(c == '\r') goto repeat1;
 			return c;
 		}
