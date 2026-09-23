@@ -104,6 +104,7 @@ readchar() {
 	}
 
 	if((cod = unicode_to_eucjp(n)) == -1) {
+		code = n;
 		return '[';
 	}
 
@@ -259,7 +260,7 @@ int* readline() {
 		c = skip_blank();
 
 		if(c == '#') {
-			while(c != '\n')
+			while(c != '\n' && c != EOF)
 				c = skip_blank();
 		}
 

@@ -23,6 +23,7 @@ int	sj4_ime_length(Sj4Ime* ime);
 void*	sj4_ime_kouho(Sj4Ime* ime);
 void*	sj4_ime_kanabuf(Sj4Ime* ime);
 void*	sj4_ime_convbuf(Sj4Ime* ime);
+void	sj4_ime_close(Sj4Ime*);
 
 #ifdef __cplusplus
 }

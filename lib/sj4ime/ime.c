@@ -81,13 +81,12 @@ static void concat(int charset, u_char* out, u_char* in) {
 
 		w_out[i + sj4_charset_to(charset, (u_char*)(w_out + i), in, strlen(in))] = 0;
 	} else
-#else
+#endif
 	{
 		i = strlen(out);
 
 		out[i + sj4_charset_to(charset, out + i, in, strlen(in))] = 0;
 	}
-#endif
 }
 
 static void concat_nc(int charset, u_char* out, u_char* in) {
@@ -103,7 +102,7 @@ static void concat_nc(int charset, u_char* out, u_char* in) {
 		memcpy(w_out + i, in, j * sizeof(wchar_t));
 		w_out[i + j] = 0;
 	} else
-#else
+#endif
 	{
 		i = strlen(out);
 		j = strlen(in);
@@ -111,7 +110,6 @@ static void concat_nc(int charset, u_char* out, u_char* in) {
 		memcpy(out + i, in, j);
 		out[i + j] = 0;
 	}
-#endif
 }
 
 #define ZEROBUF memset(&ime->kouho.buffer, 0, sizeof(ime->kouho.buffer))
@@ -234,4 +232,9 @@ void* sj4_ime_kanabuf(Sj4Ime* ime) {
 
 void* sj4_ime_convbuf(Sj4Ime* ime) {
 	return ime->convbuf;
+}
+
+void sj4_ime_close(Sj4Ime* ime) {
+	sj4_close(ime->lib);
+	free(ime);
 }
