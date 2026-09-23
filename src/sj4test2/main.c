@@ -3,6 +3,8 @@
 
 #ifdef _WIN32
 #define CHARSET SJ4SJIS
+
+#include <conio.h>
 #else
 #define CHARSET SJ4UTF8
 
