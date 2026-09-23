@@ -82,21 +82,21 @@ Sj4Context* alloccontext(const char* dic) {
 	if(ctx == NULL) return NULL;
 
 	if((ctx->work = calloc(1, sizeof(*ctx->work))) == NULL) {
-		free(ctx);
+		free((char*)ctx);
 
 		return NULL;
 	}
 	if((ctx->stdy = calloc(1, sizeof(*ctx->stdy))) == NULL) {
-		free(ctx->work);
-		free(ctx);
+		free((char*)ctx->work);
+		free((char*)ctx);
 
 		return NULL;
 	}
 
 	if((node = calloc(1, sizeof(*node))) == NULL) {
-		free(ctx->stdy);
-		free(ctx->work);
-		free(ctx);
+		free((char*)ctx->stdy);
+		free((char*)ctx->work);
+		free((char*)ctx);
 
 		return NULL;
 	}
@@ -128,19 +128,19 @@ void free_context(Sj4Context* ctx) {
 		DICTL* next = node->next;
 
 		if(node->dict != NULL) closedict(ctx, (DictFile*)node->dict);
-		free(node);
+		free((char*)node);
 
 		node = next;
 	}
 
 	freework(ctx);
 
-	if(ctx->jrec_pool != NULL) free(ctx->jrec_pool);
-	if(ctx->clrec_pool != NULL) free(ctx->clrec_pool);
+	if(ctx->jrec_pool != NULL) free((char*)ctx->jrec_pool);
+	if(ctx->clrec_pool != NULL) free((char*)ctx->clrec_pool);
 
-	free(ctx->stdy);
-	free(ctx->work);
+	free((char*)ctx->stdy);
+	free((char*)ctx->work);
 
-	free(ctx);
+	free((char*)ctx);
 }
 #endif

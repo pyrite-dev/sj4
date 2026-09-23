@@ -28,7 +28,7 @@ Sj4Lib* sj4_open(int charset, const char* dic) {
 	if((ctx = calloc(1, sizeof(*ctx))) == NULL) return NULL;
 
 	if((ctx->ctx = alloccontext(dic)) == NULL) {
-		free(ctx);
+		free((char*)ctx);
 
 		return NULL;
 	}
@@ -96,5 +96,5 @@ int sj4_prevkan(Sj4Lib* ctx) {
 
 void sj4_close(Sj4Lib* ctx) {
 	free_context(ctx->ctx);
-	free(ctx);
+	free((char*)ctx);
 }

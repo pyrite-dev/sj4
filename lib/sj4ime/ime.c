@@ -42,7 +42,7 @@ Sj4Ime* sj4_ime(int charset, const char* dict, Sj4ImePacket packet) {
 	if((ime = calloc(1, sizeof(*ime))) == NULL) return NULL;
 
 	if((ime->lib = sj4_open(charset, dict)) == NULL) {
-		free(ime);
+		free((char*)ime);
 
 		return NULL;
 	}
@@ -236,5 +236,5 @@ void* sj4_ime_convbuf(Sj4Ime* ime) {
 
 void sj4_ime_close(Sj4Ime* ime) {
 	sj4_close(ime->lib);
-	free(ime);
+	free((char*)ime);
 }
