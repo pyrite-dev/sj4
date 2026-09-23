@@ -531,8 +531,7 @@ static void fmtint(char* buffer, size_t* currlen, size_t maxlen,
 	while(place > 0)
 		dopr_outch(buffer, currlen, maxlen, convert[--place]);
 
-	/* Left Justified spaces */
-	while(spadlen < 0) {
+	/* Left Justified spaces */ while(spadlen < 0) {
 		dopr_outch(buffer, currlen, maxlen, ' ');
 		++spadlen;
 	}

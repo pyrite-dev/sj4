@@ -140,9 +140,7 @@ void setstyrec(SJ4_CONTEXT KHREC* krec) {
 		stdy.stdy1.styno  = kptr->styno;
 		stdy.stdy1.dicid  = kptr->clrec->jnode->dicid;
 		stdy.stdy1.nmflg  = 1;
-	}
-
-	else {
+	} else {
 		stdy.stdy1.offset = krec->offs;
 		stdy.stdy1.seg	  = jrec->jseg;
 		stdy.stdy1.styno  = krec->styno;

@@ -34,8 +34,7 @@
 
 #include "sj_kanakan.h"
 
-static int
-cnjstrcmp(u_char* yptr, u_char* cnjp, int* saml) {
+static int cnjstrcmp(u_char* yptr, u_char* cnjp, int* saml) {
 	int asklen;
 	int nkrlen;
 
@@ -57,9 +56,7 @@ cnjstrcmp(u_char* yptr, u_char* cnjp, int* saml) {
 		else if(*yptr < *cnjp) {
 			if(!*yptr) return PARTLY;
 			return OVER;
-		}
-
-		else {
+		} else {
 			yptr++;
 			cnjp++;
 			(*saml)++;
@@ -69,8 +66,7 @@ cnjstrcmp(u_char* yptr, u_char* cnjp, int* saml) {
 	return MATCH;
 }
 
-static TypeCnct
-cnvrow(JREC* rec, TypeCnct row) {
+static TypeCnct cnvrow(JREC* rec, TypeCnct row) {
 	TypeGram hinsi;
 	int	 stt;
 
@@ -90,9 +86,7 @@ cnvrow(JREC* rec, TypeCnct row) {
 
 		else
 			row = 0;
-	}
-
-	else if(stt == SETTOU_GO) {
+	} else if(stt == SETTOU_GO) {
 
 		if(hinsi == MEISI_7 && row == R_SMEISI1)
 			row++;

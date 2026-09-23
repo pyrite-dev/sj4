@@ -62,8 +62,7 @@ void mkkouho(SJ4_CONTEXT2) {
 	} while(clrec && (keeplen == clrec->cllen));
 }
 
-static void
-getkhtbl(SJ4_CONTEXT CLREC* clrec, u_char kcache[][MAXWDKANJILEN], int* kvalid) {
+static void getkhtbl(SJ4_CONTEXT CLREC* clrec, u_char kcache[][MAXWDKANJILEN], int* kvalid) {
 	JREC* jrec;
 
 	jrec = clrec->jnode;
@@ -93,8 +92,7 @@ getkhtbl(SJ4_CONTEXT CLREC* clrec, u_char kcache[][MAXWDKANJILEN], int* kvalid) 
 	}
 }
 
-static void
-cl_kanji(SJ4_CONTEXT JREC* jrec, CLREC* clrec, u_char kcache[][MAXWDKANJILEN], int* kvalid) {
+static void cl_kanji(SJ4_CONTEXT JREC* jrec, CLREC* clrec, u_char kcache[][MAXWDKANJILEN], int* kvalid) {
 	u_char* ptr;
 	int	kcount = khcount;
 
@@ -115,13 +113,11 @@ cl_kanji(SJ4_CONTEXT JREC* jrec, CLREC* clrec, u_char kcache[][MAXWDKANJILEN], i
 	}
 }
 
-u_char*
-makekan_none(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
+u_char* makekan_none(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
 	return d;
 }
 
-u_char*
-makekan_1byte(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
+u_char* makekan_1byte(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
 	if((*s & KANJIMODEMASK) == ZENHIRAASSYUKU)
 		*d++ = 0x10 | (*s & KNJASSYUKUMASK);
 	else
@@ -131,8 +127,7 @@ makekan_1byte(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
 	return d;
 }
 
-u_char*
-makekan_knj(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
+u_char* makekan_knj(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
 	return makekan(SJ4_CONTEXT_PASS askknj[*s & KNJASSYUKUMASK], d, flg);
 }
 
@@ -141,8 +136,7 @@ u_char* makekan_ofs(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
 		       d, flg);
 }
 
-u_char*
-makekan_norm(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
+u_char* makekan_norm(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
 	u_char c;
 
 	if(*s != 0) {
@@ -158,8 +152,7 @@ makekan_norm(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
 	return d;
 }
 
-u_char*
-makekan_ascii(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
+u_char* makekan_ascii(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
 	u_char c;
 
 	c = s[1];
@@ -172,8 +165,7 @@ makekan_ascii(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
 	return d;
 }
 
-static u_char*
-makekan(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
+static u_char* makekan(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
 	int csize;
 
 	for(;;) {
@@ -247,8 +239,7 @@ makekan(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
 
 #define PEND 2
 #define QEND 1
-static int
-sameknj(u_char* p, u_char plen, u_char* q, u_char qlen) {
+static int sameknj(u_char* p, u_char plen, u_char* q, u_char qlen) {
 	int i;
 	int j;
 	int endf = 0;
@@ -305,8 +296,7 @@ sameknj(u_char* p, u_char plen, u_char* q, u_char qlen) {
 #undef PEND
 #undef QEND
 
-static int
-diffknj(SJ4_CONTEXT JREC* jrec, u_char* ptr, int num, u_char kcache[][MAXWDKANJILEN], int* kvalid) {
+static int diffknj(SJ4_CONTEXT JREC* jrec, u_char* ptr, int num, u_char kcache[][MAXWDKANJILEN], int* kvalid) {
 	KHREC* kptr;
 	JREC*  jptr;
 	int    i;
@@ -348,8 +338,7 @@ diffknj(SJ4_CONTEXT JREC* jrec, u_char* ptr, int num, u_char kcache[][MAXWDKANJI
 	return TRUE;
 }
 
-static int
-chrck_numtbl(u_short flg, u_short cond) {
+static int chrck_numtbl(u_short flg, u_short cond) {
 	u_short must;
 
 	if((cond = SelNumCond(cond))) {
@@ -395,8 +384,7 @@ int sel_sjmode(JREC* jrec) {
 	return SelNumFunc(i);
 }
 
-static void
-cl_numcmn(SJ4_CONTEXT JREC* jrec, CLREC* clrec) {
+static void cl_numcmn(SJ4_CONTEXT JREC* jrec, CLREC* clrec) {
 	u_char*	 p;
 	int	 i;
 	u_short	 j;

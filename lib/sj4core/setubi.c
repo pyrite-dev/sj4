@@ -32,8 +32,7 @@
 
 #include "sj_kanakan.h"
 
-u_char*
-getstb(TypeGram hinsi) {
+u_char* getstb(TypeGram hinsi) {
 	if(hinsi < MEISI_1 || hinsi > TIMEI) return NULL;
 
 	return Stbadr(hinsi);

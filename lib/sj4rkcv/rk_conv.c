@@ -726,8 +726,7 @@ int kstradd(wchar16_t** cp, wchar16_t* kstr, int len) {
 	return (0);
 }
 
-RkTablW16*
-mktable(wchar16_t* key, int len) {
+RkTablW16* mktable(wchar16_t* key, int len) {
 	int	   i;
 	RkTablW16 *nrktp, *orktp;
 	RkTablW16* rktp;

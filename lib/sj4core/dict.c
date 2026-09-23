@@ -76,8 +76,7 @@ int seldict(SJ4_CONTEXT TypeDicID id) {
 	return FALSE;
 }
 
-u_char*
-get_idxptr(SJ4_CONTEXT TypeDicSeg seg) {
+u_char* get_idxptr(SJ4_CONTEXT TypeDicSeg seg) {
 	(*curdict->getofs)(SJ4_CONTEXT_PASS curdict);
 	(*curdict->getidx)(SJ4_CONTEXT_PASS curdict);
 

@@ -31,8 +31,7 @@
 
 #include "sj_kanakan.h"
 
-TypeDicSeg
-srchidx(SJ4_CONTEXT TypeDicSeg low, int len) {
+TypeDicSeg srchidx(SJ4_CONTEXT TypeDicSeg low, int len) {
 	TypeDicSeg high;
 	TypeDicSeg mid;
 	int	   cmp;
@@ -52,13 +51,9 @@ srchidx(SJ4_CONTEXT TypeDicSeg low, int len) {
 
 		if(cmp == OVER) {
 			high = mid - 1;
-		}
-
-		else if(cmp != MATCH) {
+		} else if(cmp != MATCH) {
 			low = mid + 1;
-		}
-
-		else {
+		} else {
 			return mid;
 		}
 	}

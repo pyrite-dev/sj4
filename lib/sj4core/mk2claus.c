@@ -131,9 +131,7 @@ void mk2claus(SJ4_CONTEXT2) {
 					;
 				else if(prty <= maxprty)
 					continue;
-			}
-
-			else if(prty <= maxprty)
+			} else if(prty <= maxprty)
 				continue;
 		}
 

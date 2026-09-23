@@ -38,8 +38,7 @@
 
 static DouonRec* drectmp = NULL;
 
-static void
-clearklist(KanjiRec* krec) {
+static void clearklist(KanjiRec* krec) {
 	KanjiRec* p;
 
 	while(krec) {
@@ -53,8 +52,7 @@ clearklist(KanjiRec* krec) {
 	}
 }
 
-static void
-clearhlist(HinsiRec* hrec) {
+static void clearhlist(HinsiRec* hrec) {
 	HinsiRec* p;
 
 	while(hrec) {
@@ -85,8 +83,7 @@ void clear_list() {
 	douon_ptr = NULL;
 }
 
-static u_char*
-makekanji(int* yomi, int* kanji, int* atr, int* len) {
+static u_char* makekanji(int* yomi, int* kanji, int* atr, int* len) {
 	int	kana[MAXYOMILENGTH + 1];
 	u_char	ktmp[MAXKANJILENGTH * 3 + MAXATRNUMBER * 2 + 1];
 	int	i;
@@ -163,8 +160,7 @@ makekanji(int* yomi, int* kanji, int* atr, int* len) {
 	return q;
 }
 
-static u_char*
-makeyomi(int* yomi) {
+static u_char* makeyomi(int* yomi) {
 	u_char	tmp[MAXYOMILENGTH + 1];
 	int	i;
 	int	j;
@@ -199,8 +195,7 @@ makeyomi(int* yomi) {
 	return p;
 }
 
-static KanjiRec*
-make_krec(u_char* kcode, int klen) {
+static KanjiRec* make_krec(u_char* kcode, int klen) {
 	KanjiRec* krec;
 
 	krec = (KanjiRec*)Malloc(sizeof(KanjiRec));
@@ -218,8 +213,7 @@ make_krec(u_char* kcode, int klen) {
 	return krec;
 }
 
-static HinsiRec*
-make_hrec(int hinsi) {
+static HinsiRec* make_hrec(int hinsi) {
 	HinsiRec* hrec;
 
 	hrec = (HinsiRec*)Malloc(sizeof(HinsiRec));
@@ -235,8 +229,7 @@ make_hrec(int hinsi) {
 	return hrec;
 }
 
-static DouonRec*
-make_drec(u_char* ycode) {
+static DouonRec* make_drec(u_char* ycode) {
 	DouonRec* drec;
 
 	drec = (DouonRec*)Malloc(sizeof(DouonRec));
@@ -253,8 +246,7 @@ make_drec(u_char* ycode) {
 	return drec;
 }
 
-static int
-diff_ylen(DouonRec* drec) {
+static int diff_ylen(DouonRec* drec) {
 	DouonRec* dptr;
 	DouonRec* dprev;
 	u_char*	  p1;
@@ -301,8 +293,7 @@ diff_ylen(DouonRec* drec) {
 	return ylen;
 }
 
-static int
-douon_knj(DouonRec* drec) {
+static int douon_knj(DouonRec* drec) {
 	int	  i;
 	int	  len = 0;
 	u_char*	  p;
@@ -328,8 +319,7 @@ douon_knj(DouonRec* drec) {
 	return len;
 }
 
-static void
-make_d_list(DouonRec* drec) {
+static void make_d_list(DouonRec* drec) {
 	DouonRec *dptr, *dprev;
 	HinsiRec* hptr;
 	KanjiRec* kptr;
@@ -485,8 +475,7 @@ void makelist(int* yomi, int* kanji, int hinsi, int* atr) {
 
 	if(hrec->hinsi == hinsi) {
 		for(krec = hrec->krec; krec; krec = krec->knext) {
-			if((krec->klen == klen) &&
-			   !memcmp(krec->kptr, kcode, klen)) {
+			if((krec->klen == klen) && !memcmp(krec->kptr, kcode, klen)) {
 				fprintf(stderr, DUPECOMBINEDWORD);
 				fprintf(stderr, DUPECOMBINEDWORDREAD);
 				output_int(stderr, yomi);

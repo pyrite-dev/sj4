@@ -56,9 +56,7 @@ void cvtdict(SJ4_CONTEXT KHREC* krec, CLREC* clrec, int flg) {
 		if(i == SETTOU_KIGOU) {
 			sttlen = 1;
 			fptr   = yptr;
-		}
-
-		else {
+		} else {
 			fptr   = Settou_ptr(i);
 			sttlen = SttYomiLen(fptr);
 			fptr++;
@@ -69,9 +67,7 @@ void cvtdict(SJ4_CONTEXT KHREC* krec, CLREC* clrec, int flg) {
 		*kanjitmp++ = *fptr++;
 		jlen -= sttlen;
 		yptr += sttlen * 2;
-	}
-
-	else
+	} else
 		sttlen = 0;
 
 	if(flg) {
@@ -88,15 +84,11 @@ void cvtdict(SJ4_CONTEXT KHREC* krec, CLREC* clrec, int flg) {
 		}
 
 		stblen = 0;
-	}
-
-	else if((i = jrec->stbofs) && (fptr = getstb(jrec->hinsi))) {
+	} else if((i = jrec->stbofs) && (fptr = getstb(jrec->hinsi))) {
 		fptr += i - 1;
 		stblen = StbYomiLen(fptr);
 		jlen -= stblen;
-	}
-
-	else {
+	} else {
 		stblen = 0;
 	}
 
@@ -141,9 +133,7 @@ void cvtminasi(SJ4_CONTEXT int len) {
 		if(isknj1(*ptr)) {
 			*kanjitmp++ = *ptr++;
 			*kanjitmp++ = *ptr++;
-		}
-
-		else if(*ptr == SS3) {
+		} else if(*ptr == SS3) {
 			*kanjitmp++ = *ptr++;
 			*kanjitmp++ = *ptr++;
 			*kanjitmp++ = *ptr++;
@@ -193,9 +183,7 @@ void cvtwakachi(SJ4_CONTEXT CLREC* clrec) {
 		if(isknj1(*ym)) {
 			*kanjitmp++ = *ym++;
 			*kanjitmp++ = *ym++;
-		}
-
-		else if(*ym == SS3) {
+		} else if(*ym == SS3) {
 			*kanjitmp++ = *ym++;
 			*kanjitmp++ = *ym++;
 			*kanjitmp++ = *ym++;

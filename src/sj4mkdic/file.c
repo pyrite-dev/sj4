@@ -37,8 +37,7 @@ typedef struct filelist {
 
 static FileList* flist = NULL;
 
-static char*
-get_fname(FILE* fp) {
+static char* get_fname(FILE* fp) {
 	FileList* p;
 
 	for(p = flist; p; p = p->next)
@@ -109,8 +108,7 @@ long Fsize(char* filename) {
 	exit(1);
 }
 
-size_t
-Fread(char* p, int s, int n, FILE* fp) {
+size_t Fread(char* p, int s, int n, FILE* fp) {
 	if(fread(p, s, n, fp) == n) return n;
 
 	printf("!\n");
@@ -119,8 +117,7 @@ Fread(char* p, int s, int n, FILE* fp) {
 	exit(1);
 }
 
-size_t
-Fwrite(char* p, int s, int n, FILE* fp) {
+size_t Fwrite(char* p, int s, int n, FILE* fp) {
 	if(fwrite(p, s, n, fp) == n) return n;
 
 	fprintf(stderr, "Write error in %s\n", get_fname(fp));

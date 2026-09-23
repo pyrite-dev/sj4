@@ -76,8 +76,7 @@ void free_jrec(SJ4_CONTEXT JREC* p) {
 	}
 }
 
-CLREC*
-alloc_clrec(SJ4_CONTEXT2) {
+CLREC* alloc_clrec(SJ4_CONTEXT2) {
 	CLREC* p;
 	int    i;
 

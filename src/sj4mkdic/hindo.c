@@ -54,8 +54,7 @@ int check_hindo(u_char* ptr, int len) {
 	return 0;
 }
 
-static AssyukuRec*
-makeassyuku(int num) {
+static AssyukuRec* makeassyuku(int num) {
 	AssyukuRec* arec;
 
 	arec = (AssyukuRec*)Malloc(sizeof(AssyukuRec));
@@ -71,15 +70,13 @@ makeassyuku(int num) {
 	return arec;
 }
 
-static int
-assyuku_len(HindoRec* hrec) {
+static int assyuku_len(HindoRec* hrec) {
 	int org;
 	int old;
 	int new;
 	OffsetRec* p;
 
-	if(((*(hrec->kptr) & KANJIMODEMASK) == OFFSETASSYUKU) &&
-	   (hrec->klen == 2)) {
+	if(((*(hrec->kptr) & KANJIMODEMASK) == OFFSETASSYUKU) && (hrec->klen == 2)) {
 		p   = real_ofsrec(hrec->kptr);
 		org = check_hindo(p->kptr, p->klen);
 		old = p->klen * org + 2 * (hrec->exist + hrec->hindo);
@@ -91,8 +88,7 @@ assyuku_len(HindoRec* hrec) {
 	return (old - new);
 }
 
-static void
-set_assyuku(HindoRec* hrec) {
+static void set_assyuku(HindoRec* hrec) {
 	AssyukuRec* arec;
 	AssyukuRec* aprev;
 	int	    len;
@@ -131,8 +127,7 @@ set_assyuku(HindoRec* hrec) {
 	}
 }
 
-static void
-reset_assyuku(HindoRec* hrec) {
+static void reset_assyuku(HindoRec* hrec) {
 	AssyukuRec* arec;
 	AssyukuRec* aptr;
 	AssyukuRec* aprev;
@@ -187,8 +182,7 @@ reset_assyuku(HindoRec* hrec) {
 	hrec->anext = NULL;
 }
 
-static HindoRec*
-makehindo(u_char* ptr, int len, int alen) {
+static HindoRec* makehindo(u_char* ptr, int len, int alen) {
 	HindoRec* hrec;
 	u_char*	  p;
 
@@ -220,8 +214,7 @@ makehindo(u_char* ptr, int len, int alen) {
 	return hrec;
 }
 
-static void
-set_hindo(u_char* ptr, int len, int alen) {
+static void set_hindo(u_char* ptr, int len, int alen) {
 	HindoRec* hrec;
 	int	  low, high, mid;
 	int	  i;
@@ -278,8 +271,7 @@ set_hindo(u_char* ptr, int len, int alen) {
 	set_assyuku(hrec);
 }
 
-static void
-reset_hindo(u_char* p, int l) {
+static void reset_hindo(u_char* p, int l) {
 	HindoRec* hrec;
 	int	  low, high, mid;
 	int	  i;
@@ -376,8 +368,7 @@ void knjhnd_reset(u_char* p, int l) {
 	}
 }
 
-static int
-check_assyuku(HindoRec* p, HindoRec* q) {
+static int check_assyuku(HindoRec* p, HindoRec* q) {
 	u_char ptmp[128], qtmp[128];
 	int    plen;
 	int    qlen;

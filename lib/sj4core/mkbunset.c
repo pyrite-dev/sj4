@@ -65,9 +65,7 @@ void mkbunsetu(SJ4_CONTEXT2) {
 			}
 
 			srchfzk(SJ4_CONTEXT_PASS jrec, next, right, 0);
-		}
-
-		else if((count = setconj(SJ4_CONTEXT_PASS hinsi, jrec, crec))) {
+		} else if((count = setconj(SJ4_CONTEXT_PASS hinsi, jrec, crec))) {
 
 			for(i = count; i-- > 0;) {
 
@@ -88,8 +86,7 @@ void mkbunsetu(SJ4_CONTEXT2) {
 	}
 }
 
-CLREC*
-argclrec(SJ4_CONTEXT int len) {
+CLREC* argclrec(SJ4_CONTEXT int len) {
 	CLREC* ptr;
 	CLREC* rec;
 	CLREC* child;
@@ -128,8 +125,7 @@ argclrec(SJ4_CONTEXT int len) {
 	ptr = maxclptr;
 
 	if(((int)ptr->cllen < len) ||
-	   (((int)ptr->cllen == len) &&
-	    (ptr->jnode->hinsi == TANKANJI))) {
+	   (((int)ptr->cllen == len) && (ptr->jnode->hinsi == TANKANJI))) {
 		rec->clsort = maxclptr;
 		maxclptr    = rec;
 		return rec;

@@ -67,9 +67,7 @@ void wakachi(SJ4_CONTEXT2) {
 
 		if(Chrtbl[*(next - 1)] & TAI_KGU)
 			srchfzk(SJ4_CONTEXT_PASS jrec, next, R_DAIMEISI, 0);
-	}
-
-	else {
+	} else {
 
 		if(!(jrec = argjrec(SJ4_CONTEXT_PASS 0, (JREC*)NULL))) return;
 		jrec->jclass = C_WAKACHI;

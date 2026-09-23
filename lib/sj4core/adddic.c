@@ -294,8 +294,7 @@ u_int adddic(SJ4_CONTEXT u_char* yomi, u_char* kanji, TypeGram hinsi) {
 	return AD_DONE;
 }
 
-static int
-checksub(SJ4_CONTEXT u_char* kanji, TypeGram grm) {
+static int checksub(SJ4_CONTEXT u_char* kanji, TypeGram grm) {
 	u_char* tagp = NULL;
 	u_char* ptr;
 	u_char* endp;
@@ -338,8 +337,7 @@ checksub(SJ4_CONTEXT u_char* kanji, TypeGram grm) {
 	return dounum;
 }
 
-static u_int
-checkdict(SJ4_CONTEXT u_char* kanji, TypeGram grm) {
+static u_int checkdict(SJ4_CONTEXT u_char* kanji, TypeGram grm) {
 	DICTL* dp;
 	int    dounum = 0;
 	int    tmp;
@@ -365,8 +363,7 @@ checkdict(SJ4_CONTEXT u_char* kanji, TypeGram grm) {
 	return 0;
 }
 
-static int
-cal_nextym(SJ4_CONTEXT u_char* ptr) {
+static int cal_nextym(SJ4_CONTEXT u_char* ptr) {
 	int	count = 0;
 	u_char* src;
 	int	len;
@@ -387,8 +384,7 @@ cal_nextym(SJ4_CONTEXT u_char* ptr) {
 	return count;
 }
 
-static int
-usr_freelen(SJ4_CONTEXT2) {
+static int usr_freelen(SJ4_CONTEXT2) {
 	u_char* ptr;
 
 	ptr = segtop();
@@ -398,8 +394,7 @@ usr_freelen(SJ4_CONTEXT2) {
 	return curdict->seglen - (ptr - dicbuf);
 }
 
-static void
-sprt_seg(SJ4_CONTEXT TypeDicSeg seg, TypeDicOfs ofs) {
+static void sprt_seg(SJ4_CONTEXT TypeDicSeg seg, TypeDicOfs ofs) {
 	TypeDicSeg s;
 	u_char*	   pos;
 	u_char*	   p;
@@ -472,8 +467,7 @@ sprt_seg(SJ4_CONTEXT TypeDicSeg seg, TypeDicOfs ofs) {
 	(*curdict->putdic)(SJ4_CONTEXT_PASS curdict, seg);
 }
 
-static void
-apnd_uidx(SJ4_CONTEXT TypeDicSeg seg, u_char* yomi, int len) {
+static void apnd_uidx(SJ4_CONTEXT TypeDicSeg seg, u_char* yomi, int len) {
 	u_char* p;
 	u_char* q;
 

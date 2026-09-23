@@ -152,9 +152,7 @@ chkhead(SJ4_CONTEXT TypeGram gram) {
 	if(headcode == SETTOU_DAI) {
 
 		if(gram == SUUSI) return TRUE;
-	}
-
-	else {
+	} else {
 		gram--;
 		if((Scncttbl(headcode - 1, gram >> 3) << (gram & 0x07)) & 0x80) {
 			return TRUE;

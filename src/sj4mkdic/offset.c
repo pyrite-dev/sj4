@@ -32,8 +32,7 @@
 
 #include "sj4mkdic.h"
 
-static OffsetRec*
-makeoffset(u_char* ptr, int len, int ofs) {
+static OffsetRec* makeoffset(u_char* ptr, int len, int ofs) {
 	OffsetRec* orec;
 	u_char*	   p;
 
@@ -125,8 +124,7 @@ void clear_ofsrec() {
 	ofsrec_num = 0;
 }
 
-OffsetRec*
-real_ofsrec(u_char* ptr) {
+OffsetRec* real_ofsrec(u_char* ptr) {
 	int	    ofs;
 	int	    i;
 	OffsetRec** p;

@@ -126,8 +126,7 @@ int study(SJ4_CONTEXT STDYOUT* stdy) {
 	return ret;
 }
 
-STDYIN*
-srchstdy(SJ4_CONTEXT TypeDicSeg seg, TypeDicOfs ofs, TypeDicID dicid) {
+STDYIN* srchstdy(SJ4_CONTEXT TypeDicSeg seg, TypeDicOfs ofs, TypeDicID dicid) {
 	int	high;
 	int	mid;
 	int	low;

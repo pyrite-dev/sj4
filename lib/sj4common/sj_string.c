@@ -227,8 +227,7 @@ void sj_sjis2jis(unsigned char* s) {
 	}
 }
 
-unsigned short
-sj4_jis2sjis(unsigned short code) {
+unsigned short sj4_jis2sjis(unsigned short code) {
 	unsigned char tmp[3];
 
 	tmp[0] = (code >> 8) & 0xff;
@@ -242,8 +241,7 @@ sj4_jis2sjis(unsigned short code) {
 	return (code);
 }
 
-unsigned short
-sj4_jis2euc(unsigned short code) {
+unsigned short sj4_jis2euc(unsigned short code) {
 	unsigned char tmp[3];
 
 	tmp[0] = (code >> 8) & 0xff;
@@ -255,8 +253,7 @@ sj4_jis2euc(unsigned short code) {
 	return (code);
 }
 
-unsigned short
-sj4_sjis2jis(unsigned short code) {
+unsigned short sj4_sjis2jis(unsigned short code) {
 	unsigned char tmp[3];
 
 	tmp[0] = (code >> 8) & 0xff;
@@ -270,8 +267,7 @@ sj4_sjis2jis(unsigned short code) {
 	return (code);
 }
 
-unsigned short
-sj4_euc2sjis(unsigned short code) {
+unsigned short sj4_euc2sjis(unsigned short code) {
 	unsigned char tmp[3];
 
 	tmp[0] = (code >> 8) & 0xff;
@@ -285,8 +281,7 @@ sj4_euc2sjis(unsigned short code) {
 	return (code);
 }
 
-unsigned short
-sj4_sjis2euc(unsigned short code) {
+unsigned short sj4_sjis2euc(unsigned short code) {
 	unsigned char tmp[3];
 
 	tmp[0] = (code >> 8) & 0xff;

@@ -36,8 +36,7 @@ static u_char mindex[MAININDEXLENGTH];
 static int    idxpos = 0;
 static int    idxnum = 0;
 
-static u_char*
-set_ofsask(u_char* src, u_char* dst) {
+static u_char* set_ofsask(u_char* src, u_char* dst) {
 	int	   len;
 	u_char*	   ptr;
 	OffsetRec* ofsrec;

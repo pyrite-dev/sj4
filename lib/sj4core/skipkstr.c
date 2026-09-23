@@ -36,8 +36,7 @@
 
 #include "sj_kanakan.h"
 
-u_char*
-skipkstr(u_char* ptr) {
+u_char* skipkstr(u_char* ptr) {
 	int contf = TRUE, csize;
 
 	do {

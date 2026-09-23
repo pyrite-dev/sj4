@@ -97,8 +97,7 @@ int prevusr(SJ4_CONTEXT u_char* buf) {
 	return 0;
 }
 
-static void
-set_kanji(SJ4_CONTEXT2) {
+static void set_kanji(SJ4_CONTEXT2) {
 	int len;
 
 	len		 = getkanji(SJ4_CONTEXT_PASS peepyomi, getnlen(peepdptr) + getplen(peepdptr),
@@ -106,8 +105,7 @@ set_kanji(SJ4_CONTEXT2) {
 	*(peepknj + len) = 0;
 }
 
-static void
-set_buf(SJ4_CONTEXT u_char* buf) {
+static void set_buf(SJ4_CONTEXT u_char* buf) {
 	u_char* p;
 	int	i, csize;
 
@@ -124,8 +122,7 @@ set_buf(SJ4_CONTEXT u_char* buf) {
 	*buf++ = 0;
 }
 
-static int
-prev_kanji(SJ4_CONTEXT2) {
+static int prev_kanji(SJ4_CONTEXT2) {
 	u_char* p1;
 	u_char* p2;
 
@@ -141,8 +138,7 @@ prev_kanji(SJ4_CONTEXT2) {
 	return -1;
 }
 
-static int
-prev_hinsi(SJ4_CONTEXT2) {
+static int prev_hinsi(SJ4_CONTEXT2) {
 	u_char* p1;
 	u_char* p2;
 	int	nlen;
@@ -170,8 +166,7 @@ prev_hinsi(SJ4_CONTEXT2) {
 	return -1;
 }
 
-static int
-prev_douon(SJ4_CONTEXT2) {
+static int prev_douon(SJ4_CONTEXT2) {
 	u_char* p1;
 	u_char* p2;
 	int	nlen;
@@ -227,8 +222,7 @@ prev_douon(SJ4_CONTEXT2) {
 	return -1;
 }
 
-static int
-next_kanji(SJ4_CONTEXT2) {
+static int next_kanji(SJ4_CONTEXT2) {
 	u_char* p1;
 
 	p1 = skipkstr(peepkptr);
@@ -240,8 +234,7 @@ next_kanji(SJ4_CONTEXT2) {
 	return -1;
 }
 
-static int
-next_hinsi(SJ4_CONTEXT2) {
+static int next_hinsi(SJ4_CONTEXT2) {
 	u_char* p1;
 
 	p1 = skiphblk(peephptr);
@@ -257,8 +250,7 @@ next_hinsi(SJ4_CONTEXT2) {
 	return -1;
 }
 
-static int
-next_douon(SJ4_CONTEXT2) {
+static int next_douon(SJ4_CONTEXT2) {
 	u_char* p1;
 	int	nlen;
 
@@ -289,8 +281,7 @@ next_douon(SJ4_CONTEXT2) {
 	return -1;
 }
 
-static void
-set_idxyomi(SJ4_CONTEXT2) {
+static void set_idxyomi(SJ4_CONTEXT2) {
 	u_char *p1, *p2;
 
 	if((p2 = get_idxptr(SJ4_CONTEXT_PASS peepidx))) {
@@ -303,8 +294,7 @@ set_idxyomi(SJ4_CONTEXT2) {
 	}
 }
 
-static void
-add_yomi(SJ4_CONTEXT2) {
+static void add_yomi(SJ4_CONTEXT2) {
 	int	nlen;
 	u_char *p1, *p2;
 
@@ -322,8 +312,7 @@ add_yomi(SJ4_CONTEXT2) {
 	*p1 = 0;
 }
 
-static void
-cd2sjh_chr(u_char ch, u_char* dst) {
+static void cd2sjh_chr(u_char ch, u_char* dst) {
 	if(ch == _TYOUON) {
 		*dst++ = 0xa1;
 		*dst++ = 0xbc;

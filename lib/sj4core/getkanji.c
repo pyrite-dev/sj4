@@ -34,13 +34,11 @@
 
 static u_char* code2kanji(SJ4_CONTEXT u_char* s, u_char* d, u_char* ym, int yl, int flg);
 
-u_char*
-getkan_none(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
+u_char* getkan_none(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 	return d;
 }
 
-u_char*
-getkan_hira(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
+u_char* getkan_hira(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 	int cnt, csize;
 
 	csize = codesize(*s);
@@ -55,8 +53,7 @@ getkan_hira(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 	return d;
 }
 
-u_char*
-getkan_kata(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
+u_char* getkan_kata(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 	int    cnt, csize;
 	u_char ch;
 
@@ -85,19 +82,16 @@ getkan_kata(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 	return d;
 }
 
-u_char*
-getkan_knj(SJ4_CONTEXT u_char* s, u_char* d, u_char* ym, int yl, int flg) {
+u_char* getkan_knj(SJ4_CONTEXT u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 	return code2kanji(SJ4_CONTEXT_PASS askknj[*s & KNJASSYUKUMASK], d, ym, yl, flg);
 }
 
-u_char*
-getkan_ofs(SJ4_CONTEXT u_char* s, u_char* d, u_char* ym, int yl, int flg) {
+u_char* getkan_ofs(SJ4_CONTEXT u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 	return code2kanji(SJ4_CONTEXT_PASS dicbuf + ((*s & KANJICODEMASK) << 8) + *(s + 1),
 			  d, ym, yl, flg);
 }
 
-u_char*
-getkan_norm(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
+u_char* getkan_norm(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 	u_char c;
 
 	if(*s != 0) {
@@ -112,8 +106,7 @@ getkan_norm(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 	return d;
 }
 
-u_char*
-getkan_ascii(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
+u_char* getkan_ascii(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 	u_char c;
 
 	c = s[1];
@@ -124,8 +117,7 @@ getkan_ascii(u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 	return d;
 }
 
-static u_char*
-code2kanji(SJ4_CONTEXT u_char* s, u_char* d, u_char* ym, int yl, int flg) {
+static u_char* code2kanji(SJ4_CONTEXT u_char* s, u_char* d, u_char* ym, int yl, int flg) {
 	int csize;
 
 	for(;;) {

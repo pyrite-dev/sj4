@@ -48,9 +48,7 @@ JREC* free_jlst(SJ4_CONTEXT JREC* p) {
 			else
 				jpk = p;
 			jp = p;
-		}
-
-		else {
+		} else {
 			free_jrec(SJ4_CONTEXT_PASS p);
 		}
 	}
@@ -60,8 +58,7 @@ JREC* free_jlst(SJ4_CONTEXT JREC* p) {
 	return jpk;
 }
 
-CLREC*
-free_clst(SJ4_CONTEXT CLREC* p, int l) {
+CLREC* free_clst(SJ4_CONTEXT CLREC* p, int l) {
 	CLREC* cpk;
 	CLREC* cp;
 	CLREC* cn;
@@ -86,9 +83,7 @@ free_clst(SJ4_CONTEXT CLREC* p, int l) {
 					cpk = p;
 				cp = p;
 			}
-		}
-
-		else {
+		} else {
 			(p->jnode->count)--;
 
 			free_clrec(SJ4_CONTEXT_PASS p);

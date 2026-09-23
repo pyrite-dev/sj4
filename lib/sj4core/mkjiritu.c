@@ -78,8 +78,7 @@ void mkjiritu(SJ4_CONTEXT int mode) {
 	}
 }
 
-static void
-dic_mu(SJ4_CONTEXT int mode) {
+static void dic_mu(SJ4_CONTEXT int mode) {
 	u_char* tagp = NULL;
 	DICTL*	dp;
 
@@ -151,8 +150,7 @@ JREC* argjrec(SJ4_CONTEXT int len, JREC* rec) {
 	return jrec;
 }
 
-static void
-dic_cl(SJ4_CONTEXT2) {
+static void dic_cl(SJ4_CONTEXT2) {
 	u_char* p;
 	u_short pos;
 	int	len;
@@ -170,9 +168,7 @@ dic_cl(SJ4_CONTEXT2) {
 				if(!isdpnd(*(cnvstart + len))) {
 					setcrec(SJ4_CONTEXT_PASS p);
 				}
-			}
-
-			else if(cmp == OVER)
+			} else if(cmp == OVER)
 				break;
 		}
 	}

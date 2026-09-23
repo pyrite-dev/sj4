@@ -34,8 +34,7 @@
 
 #include "sj_kanakan.h"
 
-static int
-isfukusi(TypeGram hinsi) {
+static int isfukusi(TypeGram hinsi) {
 	if(FUKUSI_1 <= hinsi && hinsi <= FUKUSI_7)
 		return TRUE;
 	else if(hinsi == MEISI_11 || hinsi == D_MEISI_6)
@@ -43,8 +42,7 @@ isfukusi(TypeGram hinsi) {
 	return FALSE;
 }
 
-static int
-istaigen(TypeCnct right) {
+static int istaigen(TypeCnct right) {
 	if(right == R_MEISI || right == R_DMEISI || right == R_SMEISI1)
 		return TRUE;
 	if(right == R_WO_MEISI || right == R_DAIMEISI || right == R_JOSUUSI)
@@ -54,8 +52,7 @@ istaigen(TypeCnct right) {
 	return FALSE;
 }
 
-static int
-taicnt(TypeGram hinsi1, TypeGram hinsi2) {
+static int taicnt(TypeGram hinsi1, TypeGram hinsi2) {
 	if(hinsi2 == TANKANJI) return 0;
 
 	if(MYOUJI <= hinsi1 && hinsi1 <= KEN_KU) {
@@ -69,9 +66,7 @@ taicnt(TypeGram hinsi1, TypeGram hinsi2) {
 			return Taipri(5, hinsi2);
 		} else
 			return 5;
-	}
-
-	else {
+	} else {
 		if(MEISI_1 <= hinsi2 && hinsi2 <= SETUBI_9)
 			return Taipri(6, hinsi2);
 		else
@@ -79,8 +74,7 @@ taicnt(TypeGram hinsi1, TypeGram hinsi2) {
 	}
 }
 
-static int
-sttcnt(TypeGram hinsi1, TypeGram hinsi2) {
+static int sttcnt(TypeGram hinsi1, TypeGram hinsi2) {
 	if(SETTOU_1 <= hinsi1 && hinsi1 <= SETTOU_5) {
 		if(MEISI_1 <= hinsi2 && hinsi2 <= SUUSI)
 			return Sttpri(hinsi1 - SETTOU_1, hinsi2);
@@ -109,18 +103,14 @@ int priority(SJ4_CONTEXT CLREC* clrec) {
 	   prevclrow == R_NI1 || prevclrow == R_DRENYOU2) {
 		if(clrec->kubun == K_DOUSHI || isfukusi(hinsi1))
 			prev = 5;
-	}
-
-	else if(istaigen(prevclrow)) {
+	} else if(istaigen(prevclrow)) {
 
 		if(clrec->kubun == K_TAIGEN)
 			prev = taicnt(prevclgrm, hinsi1);
 
 		else
 			prev = 0;
-	}
-
-	else if(prevclrow == R_SETTOU) {
+	} else if(prevclrow == R_SETTOU) {
 		if(clrec->jnode->sttofs)
 			prty = 2;
 		else
@@ -144,9 +134,7 @@ int priority(SJ4_CONTEXT CLREC* clrec) {
 			}
 			cl2rec = cl2rec->clsort;
 		}
-	}
-
-	else if(clrec->right == R_SETTOU) {
+	} else if(clrec->right == R_SETTOU) {
 		prty = 0;
 		while(cl2rec && (int)cl2rec->cllen == keeplen) {
 			if(cl2rec->jnode->sttofs)
@@ -159,9 +147,7 @@ int priority(SJ4_CONTEXT CLREC* clrec) {
 			cl2rec = cl2rec->clsort;
 		}
 		goto finish;
-	}
-
-	else if(istaigen(clrec->right)) {
+	} else if(istaigen(clrec->right)) {
 		prty = 0;
 		while(cl2rec && (int)cl2rec->cllen == keeplen) {
 			i = taicnt(hinsi1, cl2rec->jnode->hinsi);
@@ -186,14 +172,11 @@ int priority(SJ4_CONTEXT CLREC* clrec) {
 			cl2rec = cl2rec->clsort;
 		}
 		prty = 4;
-	}
-
-	else {
+	} else {
 		prty &= GETPRI;
 
 		if(prty == P_RENYOU_J || prty == P_RENYOU_M) {
-			while(clrec->cllen != 1 && cl2rec &&
-			      (int)cl2rec->cllen == keeplen) {
+			while(clrec->cllen != 1 && cl2rec && (int)cl2rec->cllen == keeplen) {
 				if(cl2rec->kubun == K_DOUSHI) {
 					prty = 6;
 					goto finish;
@@ -215,8 +198,7 @@ finish:
 
 	if(cl2rec->jnode->hinsi == SUUSI) prty -= 3;
 
-	if(cl2rec->jnode->jclass == C_DICT &&
-	   cl2rec->jnode->jlen == 1 && (cl2rec->kubun != K_DOUSHI)) {
+	if(cl2rec->jnode->jclass == C_DICT && cl2rec->jnode->jlen == 1 && (cl2rec->kubun != K_DOUSHI)) {
 		prty -= 2;
 	}
 
@@ -245,9 +227,7 @@ void pritiny(SJ4_CONTEXT2) {
 			}
 			clrec = clrec->clsort;
 		}
-	}
-
-	else {
+	} else {
 
 		while(clrec && (int)clrec->cllen == keeplen) {
 			if(clrec->jnode->hinsi >= MYOUJI &&

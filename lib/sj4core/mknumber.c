@@ -33,8 +33,7 @@
 
 #include "sj_kanakan.h"
 
-static int
-word2char(SJ4_CONTEXT u_short wd, u_char* tbl, int keta, int flg) {
+static int word2char(SJ4_CONTEXT u_short wd, u_char* tbl, int keta, int flg) {
 	int	mask;
 	int	num;
 	u_char* src;
@@ -65,8 +64,7 @@ word2char(SJ4_CONTEXT u_short wd, u_char* tbl, int keta, int flg) {
 	return flg;
 }
 
-static void
-words2num(SJ4_CONTEXT u_short* wd, u_char* tbl, int flgc) {
+static void words2num(SJ4_CONTEXT u_short* wd, u_char* tbl, int flgc) {
 	int	i;
 	int	keta;
 	int	flg;
@@ -155,8 +153,7 @@ void num_type07(SJ4_CONTEXT u_char* s1, u_char* s2, JREC* jrec) {
 	words2num(SJ4_CONTEXT_PASS num, Num3tbl, FALSE);
 }
 
-static void
-kan_num(SJ4_CONTEXT u_short* wd, u_char* tbl1, u_char* tbl2) {
+static void kan_num(SJ4_CONTEXT u_short* wd, u_char* tbl1, u_char* tbl2) {
 	int	ii;
 	u_short tmp;
 	int	mask;
@@ -274,8 +271,7 @@ void num_type12(SJ4_CONTEXT u_char* s1, u_char* s2, JREC* jrec) {
 	}
 }
 
-static void
-num_kurai(SJ4_CONTEXT u_char* p, int len, u_char* tbl) {
+static void num_kurai(SJ4_CONTEXT u_char* p, int len, u_char* tbl) {
 	int    i;
 	int    j;
 	u_char tmp;

@@ -37,8 +37,7 @@
 
 static void srch_kurai1(SJ4_CONTEXT u_char*, u_char*), srch_kurai2(SJ4_CONTEXT u_char*, u_char*);
 
-static void
-srch_josuu_sub(SJ4_CONTEXT JREC* jrec, TypeGram gram) {
+static void srch_josuu_sub(SJ4_CONTEXT JREC* jrec, TypeGram gram) {
 	u_char* tagp;
 	DICTL*	dp;
 
@@ -51,8 +50,7 @@ srch_josuu_sub(SJ4_CONTEXT JREC* jrec, TypeGram gram) {
 	}
 }
 
-static void
-srch_josuu(SJ4_CONTEXT JREC* jrec) {
+static void srch_josuu(SJ4_CONTEXT JREC* jrec) {
 	u_char* kp;
 	int	klen;
 	int	len;
@@ -73,8 +71,7 @@ srch_josuu(SJ4_CONTEXT JREC* jrec) {
 	cnvlen	 = klen;
 }
 
-static void
-setnrec_sub(SJ4_CONTEXT u_char* p, u_short flag, int stb) {
+static void setnrec_sub(SJ4_CONTEXT u_char* p, u_short flag, int stb) {
 	JREC* rec;
 	int   len1;
 	int   len2;
@@ -107,8 +104,7 @@ setnrec_sub(SJ4_CONTEXT u_char* p, u_short flag, int stb) {
 	}
 }
 
-static void
-setnrec(SJ4_CONTEXT u_char* p, u_short flag) {
+static void setnrec(SJ4_CONTEXT u_char* p, u_short flag) {
 	setnrec_sub(SJ4_CONTEXT_PASS p, flag, 0);
 
 	if(!headcode && (*p == Y_S_KIGOU2)) {
@@ -116,8 +112,7 @@ setnrec(SJ4_CONTEXT u_char* p, u_short flag) {
 	}
 }
 
-static u_char*
-srchtbl(u_char ch, u_char* tbl, int rec, int n) {
+static u_char* srchtbl(u_char ch, u_char* tbl, int rec, int n) {
 	int	high, low, mid;
 	u_char* p;
 
@@ -147,13 +142,11 @@ srchtbl(u_char ch, u_char* tbl, int rec, int n) {
 	return p;
 }
 
-static int
-isconnect(u_char* cnct, int num) {
+static int isconnect(u_char* cnct, int num) {
 	return (cnct[num / 8] & (0x80 >> (num % 8)));
 }
 
-static int
-string_cmp(u_char* s, int l, u_char* d) {
+static int string_cmp(u_char* s, int l, u_char* d) {
 	u_char* p;
 
 	p = s;
@@ -167,8 +160,7 @@ string_cmp(u_char* s, int l, u_char* d) {
 	return (s - p);
 }
 
-static int
-check_num(SJ4_CONTEXT u_char* ptr) {
+static int check_num(SJ4_CONTEXT u_char* ptr) {
 	int	i;
 	int	j;
 	int	k;
@@ -255,8 +247,7 @@ check_num(SJ4_CONTEXT u_char* ptr) {
 	return TRUE;
 }
 
-static void
-srch_number1(SJ4_CONTEXT u_char* ptr) {
+static void srch_number1(SJ4_CONTEXT u_char* ptr) {
 	u_char	  ch;
 	u_char	  mode;
 	u_char*	  p;
@@ -351,8 +342,7 @@ srch_number1(SJ4_CONTEXT u_char* ptr) {
 	}
 }
 
-static void
-srch_kurai1(SJ4_CONTEXT u_char* ptr, u_char* cnct) {
+static void srch_kurai1(SJ4_CONTEXT u_char* ptr, u_char* cnct) {
 	u_char	  ch;
 	u_char*	  p;
 	int	  l;
@@ -408,8 +398,7 @@ srch_kurai1(SJ4_CONTEXT u_char* ptr, u_char* cnct) {
 	}
 }
 
-static void
-srch_kurai2(SJ4_CONTEXT u_char* ptr, u_char* cnct) {
+static void srch_kurai2(SJ4_CONTEXT u_char* ptr, u_char* cnct) {
 	u_char	  ch;
 	u_char*	  p;
 	int	  l;
@@ -465,8 +454,7 @@ srch_kurai2(SJ4_CONTEXT u_char* ptr, u_char* cnct) {
 	}
 }
 
-static void
-srch_number2(SJ4_CONTEXT u_char* p) {
+static void srch_number2(SJ4_CONTEXT u_char* p) {
 	u_char ch;
 	int    i;
 
@@ -514,8 +502,7 @@ srch_number2(SJ4_CONTEXT u_char* p) {
 	}
 }
 
-static void
-srchnum_sub(SJ4_CONTEXT u_char* p) {
+static void srchnum_sub(SJ4_CONTEXT u_char* p) {
 	suuji_yptr = p;
 
 	suuji_comma = suuji_keta = 0;

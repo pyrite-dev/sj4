@@ -111,8 +111,7 @@ int nextcl(SJ4_CONTEXT u_char* kouho, int mode) {
 	return hzstrlen(inputyomi, (int)clt1st->cllen);
 }
 
-static CLREC*
-nextrecblk(SJ4_CONTEXT2) {
+static CLREC* nextrecblk(SJ4_CONTEXT2) {
 	CLREC* clptr;
 	int    keeplen;
 
@@ -151,8 +150,7 @@ int prevcl(SJ4_CONTEXT u_char* kouho, int mode) {
 	return hzstrlen(inputyomi, (int)clt1st->cllen);
 }
 
-static CLREC*
-prevrecblk(SJ4_CONTEXT2) {
+static CLREC* prevrecblk(SJ4_CONTEXT2) {
 	CLREC* clptr;
 	CLREC* keepptr;
 	int    keeplen;
@@ -175,8 +173,7 @@ prevrecblk(SJ4_CONTEXT2) {
 	return keepptr;
 }
 
-static void
-initkbuf(SJ4_CONTEXT u_char* kouho) {
+static void initkbuf(SJ4_CONTEXT u_char* kouho) {
 	kanjitmp = kouho;
 	memset(kanjitmp, 0, sizeof(STDYOUT) + 1);
 }

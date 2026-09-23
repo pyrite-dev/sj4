@@ -152,8 +152,7 @@ void ph_setkouho(SJ4_CONTEXT CLREC* clrec, TypeDicOfs offs, STDYIN* sptr) {
 	khcount = 1;
 }
 
-static int
-hiraknj(SJ4_CONTEXT u_char* p) {
+static int hiraknj(SJ4_CONTEXT u_char* p) {
 	char flg = TRUE;
 	int  i;
 	int  result;

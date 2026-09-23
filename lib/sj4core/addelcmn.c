@@ -42,8 +42,7 @@ void set_size(u_char* p, int size, int plen, int nlen) {
 	*(p + 2) = (u_char)((nlen & 0x0f) | ((plen & 0x0f) << 4));
 }
 
-static int
-isvyomi(u_char* yp) {
+static int isvyomi(u_char* yp) {
 	int len;
 
 	if(!*yp) return FALSE;
@@ -59,8 +58,7 @@ isvyomi(u_char* yp) {
 	return TRUE;
 }
 
-static int
-isvknj(u_char* kanji) {
+static int isvknj(u_char* kanji) {
 	int len;
 
 	if(!*kanji) return FALSE;
@@ -87,8 +85,7 @@ isvknj(u_char* kanji) {
 	return TRUE;
 }
 
-static int
-isgrm(TypeGram gram) {
+static int isgrm(TypeGram gram) {
 	int grm = gram;
 
 	if(MEISI_1 <= grm && grm <= D_MEISI_6) return TRUE;
@@ -120,8 +117,7 @@ u_int addel_arg(SJ4_CONTEXT u_char* yp, u_char* kp, TypeGram grm, u_char* nyp, i
 	return err;
 }
 
-static void
-yomi2kata(u_char* src, u_char* dst) {
+static void yomi2kata(u_char* src, u_char* dst) {
 	int first;
 	int second;
 
@@ -142,8 +138,7 @@ yomi2kata(u_char* src, u_char* dst) {
 	*dst = 0;
 }
 
-static int
-top_strcmp(u_char* src, u_char* dst) {
+static int top_strcmp(u_char* src, u_char* dst) {
 	int i;
 
 	for(i = 0; *src && (*src == *dst); src++, dst++) i++;
@@ -153,8 +148,7 @@ top_strcmp(u_char* src, u_char* dst) {
 	return (i > MAXYOMIASKNUMBER) ? MAXYOMIASKNUMBER : i;
 }
 
-static int
-last_strcmp(u_char* src, u_char* dst) {
+static int last_strcmp(u_char* src, u_char* dst) {
 	int slen;
 	int dlen;
 
@@ -314,8 +308,7 @@ int srchkanji(u_char** dst, u_char* knj, int klen) {
 	return cnt;
 }
 
-TypeIdxOfs
-count_uidx(SJ4_CONTEXT2) {
+TypeIdxOfs count_uidx(SJ4_CONTEXT2) {
 	u_char* p;
 
 	p = get_idxptr(SJ4_CONTEXT_PASS curdict->segunit - 1);

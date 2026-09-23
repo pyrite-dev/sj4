@@ -99,8 +99,7 @@ int clstudy(SJ4_CONTEXT u_char* yomi1, u_char* yomi2, STDYOUT* stdy) {
 	return ret;
 }
 
-static u_char*
-delcldata(SJ4_CONTEXT u_char* ycode) {
+static u_char* delcldata(SJ4_CONTEXT u_char* ycode) {
 	u_char* tagptr;
 	u_char* ptr1;
 	u_char* ptr2;
@@ -157,8 +156,7 @@ void delclsub(SJ4_CONTEXT u_char* target) {
 	}
 }
 
-static int
-delclold(SJ4_CONTEXT2) {
+static int delclold(SJ4_CONTEXT2) {
 	u_char* tagptr;
 	u_char* target;
 	int	num;
@@ -187,8 +185,7 @@ delclold(SJ4_CONTEXT2) {
 	return num;
 }
 
-static u_char*
-srchclpos(SJ4_CONTEXT u_char* ycode) {
+static u_char* srchclpos(SJ4_CONTEXT u_char* ycode) {
 	u_char* tagptr;
 	u_char* target;
 	u_char* ptr1;

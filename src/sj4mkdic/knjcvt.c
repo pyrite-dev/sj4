@@ -38,8 +38,7 @@ typedef struct div_list {
 	struct div_list* child;
 } DivList;
 
-static void
-free_divlist(DivList* p) {
+static void free_divlist(DivList* p) {
 	DivList* q;
 
 	while(p) {
@@ -63,8 +62,7 @@ make_divrec() {
 	return p;
 }
 
-static int
-make_divlist(DivList* parent, u_char* knj, int len) {
+static int make_divlist(DivList* parent, u_char* knj, int len) {
 	int	 i, j;
 	int	 num;
 	int	 minlen = 0;
@@ -140,8 +138,7 @@ make_divlist(DivList* parent, u_char* knj, int len) {
 	return minlen;
 }
 
-u_char*
-knjofscvt(u_char* ptr, int len, int* ret) {
+u_char* knjofscvt(u_char* ptr, int len, int* ret) {
 	int	i;
 	u_char *p, *q;
 	DivList parent, *dl;
@@ -172,8 +169,7 @@ knjofscvt(u_char* ptr, int len, int* ret) {
 	return p;
 }
 
-u_char*
-knjcvt(u_char* ptr, int len, int* ret) {
+u_char* knjcvt(u_char* ptr, int len, int* ret) {
 	int	i;
 	u_char *p, *q;
 	DivList parent, *dl;

@@ -33,8 +33,7 @@
 
 #include "sj_kanakan.h"
 
-u_char*
-skiphblk(u_char* ptr) {
+u_char* skiphblk(u_char* ptr) {
 	ptr++;
 
 	while(*ptr != HINSIBLKTERM) ptr = skipkstr(ptr);

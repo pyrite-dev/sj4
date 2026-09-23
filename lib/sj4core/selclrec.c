@@ -58,9 +58,7 @@ void selclrec(SJ4_CONTEXT2) {
 		if(len == rec->cllen) {
 			selcl = rec;
 			break;
-		}
-
-		else if(len > (unsigned int)rec->cllen) {
+		} else if(len > (unsigned int)rec->cllen) {
 			rec = NULL;
 			break;
 		}

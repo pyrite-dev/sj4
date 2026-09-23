@@ -42,8 +42,7 @@ void getrank(SJ4_CONTEXT2) {
 	regetrank(SJ4_CONTEXT_PASS2);
 }
 
-static void
-setstynum(SJ4_CONTEXT2) {
+static void setstynum(SJ4_CONTEXT2) {
 	KHREC*	kptr;
 	STDYIN* sptr;
 	int	count;
@@ -59,8 +58,7 @@ setstynum(SJ4_CONTEXT2) {
 	}
 }
 
-static void
-setnspr(SJ4_CONTEXT KHREC* kptr, STDYIN* sptr) {
+static void setnspr(SJ4_CONTEXT KHREC* kptr, STDYIN* sptr) {
 	KHREC*	   ptr;
 	int	   keepnm;
 	TypeStyNum styno;
@@ -76,28 +74,21 @@ setnspr(SJ4_CONTEXT KHREC* kptr, STDYIN* sptr) {
 			ptr->rank++;
 
 			keepnm--;
-		}
-
-		else if(styno == ptr->styno) {
+		} else if(styno == ptr->styno) {
 
 			if(kptr->sttfg && kptr->ka_fg) {
 
-				if((sptr->sttkj == kptr->sttkj) &&
-				   (sptr->ka_kj == kptr->ka_kj)) {
+				if((sptr->sttkj == kptr->sttkj) && (sptr->ka_kj == kptr->ka_kj)) {
 					ptr->rank++;
 					keepnm--;
 				}
-			}
-
-			else if(kptr->sttfg) {
+			} else if(kptr->sttfg) {
 
 				if(sptr->sttkj == kptr->sttkj) {
 					ptr->rank++;
 					keepnm--;
 				}
-			}
-
-			else if(kptr->ka_fg) {
+			} else if(kptr->ka_fg) {
 
 				if(sptr->ka_kj == kptr->ka_kj) {
 					ptr->rank++;
@@ -115,8 +106,7 @@ setnspr(SJ4_CONTEXT KHREC* kptr, STDYIN* sptr) {
 	if(sptr->nmflg && (nrank > keepnm)) nrank = keepnm;
 }
 
-static void
-regetrank(SJ4_CONTEXT2) {
+static void regetrank(SJ4_CONTEXT2) {
 	KHREC* kptr;
 	int    count;
 	int    tmp;
@@ -126,9 +116,7 @@ regetrank(SJ4_CONTEXT2) {
 		tmp = nrank;
 
 		trank += nkhcount;
-	}
-
-	else {
+	} else {
 		nkhcount = tmp = 0;
 	}
 
@@ -138,9 +126,7 @@ regetrank(SJ4_CONTEXT2) {
 			if(tmp && kptr->mode && !(kptr->offs)) {
 				kptr->rank = (u_char)tmp++;
 			}
-		}
-
-		else if((short)kptr->rank >= nrank)
+		} else if((short)kptr->rank >= nrank)
 			kptr->rank += (u_char)nkhcount;
 	}
 

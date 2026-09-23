@@ -89,13 +89,9 @@ int cnvhinsi(u_char* buf) {
 
 		if(i < 0) {
 			max = mid - 1;
-		}
-
-		else if(i > 0) {
+		} else if(i > 0) {
 			min = mid + 1;
-		}
-
-		else {
+		} else {
 			return (gramtbl[mid].code);
 		}
 	}

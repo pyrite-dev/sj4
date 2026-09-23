@@ -58,8 +58,7 @@ StdyFile* stdylink = NULL;
 #define stdylink ctx->stdylink
 #endif
 
-static long
-get4byte(u_char* p) {
+static long get4byte(u_char* p) {
 	long i;
 
 	i = *p;
@@ -67,8 +66,7 @@ get4byte(u_char* p) {
 	i = (i << 8) + *++p;
 	return ((i << 8) + *++p);
 }
-static void
-Put4byte(u_char* p, long n) {
+static void Put4byte(u_char* p, long n) {
 	p += 3;
 	*p-- = n;
 	n >>= 8;
@@ -80,8 +78,7 @@ Put4byte(u_char* p, long n) {
 }
 #define put4byte(p, n) Put4byte((p), (long)(n))
 
-static int
-fgetfile(VFile* vfp, FILE* fp, long pos, long len, u_char* p) {
+static int fgetfile(VFile* vfp, FILE* fp, long pos, long len, u_char* p) {
 	if(vfp != NULL && vfp->buffer != NULL) {
 		if(pos >= vfp->size) {
 			serv_errno = SJ4_FileSeekError;
@@ -107,8 +104,7 @@ fgetfile(VFile* vfp, FILE* fp, long pos, long len, u_char* p) {
 	}
 	return SJ4_NormalEnd;
 }
-static int
-fputfile(FILE* fp, long pos, int len, u_char* p) {
+static int fputfile(FILE* fp, long pos, int len, u_char* p) {
 	if(fseek(fp, pos, 0) == ERROR) {
 		serv_errno = SJ4_FileSeekError;
 		return ERROR;
@@ -120,23 +116,19 @@ fputfile(FILE* fp, long pos, int len, u_char* p) {
 	return SJ4_NormalEnd;
 }
 
-static int
-check_passwd(u_char* buf, char* passwd) {
+static int check_passwd(u_char* buf, char* passwd) {
 	buf += PASSWDPOS;
 	return (*buf && strncmp(passwd, (char*)buf, PASSWDLEN)) ? FALSE : TRUE;
 }
-static void
-set_passwd(u_char* buf, char* passwd) {
+static void set_passwd(u_char* buf, char* passwd) {
 	strncpy((char*)buf + PASSWDPOS, passwd, PASSWDLEN);
 }
 
-static int
-check_dictfile(u_char* buf) {
+static int check_dictfile(u_char* buf) {
 	return (DICTVERSION != get4byte(buf + VERSIONPOS)) ? FALSE : TRUE;
 }
 
-static DictFile*
-search_same_dict(SJ4_CONTEXT ino_t ino) {
+static DictFile* search_same_dict(SJ4_CONTEXT ino_t ino) {
 	DictFile* p;
 
 	for(p = dictlink; p != NULL; p = p->link)
@@ -145,28 +137,23 @@ search_same_dict(SJ4_CONTEXT ino_t ino) {
 	return NULL;
 }
 
-static int
-getofs(SJ4_CONTEXT DictFile* dp) {
+static int getofs(SJ4_CONTEXT DictFile* dp) {
 	idxofs = dp->ofsptr;
 	return 0;
 }
-static int
-getidx(SJ4_CONTEXT DictFile* dp) {
+static int getidx(SJ4_CONTEXT DictFile* dp) {
 	idxbuf = dp->buffer + dp->idxstrt;
 	return 0;
 }
-static int
-getdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
+static int getdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
 	if(seg >= dp->dict.segunit) return -1;
 	dicbuf = dp->buffer + dp->segstrt + dp->dict.seglen * seg;
 	return 0;
 }
-static int
-putidx(SJ4_CONTEXT DictFile* dp, short dummy) {
+static int putidx(SJ4_CONTEXT DictFile* dp, short dummy) {
 	return fputfile(dp->fp, dp->idxstrt, dp->dict.idxlen, idxbuf);
 }
-static int
-putdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
+static int putdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
 	u_char* p;
 	long	i, j;
 
@@ -192,8 +179,7 @@ putdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
 
 	return fputfile(dp->fp, i, dp->dict.seglen, p);
 }
-static int
-rszdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
+static int rszdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
 	long	i;
 	u_char* p;
 
@@ -216,15 +202,13 @@ rszdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
 	put4byte(dp->buffer + DICTSEGNUM, seg);
 	return fputfile(dp->fp, 0, HEADERLENGTH, dp->buffer);
 }
-static void
-freedicskip(DictFile* dp) {
+static void freedicskip(DictFile* dp) {
 	free((char*)dp->skipent);
 	free((char*)dp->skipseg);
 	dp->skipent = NULL;
 	dp->skipseg = NULL;
 }
-static void
-mkdicskip(DictFile* dp) {
+static void mkdicskip(DictFile* dp) {
 	DictSkipSeg* segs;
 	DictSkipEnt* ents;
 	u_short*     stack;
@@ -284,8 +268,7 @@ mkdicskip(DictFile* dp) {
 	dp->skipent = ents;
 }
 
-static u_char*
-skipdic(SJ4_CONTEXT u_char* tagp, TypeDicSeg seg) {
+static u_char* skipdic(SJ4_CONTEXT u_char* tagp, TypeDicSeg seg) {
 	DictFile*    dp = (DictFile*)curdict;
 	DictSkipSeg* s;
 	TypeDicOfs   offset;
@@ -323,8 +306,7 @@ skipdic(SJ4_CONTEXT u_char* tagp, TypeDicSeg seg) {
 	return NULL;
 }
 
-DictFile*
-opendict(SJ4_CONTEXT char* name, char* passwd) {
+DictFile* opendict(SJ4_CONTEXT char* name, char* passwd) {
 	FILE*	    fp = NULL;
 	struct stat sbuf;
 	DictFile*   dfp;
@@ -462,13 +444,11 @@ int closedict(SJ4_CONTEXT DictFile* dfp) {
 	return 0;
 }
 
-static int
-check_stdyfile(u_char* buf) {
+static int check_stdyfile(u_char* buf) {
 	return (STDYVERSION != get4byte(buf + VERSIONPOS)) ? FALSE : TRUE;
 }
 
-static StdyFile*
-search_same_stdy(SJ4_CONTEXT ino_t ino) {
+static StdyFile* search_same_stdy(SJ4_CONTEXT ino_t ino) {
 	StdyFile* p;
 
 	for(p = stdylink; p != NULL; p = p->link)
@@ -477,8 +457,7 @@ search_same_stdy(SJ4_CONTEXT ino_t ino) {
 	return NULL;
 }
 
-StdyFile*
-openstdy(SJ4_CONTEXT char* name, char* passwd) {
+StdyFile* openstdy(SJ4_CONTEXT char* name, char* passwd) {
 	FILE*	    fp;
 	struct stat sbuf;
 	StdyFile*   sfp;
@@ -811,8 +790,7 @@ int set_stdypass(SJ4_CONTEXT char* pass) {
 	return fputfile(sp->fp, 0, HEADERLENGTH + COMMENTLENGTH, sp->header);
 }
 
-static void
-set_comment(u_char* buf, char* comment) {
+static void set_comment(u_char* buf, char* comment) {
 	sj4_strlcpy((char*)buf + HEADERLENGTH, comment, COMMENTLENGTH);
 }
 

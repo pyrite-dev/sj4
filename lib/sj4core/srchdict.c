@@ -47,9 +47,7 @@ int yomicmp(SJ4_CONTEXT u_char* ptr1, u_char* ptr2, u_char* saml) {
 			if(*ptr1++ != *ptr2++) return OVER;
 
 		j = sstrlen(ptr2);
-	}
-
-	else if(i > same)
+	} else if(i > same)
 		return CONT;
 
 	else {
@@ -88,9 +86,7 @@ static __inline int yomicmp_seg(SJ4_CONTEXT u_char* ptr1, u_char* ptr2, u_char* 
 			if(*ptr1++ != *ptr2++) return OVER;
 
 		j = segidxlen;
-	}
-
-	else if(i > same)
+	} else if(i > same)
 		return CONT;
 
 	else {
@@ -113,8 +109,7 @@ static __inline int yomicmp_seg(SJ4_CONTEXT u_char* ptr1, u_char* ptr2, u_char* 
 	return MATCH;
 }
 
-static __inline TypeDicSeg
-srchidx_loaded(SJ4_CONTEXT TypeDicSeg low, int len) {
+static __inline TypeDicSeg srchidx_loaded(SJ4_CONTEXT TypeDicSeg low, int len) {
 	TypeDicSeg high;
 	TypeDicSeg mid;
 	int	   cmp;
@@ -134,13 +129,9 @@ srchidx_loaded(SJ4_CONTEXT TypeDicSeg low, int len) {
 
 		if(cmp == OVER) {
 			high = mid - 1;
-		}
-
-		else if(cmp != MATCH) {
+		} else if(cmp != MATCH) {
 			low = mid + 1;
-		}
-
-		else {
+		} else {
 			return mid;
 		}
 	}
@@ -148,8 +139,7 @@ srchidx_loaded(SJ4_CONTEXT TypeDicSeg low, int len) {
 	return (cmp == OVER && mid != DICSEGBASE) ? mid - 1 : mid;
 }
 
-u_char*
-srchdict(SJ4_CONTEXT u_char* tagp) {
+u_char* srchdict(SJ4_CONTEXT u_char* tagp) {
 	TypeDicSeg segno;
 	int	   cmp;
 	int	   maxlen;
@@ -177,9 +167,7 @@ srchdict(SJ4_CONTEXT u_char* tagp) {
 			segidxlen = sstrlen(segidx);
 
 			tagp = dicbuf;
-		}
-
-		else {
+		} else {
 
 			tagp = getntag(tagp);
 
@@ -214,16 +202,12 @@ srchdict(SJ4_CONTEXT u_char* tagp) {
 
 				if(isdpnd(*(cnvstart + dicsaml))) {
 					break;
-				}
-
-				else {
+				} else {
 					dicinl = dicsaml + 1;
 					if(askbase != dicbuf) get_askknj(SJ4_CONTEXT_PASS2);
 					return tagp;
 				}
-			}
-
-			else if(cmp == CONT && getnlen(tagp) != 0 && getplen(tagp) > dicsaml && curdict->skipdic != NULL) {
+			} else if(cmp == CONT && getnlen(tagp) != 0 && getplen(tagp) > dicsaml && curdict->skipdic != NULL) {
 				u_char* next = (*curdict->skipdic)(SJ4_CONTEXT_PASS tagp, segno);
 
 				if(next != NULL) {

@@ -31,8 +31,7 @@
 
 #include "sj_kanakan.h"
 
-static void
-ph_setsty(SJ4_CONTEXT CLREC* clrec) {
+static void ph_setsty(SJ4_CONTEXT CLREC* clrec) {
 	JREC*	   jrec;
 	TypeDicOfs offset;
 	u_char*	   ptr;
@@ -62,9 +61,7 @@ ph_setsty(SJ4_CONTEXT CLREC* clrec) {
 
 		if(sptr->styno < kouhotbl[0].styno) {
 			ph_setkouho(SJ4_CONTEXT_PASS clrec, offset, sptr);
-		}
-
-		else if(sptr->styno == kouhotbl->styno) {
+		} else if(sptr->styno == kouhotbl->styno) {
 			if(!(kouhotbl[0].ka_fg &&
 			     sptr->ka_kj == kouhotbl[0].ka_kj)) {
 				ph_setkouho(SJ4_CONTEXT_PASS clrec, offset, sptr);

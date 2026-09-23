@@ -120,8 +120,7 @@ int sj4_wsncmp16(wchar16_t* ws1, wchar16_t* ws2, int n) {
 	return 1;
 }
 
-wchar16_t*
-sj4_wscpy16(wchar16_t* ws1, wchar16_t* ws2) {
+wchar16_t* sj4_wscpy16(wchar16_t* ws1, wchar16_t* ws2) {
 	wchar16_t* ws;
 
 	if(!ws2) return NULL;
@@ -134,8 +133,7 @@ sj4_wscpy16(wchar16_t* ws1, wchar16_t* ws2) {
 	return ws1;
 }
 
-wchar16_t*
-sj4_wsncpy16(wchar16_t* ws1, wchar16_t* ws2, int n) {
+wchar16_t* sj4_wsncpy16(wchar16_t* ws1, wchar16_t* ws2, int n) {
 	wchar16_t* ws;
 	int	   i = 0;
 
@@ -150,8 +148,7 @@ sj4_wsncpy16(wchar16_t* ws1, wchar16_t* ws2, int n) {
 	return ws1;
 }
 
-wchar16_t*
-sj4_wscat16(wchar16_t* ws1, wchar16_t* ws2) {
+wchar16_t* sj4_wscat16(wchar16_t* ws1, wchar16_t* ws2) {
 	wchar16_t* ws;
 
 	if(!ws1) return NULL;
@@ -168,8 +165,7 @@ sj4_wscat16(wchar16_t* ws1, wchar16_t* ws2) {
 	return ws1;
 }
 
-wchar16_t
-sj4_euc2wc16(unsigned int code) {
+wchar16_t sj4_euc2wc16(unsigned int code) {
 	wchar16_t wc = 0;
 
 	if(((code >> 16) & 0xff) == SS3) {
@@ -183,8 +179,7 @@ sj4_euc2wc16(unsigned int code) {
 	return wc;
 }
 
-wchar16_t
-sj4_sjis2wc16(unsigned int code) {
+wchar16_t sj4_sjis2wc16(unsigned int code) {
 	unsigned short ch;
 
 	if((code >> 8) & 0xff) {
@@ -197,8 +192,7 @@ sj4_sjis2wc16(unsigned int code) {
 	return (sj4_euc2wc16(ch));
 }
 
-unsigned int
-sj4_wc2euc16(wchar16_t wc) {
+unsigned int sj4_wc2euc16(wchar16_t wc) {
 	unsigned int  code = 0;
 	unsigned char tmp;
 
@@ -220,8 +214,7 @@ sj4_wc2euc16(wchar16_t wc) {
 	return code;
 }
 
-unsigned int
-sj4_wc2sjis16(wchar16_t wc) {
+unsigned int sj4_wc2sjis16(wchar16_t wc) {
 	unsigned int ch;
 
 	ch = sj4_wc2euc16(wc);

@@ -37,15 +37,11 @@ int srchhead(SJ4_CONTEXT2) {
 		headcode = SETTOU_O;
 		headlen	 = 1;
 		return TRUE;
-	}
-
-	else if(*cnvstart == _GO) {
+	} else if(*cnvstart == _GO) {
 		headcode = SETTOU_GO;
 		headlen	 = 1;
 		return TRUE;
-	}
-
-	else if((*cnvstart == _DA) && (*(cnvstart + 1) == _I)) {
+	} else if((*cnvstart == _DA) && (*(cnvstart + 1) == _I)) {
 		headcode = SETTOU_DAI;
 		headlen	 = 2;
 		return TRUE;

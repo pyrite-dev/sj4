@@ -109,8 +109,7 @@ u_int deldic(SJ4_CONTEXT u_char* yomi, u_char* kanji, TypeGram hinsi) {
 	return AD_DONE;
 }
 
-static int
-del_douon(SJ4_CONTEXT TypeDicSeg seg, u_char* ptr, TypeDicOfs ofs) {
+static int del_douon(SJ4_CONTEXT TypeDicSeg seg, u_char* ptr, TypeDicOfs ofs) {
 	u_char *nxt, *p1, *p2;
 	int	size;
 	int	nlen, plen, len;
@@ -155,8 +154,7 @@ del_douon(SJ4_CONTEXT TypeDicSeg seg, u_char* ptr, TypeDicOfs ofs) {
 	return AD_DONE;
 }
 
-static int
-del_segment(SJ4_CONTEXT TypeDicSeg seg) {
+static int del_segment(SJ4_CONTEXT TypeDicSeg seg) {
 	int	   i;
 	STDYIN*	   styp;
 	TypeDicID  dicid;
@@ -208,8 +206,7 @@ del_segment(SJ4_CONTEXT TypeDicSeg seg) {
 	return AD_DONE;
 }
 
-static void
-del_uidx(SJ4_CONTEXT TypeDicSeg seg) {
+static void del_uidx(SJ4_CONTEXT TypeDicSeg seg) {
 	u_char *p, *q;
 	int	len;
 
@@ -226,8 +223,7 @@ del_uidx(SJ4_CONTEXT TypeDicSeg seg) {
 	mkidxtbl(SJ4_CONTEXT_PASS curdict);
 }
 
-static void
-del_stdy(SJ4_CONTEXT TypeDicSeg seg, TypeDicOfs ofs, int size) {
+static void del_stdy(SJ4_CONTEXT TypeDicSeg seg, TypeDicOfs ofs, int size) {
 	int	   i;
 	TypeStyNum stdynum;
 	STDYIN*	   stdy;

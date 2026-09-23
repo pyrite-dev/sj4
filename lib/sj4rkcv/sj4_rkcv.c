@@ -217,11 +217,9 @@ int sj_addten(u_short prefix, u_short c) {
 	u_short c1, cc;
 
 	cc = 0;
-	if((c == ZEN_DTEN || c == ZEN_HDTEN) &&
-	   (sj_ishira(prefix) || sj_iskata(prefix))) {
+	if((c == ZEN_DTEN || c == ZEN_HDTEN) && (sj_ishira(prefix) || sj_iskata(prefix))) {
 		c1 = sj_zen2han(prefix);
-		if((c1 >= KANA_KA && c1 < KANA_NA) ||
-		   (c1 >= KANA_HA && c1 < KANA_MA)) {
+		if((c1 >= KANA_KA && c1 < KANA_NA) || (c1 >= KANA_HA && c1 < KANA_MA)) {
 			if(c == ZEN_DTEN)
 				cc = prefix + 1;
 			else if(c == ZEN_HDTEN && c1 >= KANA_HA)

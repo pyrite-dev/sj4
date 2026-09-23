@@ -34,8 +34,7 @@
 
 #include "sj_kanakan.h"
 
-static int
-fzkstrcmp(u_char* yptr, u_char* fzkp, int* saml) {
+static int fzkstrcmp(u_char* yptr, u_char* fzkp, int* saml) {
 	int asklen, nkrlen;
 
 	asklen = FzkAskLen(fzkp);
@@ -56,9 +55,7 @@ fzkstrcmp(u_char* yptr, u_char* fzkp, int* saml) {
 		else if(*yptr < *fzkp) {
 			if(!*yptr) return PARTLY;
 			return OVER;
-		}
-
-		else {
+		} else {
 			yptr++;
 			fzkp++;
 			(*saml)++;
@@ -90,15 +87,12 @@ void setclrec(SJ4_CONTEXT JREC* jrec, u_char* yptr, TypeCnct right) {
 	if(hinsi >= DO_SAHEN && hinsi <= SP_KA_ONB)
 		new->kubun = K_DOUSHI;
 
-	else if((hinsi >= KEIYOUSI_1 && hinsi <= KE_DOUSI_9) ||
-		(hinsi == SP_KEIYOUSI)) {
+	else if((hinsi >= KEIYOUSI_1 && hinsi <= KE_DOUSI_9) || (hinsi == SP_KEIYOUSI)) {
 		if(right == R_FZKMEISI)
 			new->kubun = K_TAIGEN;
 		else
 			new->kubun = K_YOUGEN;
-	}
-
-	else if(hinsi == RENTAISI)
+	} else if(hinsi == RENTAISI)
 		new->kubun = K_RENTAISI;
 
 	else if((hinsi >= FUKUSI_1 && hinsi <= FUKUSI_9) ||
@@ -144,8 +138,7 @@ void setclrec(SJ4_CONTEXT JREC* jrec, u_char* yptr, TypeCnct right) {
 		new->kubun = K_TAIGEN;
 }
 
-static int
-fzkcnct(TypeCnct right, TypeCnct left) {
+static int fzkcnct(TypeCnct right, TypeCnct left) {
 	u_char* cncttbl;
 
 	if(right && left) {
@@ -158,8 +151,7 @@ fzkcnct(TypeCnct right, TypeCnct left) {
 	return FALSE;
 }
 
-RECURS
-void srchfzk(SJ4_CONTEXT JREC* jrec, u_char* yptr, TypeCnct right, int level) {
+RECURS void srchfzk(SJ4_CONTEXT JREC* jrec, u_char* yptr, TypeCnct right, int level) {
 	u_char*	 fzk;
 	int	 len = 0;
 	int	 cmp;
