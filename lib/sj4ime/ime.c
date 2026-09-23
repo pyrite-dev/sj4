@@ -173,7 +173,7 @@ void sj4_ime_key(Sj4Ime* ime, int key) {
 
 		key = toupper(key);
 
-		if(ime->romabuf[strlen(ime->romabuf) - 1] == 'N' && !(key == 'A' || key == 'I' || key == 'U' || key == 'E' || key == 'O' || key == 'Y' || key == 'N')) {
+		if(strlen(ime->romabuf) > 0 && ime->romabuf[strlen(ime->romabuf) - 1] == 'N' && !(key == 'A' || key == 'I' || key == 'U' || key == 'E' || key == 'O' || key == 'Y' || key == 'N')) {
 			ime->romabuf[strlen(ime->romabuf) + 1] = 0;
 			ime->romabuf[strlen(ime->romabuf)]     = 'N';
 		}

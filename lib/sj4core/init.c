@@ -79,6 +79,8 @@ Sj4Context* alloccontext(const char* dic) {
 	DictFile*   dict;
 	DICTL*	    node;
 
+	if(ctx == NULL) return NULL;
+
 	if((ctx->work = calloc(1, sizeof(*ctx->work))) == NULL) {
 		free(ctx);
 

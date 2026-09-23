@@ -26,7 +26,7 @@ int main() {
 		return 1;
 	}
 
-	conv = sj4_ime_convbuf(ime);
+	conv  = sj4_ime_convbuf(ime);
 	kouho = sj4_ime_kouho(ime);
 
 #ifdef _WIN32
