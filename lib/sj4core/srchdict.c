@@ -87,8 +87,7 @@ static __inline int yomicmp_seg(SJ4_CONTEXT u_char* ptr1, u_char* ptr2, u_char* 
 		for(i = same; i; i--)
 			if(*ptr1++ != *ptr2++) return OVER;
 
-		j    = segidxlen - same;
-		ptr2 = (u_char*)ptr2;
+		j = segidxlen;
 	}
 
 	else if(i > same)
