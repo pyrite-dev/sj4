@@ -55,6 +55,12 @@ typedef int (*IFuncDict)(
 #endif
     void*);
 
+typedef void* (*VFuncDict)(
+#ifndef SJ4_GLOBAL
+    void*,
+#endif
+    void*, short);
+
 typedef u_char	TypeGroup;
 typedef u_char	TypeGram;
 typedef u_short TypeIdxOfs;

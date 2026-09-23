@@ -217,6 +217,114 @@ rszdic(SJ4_CONTEXT DictFile* dp, TypeDicSeg seg) {
 	return fputfile(dp->fp, 0, HEADERLENGTH, dp->buffer);
 }
 
+static void
+freedicskip(DictFile* dp) {
+	free((char*)dp->skipent);
+	free((char*)dp->skipseg);
+	dp->skipent = NULL;
+	dp->skipseg = NULL;
+}
+
+static void
+mkdicskip(DictFile* dp) {
+	DictSkipSeg* segs;
+	DictSkipEnt* ents;
+	u_short*     stack;
+	u_int	     total = 0;
+	int	     seg;
+
+	if(dp->dict.maxunit != 0 || dp->dict.segunit <= 0) return;
+
+	segs = (DictSkipSeg*)calloc(dp->dict.segunit, sizeof(*segs));
+	if(segs == NULL) return;
+
+	for(seg = 0; seg < dp->dict.segunit; seg++) {
+		u_char* base = dp->buffer + dp->segstrt + dp->dict.seglen * seg;
+		u_char* p    = base + *base + 1;
+
+		segs[seg].first = total;
+		while(p < base + dp->dict.seglen && *p != DICSEGTERM) {
+			segs[seg].count++;
+			total++;
+			p = getntag(p);
+		}
+		segs[seg].end = (TypeDicOfs)(p - base);
+	}
+
+	ents  = (DictSkipEnt*)malloc(total * sizeof(*ents));
+	stack = (u_short*)malloc(dp->dict.seglen * sizeof(*stack));
+	if(ents == NULL || stack == NULL) {
+		free((char*)stack);
+		free((char*)ents);
+		free((char*)segs);
+	}
+
+	for(seg = 0; seg < dp->dict.segunit; seg++) {
+		DictSkipSeg* s	  = &segs[seg];
+		u_char*	     base = dp->buffer + dp->segstrt + dp->dict.seglen * seg;
+		u_char*	     p	  = base + *base + 1;
+		int	     top  = 0;
+		int	     i;
+
+		for(i = 0; i < s->count; i++) {
+			ents[s->first + i].offset = (TypeDicOfs)(p - base);
+			p			  = getntag(p);
+		}
+
+		for(i = s->count - 1; i >= 0; i--) {
+			u_char plen = getplen(base + ents[s->first + i].offset);
+
+			while(top > 0 && getplen(base + ents[s->first + stack[top - 1]].offset) >= plen) top--;
+
+			ents[s->first + i].lower = (top > 0) ? stack[top - 1] : s->count;
+			stack[top++]		 = (u_short)i;
+		}
+	}
+
+	free((char*)stack);
+	dp->skipseg = segs;
+	dp->skipent = ents;
+}
+
+static u_char*
+skipdic(SJ4_CONTEXT u_char* tagp, TypeDicSeg seg) {
+	DictFile*    dp = (DictFile*)curdict;
+	DictSkipSeg* s;
+	TypeDicOfs   offset;
+	int	     lo, hi;
+	u_short	     i;
+
+	if(dp->skipseg == NULL || seg < 0 || seg >= dp->dict.segunit) return NULL;
+
+	s      = &dp->skipseg[seg];
+	offset = (TypeDicOfs)(tagp - dicbuf);
+	lo     = 0;
+	hi     = s->count - 1;
+	while(lo <= hi) {
+		int	   mid	= (lo + hi) / 2;
+		TypeDicOfs moff = dp->skipent[s->first + mid].offset;
+
+		if(moff < offset)
+			lo = mid + 1;
+		else if(moff > offset)
+			hi = mid - 1;
+		else {
+			i = (u_short)mid;
+			while(i < s->count) {
+				u_short next = dp->skipent[s->first + i].lower;
+
+				if(next >= s->count) return dicbuf + s->end;
+				i = next;
+				if(getplen(dicbuf + dp->skipent[s->first + i].offset) <= dicsaml)
+					return dicbuf + dp->skipent[s->first + i].offset;
+			}
+			return dicbuf + s->end;
+		}
+	}
+
+	return NULL;
+}
+
 DictFile*
 opendict(SJ4_CONTEXT char* name, char* passwd) {
 	FILE*	    fp = NULL;
@@ -298,6 +406,7 @@ opendict(SJ4_CONTEXT char* name, char* passwd) {
 	dfp->dict.putidx  = (IFunc)putidx;
 	dfp->dict.putdic  = (IFunc)putdic;
 	dfp->dict.rszdic  = (IFunc)rszdic;
+	dfp->dict.skipdic = (VFuncDict)skipdic;
 	dfp->refcnt	  = 1;
 	dfp->fp		  = fp;
 	dfp->vf		  = vf;
@@ -314,6 +423,7 @@ opendict(SJ4_CONTEXT char* name, char* passwd) {
 		goto error3;
 	}
 	mkidxtbl(SJ4_CONTEXT_PASS & (dfp->dict));
+	mkdicskip(dfp);
 
 	dfp->link = dictlink;
 	dictlink  = dfp;

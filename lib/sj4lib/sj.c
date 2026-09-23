@@ -25,7 +25,7 @@ Sj4Lib* sj4_open(int charset, const char* dic) {
 	if(charset == SJ4UTF8 || charset == SJ4UTF16) return NULL;
 #endif
 
-	if((ctx = calloc(1, sizeof(*ctx))) == NULL) return NULL;
+	if((ctx = (Sj4Lib*)calloc(1, sizeof(*ctx))) == NULL) return NULL;
 
 	if((ctx->ctx = alloccontext(dic)) == NULL) {
 		free((char*)ctx);

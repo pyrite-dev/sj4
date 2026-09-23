@@ -65,7 +65,8 @@ CLREC* alloc_clrec(SJ4_CONTEXT2);
 void   free_clrec(SJ4_CONTEXT CLREC*);
 
 /* charsize.c */
-static __inline int codesize_inline(u_char code) {
+static __inline int
+codesize_inline(u_char code) {
 	switch(code & KANJIMODEMASK) {
 	case ZENHIRAASSYUKU:
 	case ZENKATAASSYUKU:
@@ -159,7 +160,8 @@ int	getkanji(SJ4_CONTEXT u_char*, int, u_char*, u_char*);
 void getrank(SJ4_CONTEXT2);
 
 /* hzstrlen.c */
-static __inline int euc_codesize_inline(u_char c) {
+static __inline int
+euc_codesize_inline(u_char c) {
 	if((c & KANJIMODEMASK) == 0x90) {
 		return 1;
 	} else if(isknj1(c)) {
@@ -268,6 +270,7 @@ extern u_char kigou[];
 /* sdepend.c */
 DictFile* opendict(SJ4_CONTEXT char*, char*);
 int	  closedict(SJ4_CONTEXT DictFile*);
+u_char*	  skipdict(SJ4_CONTEXT u_char*, TypeDicSeg, u_char);
 StdyFile* openstdy(SJ4_CONTEXT char*, char*);
 int	  closestdy(SJ4_CONTEXT StdyFile*);
 int	  putstydic(SJ4_CONTEXT2);

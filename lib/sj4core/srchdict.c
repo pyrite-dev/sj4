@@ -222,6 +222,15 @@ srchdict(SJ4_CONTEXT u_char* tagp) {
 					return tagp;
 				}
 			}
+
+			else if(cmp == CONT && getnlen(tagp) != 0 && getplen(tagp) > dicsaml && curdict->skipdic != NULL) {
+				u_char* next = (*curdict->skipdic)(SJ4_CONTEXT_PASS tagp, segno);
+
+				if(next != NULL) {
+					tagp = next;
+					continue;
+				}
+			}
 			tagp = getntag(tagp);
 		}
 		dicinl = dicsaml + 1;

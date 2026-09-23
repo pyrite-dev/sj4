@@ -39,7 +39,7 @@ static struct sj4table {
 Sj4Ime* sj4_ime(int charset, const char* dict, Sj4ImePacket packet) {
 	Sj4Ime* ime;
 
-	if((ime = calloc(1, sizeof(*ime))) == NULL) return NULL;
+	if((ime = (Sj4Ime*)calloc(1, sizeof(*ime))) == NULL) return NULL;
 
 	if((ime->lib = sj4_open(charset, dict)) == NULL) {
 		free((char*)ime);

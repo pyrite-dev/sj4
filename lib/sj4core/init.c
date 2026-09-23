@@ -74,8 +74,9 @@ void initwork(SJ4_CONTEXT2) {
 }
 
 #ifndef SJ4_GLOBAL
-Sj4Context* alloccontext(const char* dic) {
-	Sj4Context* ctx = calloc(1, sizeof(*ctx));
+Sj4Context*
+alloccontext(const char* dic) {
+	Sj4Context* ctx = (Sj4Context*)calloc(1, sizeof(*ctx));
 	DictFile*   dict;
 	DICTL*	    node;
 

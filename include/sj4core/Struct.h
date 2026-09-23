@@ -108,6 +108,17 @@ typedef struct global {
 	TypeDicSeg Jpeepidx;
 } Global;
 
+typedef struct dictskipseg {
+	u_int	   first;
+	u_short	   count;
+	TypeDicOfs end;
+} DictSkipSeg;
+
+typedef struct dictskipent {
+	TypeDicOfs offset;
+	u_short	   lower;
+} DictSkipEnt;
+
 typedef struct vfile {
 	u_char* buffer;
 	u_int	size;
@@ -128,7 +139,9 @@ typedef struct dictfile {
 	long idxstrt;
 	long segstrt;
 
-	TypeIdxOfs* ofsptr;
+	TypeIdxOfs*  ofsptr;
+	DictSkipSeg* skipseg;
+	DictSkipEnt* skipent;
 
 	struct dictfile* link;
 } DictFile;

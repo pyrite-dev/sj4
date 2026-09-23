@@ -142,6 +142,7 @@ typedef struct dict {
 	IFunc	  putidx;
 	IFunc	  putdic;
 	IFunc	  rszdic;
+	VFuncDict skipdic;
 } DICT;
 
 typedef struct dictl {
