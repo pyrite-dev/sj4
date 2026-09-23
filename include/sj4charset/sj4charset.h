@@ -23,8 +23,14 @@ int sj4_to_sjis(u_char* out, const u_char* in, int len);
 int sj4_to_utf8(u_char* out, const u_char* in, int len);
 int sj4_to_utf16(u_char* out, const u_char* in, int len);
 
+int sj4_eucjp_read(const unsigned char* in, int* output);
+int sj4_sjis_read(const unsigned char* in, int* output);
+int sj4_utf8_read(const unsigned char* in, int* output);
+int sj4_utf16_read(const unsigned char* in, int* output);
+
 int sj4_charset_to(int type, void* output, const void* input, int len);
 int sj4_charset_from(int type, void* output, const void* input, int len);
+int sj4_charset_read(int type, int* output, const void* input);
 
 #ifdef __cplusplus
 }

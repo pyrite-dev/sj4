@@ -33,18 +33,11 @@
 #include "sj_const.h"
 #include "sj_dict.h"
 
+#define NO_EUC_CODESIZE_INLINE
 #include "sj_kanakan.h"
 
 int euc_codesize(u_char c) {
-	if((c & KANJIMODEMASK) == 0x90) {
-		return 1;
-	} else if(isknj1(c)) {
-		return 2;
-	} else if(c == SS3) {
-		return 3;
-	} else {
-		return 1;
-	}
+	return euc_codesize_inline(c);
 }
 
 int hzstrlen(u_char* ptr, int len) {

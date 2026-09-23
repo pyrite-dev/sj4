@@ -1,4 +1,4 @@
-#define UTF16
+// #define UTF16
 #include <sj4lib.h>
 #include <string.h>
 #include <stdio.h>

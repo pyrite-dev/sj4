@@ -65,7 +65,27 @@ CLREC* alloc_clrec(SJ4_CONTEXT2);
 void   free_clrec(SJ4_CONTEXT CLREC*);
 
 /* charsize.c */
+static __inline int codesize_inline(u_char code) {
+	switch(code & KANJIMODEMASK) {
+	case ZENHIRAASSYUKU:
+	case ZENKATAASSYUKU:
+	case KANJIASSYUKU:
+	case KANJISTREND:
+		return 1;
+	case LEADINGHANKAKU:
+	case OFFSETASSYUKU:
+	case AIATTRIBUTE:
+	case KANAKANCOST:
+		return 2;
+	default:
+		return 2;
+	}
+}
+#ifdef NO_CODESIZE_INLINE
 int codesize(u_char);
+#else
+#define codesize codesize_inline
+#endif
 
 /* chrtbl.c */
 extern u_char chrtbl[256];
@@ -139,7 +159,22 @@ int	getkanji(SJ4_CONTEXT u_char*, int, u_char*, u_char*);
 void getrank(SJ4_CONTEXT2);
 
 /* hzstrlen.c */
+static __inline int euc_codesize_inline(u_char c) {
+	if((c & KANJIMODEMASK) == 0x90) {
+		return 1;
+	} else if(isknj1(c)) {
+		return 2;
+	} else if(c == SS3) {
+		return 3;
+	} else {
+		return 1;
+	}
+}
+#ifdef NO_EUC_CODESIZE_INLINE
 int euc_codesize(u_char c);
+#else
+#define euc_codesize euc_codesize_inline
+#endif
 int hzstrlen(u_char*, int);
 
 /* init.c */

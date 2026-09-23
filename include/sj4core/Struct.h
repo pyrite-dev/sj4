@@ -80,6 +80,7 @@ typedef struct global {
 	DICT*	    Jcurdict;
 	DICTL*	    Jdictlist;
 	u_char*	    Jdicbuf;
+	u_char*	    Jaskbase;
 	u_char*	    Jidxbuf;
 	TypeIdxOfs* Jidxofs;
 	u_char*	    Jaskknj[MAXKNJASKNUMBER];

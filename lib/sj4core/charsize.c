@@ -32,21 +32,9 @@
 #include "sj_typedef.h"
 #include "sj_dict.h"
 
+#define NO_CODESIZE_INLINE
 #include "sj_kanakan.h"
 
 int codesize(u_char code) {
-	switch(code & KANJIMODEMASK) {
-	case ZENHIRAASSYUKU:
-	case ZENKATAASSYUKU:
-	case KANJIASSYUKU:
-	case KANJISTREND:
-		return 1;
-	case LEADINGHANKAKU:
-	case OFFSETASSYUKU:
-	case AIATTRIBUTE:
-	case KANAKANCOST:
-		return 2;
-	default:
-		return 2;
-	}
+	return codesize_inline(code);
 }

@@ -35,14 +35,20 @@
 
 #include "sj_kanakan.h"
 
-static void    getkhtbl(SJ4_CONTEXT CLREC*), cl_kanji(SJ4_CONTEXT JREC*, CLREC*);
-static int     diffknj(SJ4_CONTEXT JREC*, u_char*, int);
+static void    getkhtbl(SJ4_CONTEXT CLREC*, u_char (*)[MAXWDKANJILEN], int*);
+static void    cl_kanji(SJ4_CONTEXT JREC*, CLREC*, u_char (*)[MAXWDKANJILEN], int*);
+static int     diffknj(SJ4_CONTEXT JREC*, u_char*, int, u_char (*)[MAXWDKANJILEN], int*);
 static void    cl_numcmn(SJ4_CONTEXT JREC*, CLREC*);
 static u_char* makekan(SJ4_CONTEXT u_char*, u_char*, int);
 
 void mkkouho(SJ4_CONTEXT2) {
 	CLREC* clrec;
 	int    keeplen;
+	u_char kcache[64][MAXWDKANJILEN];
+	int    kvalid[64];
+	int    i;
+
+	for(i = 0; i < 64; i++) kvalid[i] = -1;
 
 	khcount = nkhcount = 0;
 
@@ -51,20 +57,20 @@ void mkkouho(SJ4_CONTEXT2) {
 	clrec = clt1st;
 
 	do {
-		getkhtbl(SJ4_CONTEXT_PASS clrec);
+		getkhtbl(SJ4_CONTEXT_PASS clrec, kcache, kvalid);
 		clrec = clrec->clsort;
 	} while(clrec && (keeplen == clrec->cllen));
 }
 
 static void
-getkhtbl(SJ4_CONTEXT CLREC* clrec) {
+getkhtbl(SJ4_CONTEXT CLREC* clrec, u_char kcache[][MAXWDKANJILEN], int* kvalid) {
 	JREC* jrec;
 
 	jrec = clrec->jnode;
 
 	switch(jrec->jclass) {
 	case C_DICT:
-		cl_kanji(SJ4_CONTEXT_PASS jrec, clrec);
+		cl_kanji(SJ4_CONTEXT_PASS jrec, clrec, kcache, kvalid);
 		break;
 	case C_N_ARABIA:
 	case C_N_ARACMA:
@@ -88,7 +94,7 @@ getkhtbl(SJ4_CONTEXT CLREC* clrec) {
 }
 
 static void
-cl_kanji(SJ4_CONTEXT JREC* jrec, CLREC* clrec) {
+cl_kanji(SJ4_CONTEXT JREC* jrec, CLREC* clrec, u_char kcache[][MAXWDKANJILEN], int* kvalid) {
 	u_char* ptr;
 	int	kcount = khcount;
 
@@ -99,7 +105,7 @@ cl_kanji(SJ4_CONTEXT JREC* jrec, CLREC* clrec) {
 		get_askknj(SJ4_CONTEXT_PASS2);
 
 		while(*ptr != HINSIBLKTERM) {
-			if(diffknj(SJ4_CONTEXT_PASS jrec, ptr, kcount)) {
+			if(diffknj(SJ4_CONTEXT_PASS jrec, ptr, kcount, kcache, kvalid)) {
 				setkouho(SJ4_CONTEXT_PASS clrec, (TypeDicOfs)(ptr - dicbuf), 0);
 			}
 			ptr = skipkstr(ptr);
@@ -233,7 +239,7 @@ makekan(SJ4_CONTEXT u_char* s, u_char* d, int flg) {
 			default:
 				d = makekan_norm(SJ4_CONTEXT_PASS s, d, FALSE);
 			}
-		s += codesize(*s);
+		s += csize;
 	}
 
 	return d;
@@ -300,12 +306,11 @@ sameknj(u_char* p, u_char plen, u_char* q, u_char qlen) {
 #undef QEND
 
 static int
-diffknj(SJ4_CONTEXT JREC* jrec, u_char* ptr, int num) {
+diffknj(SJ4_CONTEXT JREC* jrec, u_char* ptr, int num, u_char kcache[][MAXWDKANJILEN], int* kvalid) {
 	KHREC* kptr;
 	JREC*  jptr;
 	int    i;
 	u_char kbuf1[MAXWDKANJILEN];
-	u_char kbuf2[MAXWDKANJILEN];
 
 	if(jrec->hinsi == TANKANJI) return TRUE;
 
@@ -327,10 +332,17 @@ diffknj(SJ4_CONTEXT JREC* jrec, u_char* ptr, int num) {
 
 		if(jptr->stbofs != jrec->stbofs) continue;
 
-		makekan(SJ4_CONTEXT_PASS dicbuf + kptr->offs, kbuf2, TRUE);
+		{
+			int slot = i & (64 - 1);
 
-		if(sameknj(kbuf1, jrec->jlen, kbuf2, jptr->jlen))
-			return FALSE;
+			if(kvalid[slot] != i) {
+				makekan(SJ4_CONTEXT_PASS dicbuf + kptr->offs, kcache[slot], TRUE);
+				kvalid[slot] = i;
+			}
+
+			if(sameknj(kbuf1, jrec->jlen, kcache[slot], jptr->jlen))
+				return FALSE;
+		}
 	}
 
 	return TRUE;

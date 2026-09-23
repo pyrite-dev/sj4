@@ -60,6 +60,8 @@ void get_askknj(SJ4_CONTEXT2) {
 		p++;
 		askknj_k[i++] = r;
 	}
+
+	askbase = dicbuf;
 }
 
 int seldict(SJ4_CONTEXT TypeDicID id) {

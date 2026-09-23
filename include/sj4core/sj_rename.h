@@ -169,6 +169,7 @@
 #define curdict (work_base->Jcurdict)
 #define dictlist (work_base->Jdictlist)
 #define dicbuf (work_base->Jdicbuf)
+#define askbase (work_base->Jaskbase)
 #define idxbuf (work_base->Jidxbuf)
 #define idxofs (work_base->Jidxofs)
 #define askknj (work_base->Jaskknj)

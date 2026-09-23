@@ -85,6 +85,8 @@ dic_mu(SJ4_CONTEXT int mode) {
 
 	for(dp = dictlist; dp; dp = dp->next) {
 		curdict = dp->dict;
+		(*curdict->getofs)(SJ4_CONTEXT_PASS curdict);
+		(*curdict->getidx)(SJ4_CONTEXT_PASS curdict);
 		dicinl	= 1;
 		dicsaml = 0;
 		prevseg = -1;

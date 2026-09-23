@@ -14,7 +14,15 @@
 #endif
 
 static void ime_packet(Sj4Ime* ime, int type, void* data) {
-	printf("%d %p\n", type, data);
+	if(type == Sj4ImeBeginKanList) {
+		printf("\nbegin kan list\n");
+	} else if(type == Sj4ImeKanEntry) {
+		printf("  %s\n", data);
+	} else if(type == Sj4ImeEndKanList) {
+		printf("end kan list\n");
+	} else {
+		printf("%d %p\n", type, data);
+	}
 }
 
 int main() {
