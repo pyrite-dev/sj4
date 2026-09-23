@@ -5,9 +5,12 @@
 #include "sj_string.h"
 
 #include <string.h>
+#include <stdio.h>
 
 #ifdef UCS
 static u_int ucs_to_euc(u_int in) {
+	if(in == 0x3094) in = 0x30f4;
+
 	if(in <= 0xffff) {
 		const T_U2E_BITMAP_INDEX* b = &utf16_to_euc_jp_table[(in >> 8) & 0xff];
 

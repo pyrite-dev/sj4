@@ -50,6 +50,8 @@ Sj4Ime* sj4_ime(int charset, const char* dict, Sj4ImePacket packet) {
 	ime->charset = charset;
 
 	ime->packet = packet;
+
+	return ime;
 }
 
 static int w_len(wchar_t* wc) {
