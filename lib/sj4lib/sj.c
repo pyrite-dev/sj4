@@ -48,7 +48,7 @@ Sj4Lib* sj4_open(int charset, const char* dic) {
 	len = sj4_charset_to(ctx->charset, ctx->wrk2buf, ctx->wrkbuf, len); \
 	if(ctx->charset == SJ4UTF16) { \
 		int i; \
-		for(i = 0; i < sizeof(wchar_t); i++) ctx->wrk2buf[len * sizeof(wchar_t) + i] = 0; \
+		((wchar_t*)ctx->wrk2buf)[len] = 0; \
 	} else { \
 		ctx->wrk2buf[len] = 0; \
 	} \
@@ -63,6 +63,10 @@ Sj4Lib* sj4_open(int charset, const char* dic) {
 
 int sj4_getkan(Sj4Lib* ctx, const void* input, int len, Sj4Kouho* kouho) {
 	int len2;
+
+	if(sizeof(ctx->inbuf) < (len * ((ctx->charset == SJ4UTF16 || ctx->charset == SJ4SJIS) ? sizeof(wchar_t) : 1))) {
+		return 0;
+	}
 
 	memset(kouho, 0, sizeof(*kouho));
 	ctx->kouho = kouho;

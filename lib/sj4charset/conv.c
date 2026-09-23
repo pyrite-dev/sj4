@@ -190,7 +190,7 @@ int sj4_from_utf16(u_char* out, const u_char* in, int len) {
 		out += eucjp_write(out, n);
 	}
 
-	return (out - o_out) * sizeof(wchar_t);
+	return out - o_out;
 }
 
 static u_int eucjp_read(const u_char* in) {
@@ -287,7 +287,7 @@ int sj4_to_utf16(u_char* out, const u_char* in, int len) {
 		}
 	}
 
-	return (w_out - o_out) * sizeof(wchar_t);
+	return w_out - o_out;
 }
 #endif
 
