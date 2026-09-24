@@ -72,7 +72,7 @@ for lineno, line in enumerate(fp, 1):
 	types = words[4:10]
 	read = words[11].translate(khtrans).translate(khtrans).replace(":", "")
 	write = words[0].translate(fhtrans)
-	cost = int(int(words[3]) / 10)
+	cost = int(int(words[3]) / 250)
 	if set(["名詞", "固有名詞", "人名", "姓"]) <= set(types):
 		maybe_new(read, write)
 		append_type(read, "苗字", cost)
