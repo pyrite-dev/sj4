@@ -5,7 +5,7 @@ static void getcost_atrb(SJ4_CONTEXT u_char* p, int* len) {
 }
 
 static int getcost_ofs(SJ4_CONTEXT u_char* p, int* len) {
-	*len = 0;
+	*len = 2;
 	return getcost(SJ4_CONTEXT_PASS dicbuf + ((*p & KANJICODEMASK) << 8) + *(p + 1));
 }
 

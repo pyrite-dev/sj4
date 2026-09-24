@@ -158,9 +158,7 @@ u_char* srchdict(SJ4_CONTEXT u_char* tagp) {
 		segno = srchidx_loaded(SJ4_CONTEXT_PASS prevseg, (int)dicinl);
 
 		(*curdict->getdic)(SJ4_CONTEXT_PASS curdict, segno);
-
 		if(prevseg != segno) {
-			(*curdict->getdic)(SJ4_CONTEXT_PASS curdict, segno);
 
 			prevseg	  = segno;
 			segidx	  = idxbuf + idxofs[segno];

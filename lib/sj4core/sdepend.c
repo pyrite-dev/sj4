@@ -239,6 +239,7 @@ static void mkdicskip(DictFile* dp) {
 		free((char*)stack);
 		free((char*)ents);
 		free((char*)segs);
+		return;
 	}
 
 	for(seg = 0; seg < dp->dict.segunit; seg++) {
@@ -437,6 +438,7 @@ int closedict(SJ4_CONTEXT DictFile* dfp) {
 
 	if(dfp->fp) fclose(dfp->fp);
 
+	freedicskip(dfp);
 	free((char*)(dfp->ofsptr));
 	free((char*)(dfp->buffer));
 	free((char*)dfp);
